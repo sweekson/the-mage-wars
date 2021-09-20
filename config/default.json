@@ -1,0 +1,41 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "public": "../public/",
+  "paginate": {
+    "default": 10,
+    "max": 50
+  },
+  "authentication": {
+    "entity": "user",
+    "service": "users",
+    "secret": "Un5PhBN7NgRdM6EvAm7h/Pb4JkA=",
+    "authStrategies": [
+      "jwt",
+      "local"
+    ],
+    "jwtOptions": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "localhost",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "usernameField": "email",
+      "passwordField": "password"
+    }
+  },
+  "nedb": "../data",
+  "game": {
+    "wait": {
+      "start": 3100,
+      "confirm": 5100
+    },
+    "team": {
+      "energy": 50
+    }
+  }
+}
