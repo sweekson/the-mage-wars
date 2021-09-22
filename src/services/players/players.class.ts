@@ -1,3 +1,5 @@
+import { Application } from '../../declarations';
+
 export interface Elem {
   id: string;
   type: string;
@@ -24,3 +26,19 @@ export interface Player {
 }
 
 export type Players = Player[];
+
+export class PlayersController {
+  app: Application;
+  events: string[];
+
+  constructor(options: any, app: Application) {
+    this.app = app;
+    this.events = [];
+  }
+
+  async find() {
+    return this.app.channel('authenticated').connections.map(
+      ({ user }) => ({ uid: user._id, name: user.name }),
+    );
+  }
+}

@@ -21,16 +21,13 @@ const useRoomStatus = ({ current }) => {
 };
 
 export const useRoom = ({ client, auth, logger }) => {
-  const { RoomsAPI } = client;
+  const { RoomsAPI, PlayersAPI } = client;
   const emitter = new Emitter();
   const on = emitter.on.bind(emitter);
   const name = ref('GOGOGO');
   const current = ref(null);
   const status = reactive(useRoomStatus({ current }));
-  const players = computed(() => {
-    const reducer = (m, x) => Object.assign(m, { [x.uid]: x });
-    return current.value.players.reduce(reducer, {});
-  });
+  const players = ref([]);;
   const rooms = ref([]);
   const counts = ref(0);
   const isLoaded = ref(false);
@@ -53,6 +50,7 @@ export const useRoom = ({ client, auth, logger }) => {
   const onLogin = ({ detail }) => {
     RoomsAPI.find().then(onRoomsLoaded);
     RoomsAPI.find({ query: { uid: detail.uid } }).then(onMyRoomLoaded);
+    PlayersAPI.find().then(onPlayersLoaded);
   };
   const onLogout = () => {
     current.value = null;
@@ -72,6 +70,9 @@ export const useRoom = ({ client, auth, logger }) => {
     room && update(room.id, { join: true });
     isMyRoomLoaded.value = true;
     isLoaded.value = isRoomsLoaded.value && isMyRoomLoaded.value;
+  };
+  const onPlayersLoaded = (list) => {
+    players.value = list;
   };
   const onCreated = (room) => {
     logger.info('room:created', room.id, room.admin.uid);

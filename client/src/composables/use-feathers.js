@@ -15,11 +15,13 @@ export const useFeathers = ({ host }) => {
 
   const UsersAPI = client.service('/users');
   const RoomsAPI = client.service('/rooms');
+  const PlayersAPI = client.service('/players');
   const GamesAPI = client.service('/games');
 
   Object.assign(client, {
     UsersAPI,
     RoomsAPI,
+    PlayersAPI,
     GamesAPI,
   });
 
