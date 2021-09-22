@@ -13,9 +13,13 @@ export interface Player {
   index: number;
   uid: string;
   name: string;
-  elems: Elem[];
-  cards: Card[];
-  attacked: number;
+  team?: number;
+  strength?: number;
+  defense?: number;
+  elems?: Elem[];
+  cards?: Card[];
+  attack?: number;
+  attacked?: number;
   isAdmin: boolean;
 }
 

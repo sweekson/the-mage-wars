@@ -16,11 +16,11 @@ export default function (app: Application) {
 
   const rooms = app.service('rooms');
   const games = app.service('games');
-  const toRoomUsers = (data: any) => app.channel(`rooms/${data.room}`);
+  const toRoomUsers = (data: any) => app.channel(`rooms/${data.game.room}`);
   const toRoomReceivers = (data: any, context: any) => {
     return filterReceiver(`rooms/${data.game.room}`, context);
   };
-  const onRoomDeleted = ({ id }: any) => games.remove(id);
+  const onRoomDeleted = async ({ id }: any) => games.destroy(id);
 
   games.hooks(hooks);
 

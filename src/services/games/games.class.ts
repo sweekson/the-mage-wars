@@ -4,11 +4,12 @@ import omit from 'lodash/omit';
 
 import { Application } from '../../declarations';
 import { RoomResponse } from '../rooms/rooms.class';
-import { Players } from '../players/players.class';
+import { Player, Players } from '../players/players.class';
 import { makeResult, makeError } from '../../utils/common';
 
 export type GamesQuery = {
-  room?: string;
+  target?: string;
+  spell?: string;
   rotate?: boolean;
   pray?: boolean;
   collect?: boolean;
@@ -57,24 +58,48 @@ export interface Game {
   team1: Team;
   team2: Team;
   sequence: string[];
+  players: Map<string, Player>;
   collected: Set<string>;
   confirmed: Set<string>;
   round: number;
   action: Action | null;
 }
 
+export const GameActions = [
+  'rotate',
+  'pray',
+  'collect',
+  'exchange',
+  'accept',
+  'cast',
+  'casting',
+  'confirm',
+  'cancel',
+];
+
 export class Games {
   app: Application;
   map: Map<string, Game> = new Map();
   events: string[];
+  [action: string]: any;
 
   constructor(options: any, app: Application) {
     this.app = app;
     this.events = [
+      'created',
+      'update',
       'refreshed',
       'rotated',
+      'collect',
+      'collected',
+      'accept',
+      'accepted',
+      'confirm',
       'confirmed',
-      'deleted',
+      'remove',
+      'removed',
+      'destroy',
+      'destroyed',
     ];
   }
 
@@ -95,57 +120,30 @@ export class Games {
 
     this.map.set(game.id, game);
 
-    return this.transform(game);
+    return this.makeResult('created', game);
   }
 
   async update(id: string, data: any, params: GamesParams) {
     const game = this.map.get(id);
-    const {
-      uid, tid, sid, rotate, pray, collect, exchange, accept, cast, casting, confirm, cancel,
-    } = params.query;
+    const action = Object.keys(params.query).find(x => GameActions.includes(x)) || '';
 
-    if (!game) {
-      return null;
-    }
-    if (rotate) {
-      return this.rotate(game);
-    }
-    if (pray) {
-      return this.pray(game);
-    }
-    if (collect) {
-      return this.collect(game, uid);
-    }
-    if (exchange) {
-      return this.exchange(game);
-    }
-    if (accept) {
-      return this.accept(game, tid);
-    }
-    if (cast) {
-      return this.cast(game);
-    }
-    if (casting) {
-      return this.casting(game, sid);
-    }
-    if (confirm) {
-      return this.confirm(game, uid);
-    }
-    if (cancel) {
-      return this.cancel(game);
+    if (!game || !action) {
+      return makeError('update', 400, 'Invalid query');
     }
 
-    return this.transform(game);
+    return this[action](game, params);
   }
 
   async remove(id: string) {
-    if (!this.map.has(id)) {
-      return makeError('delete', 404, 'Instance not found');
+    const game = this.map.get(id);
+
+    if (!game) {
+      return makeError('remove', 404, 'Instance not found');
     }
 
     this.map.delete(id);
 
-    return this.makeResult('deleted', null, { id });
+    return this.makeResult('removed', game);
   }
 
   rotate(game: Game) {
@@ -172,16 +170,23 @@ export class Games {
     return this.next(game, GameStatus.Pray);
   }
 
-  collect(game: Game, uid: string) {
+  collect(game: Game, params: GamesParams) {
     const { sequence, collected } = game;
+    const { connection } = params;
 
-    if (collected.has(uid)) {
+    if (!connection) {
+      return makeError('collect', 400, 'Empty connection instance');
+    }
+
+    const { _id } = connection.user;
+
+    if (collected.has(_id)) {
       return makeError('collect', 400, 'Bad action');
     }
 
-    collected.add(uid);
+    collected.add(_id);
 
-    const result = [this.makeResult('collected', game, { receiver: uid })];
+    const result = [this.makeResult('collected', game, { receiver: _id })];
 
     if (sequence.length === collected.size) {
       return result.concat(this.collected(game));
@@ -207,7 +212,7 @@ export class Games {
     return this.next(game, GameStatus.Exchange);
   }
 
-  accept(game: Game, tid: string) {
+  accept(game: Game, params: GamesParams) {
     const { action } = game;
 
     if (!action) {
@@ -223,7 +228,7 @@ export class Games {
     return this.next(game, GameStatus.Cast);
   }
 
-  casting(game: Game, sid: string) {
+  casting(game: Game, params: GamesParams) {
     const { action } = game;
 
     if (!action) {
@@ -240,16 +245,23 @@ export class Games {
     return this.next(game, GameStatus.Confirm);
   }
 
-  confirm(game: Game, uid: string) {
+  confirm(game: Game, params: GamesParams) {
     const { sequence, confirmed } = game;
+    const { connection } = params;
 
-    if (confirmed.has(uid)) {
+    if (!connection) {
+      return makeError('confirm', 400, 'Empty connection instance');
+    }
+
+    const { _id } = connection.user;
+
+    if (confirmed.has(_id)) {
       return makeError('confirm', 400, 'Bad action');
     }
 
-    confirmed.add(uid);
+    confirmed.add(_id);
 
-    const result = [this.makeResult('confirmed', game, { receiver: uid })];
+    const result = [this.makeResult('confirmed', game, { receiver: _id })];
 
     if (sequence.length === confirmed.size) {
       return result.concat(this.confirmed(game));
@@ -273,11 +285,27 @@ export class Games {
     return this.makeResult('refreshed', game);
   }
 
+  destroy(room: string) {
+    if (!room) {
+      return makeError('destroy', 400, 'Bad request');
+    }
+
+    const game = this.list.find(x => x.room === room);
+
+    if (!game) {
+      return makeError('destroy', 404, 'Instance not found');
+    }
+
+    this.map.delete(game.id);
+
+    return this.makeResult('destroyed', null, { id: game.id });
+  }
+
   makeGame(room: RoomResponse): Game {
     const id = Math.random().toString(16).slice(2);
-    const { players } = room;
+    const players = room.players.map(x => this.makePlayer(x));
     const { team1, team2 } = this.makeTeams(players);
-    const sequence = players.map(x => x.uid);
+    const sequence = players.map(x => x.uid).sort(() => Math.random() - .5);
     return {
       id,
       room: room.id,
@@ -285,6 +313,7 @@ export class Games {
       team1,
       team2,
       sequence,
+      players: new Map(players.map(x => [x.uid, x])),
       collected: new Set(),
       confirmed: new Set(),
       round: 1,
@@ -293,7 +322,7 @@ export class Games {
   }
 
   makeTeams(players: Players) {
-    const { team } = this.app.get('game');
+    const { team } = this.config;
     const length = players.length;
     const half = Math.floor(length * .5);
     const sorted = players.slice(0).sort(() => Math.random() - .5);
@@ -305,7 +334,23 @@ export class Games {
       energy: team.energy * (length - half),
       players: sorted.slice(half),
     };
+    team1.players.forEach(x => (x.team = 1));
+    team2.players.forEach(x => (x.team = 2));
     return { team1, team2 };
+  }
+
+  makePlayer(player: Player): Player {
+    const { strength, defense } = this.config.player;
+    return {
+      ...player,
+      team: 0,
+      strength,
+      defense,
+      elems: [],
+      cards: [],
+      attack: 0,
+      attacked: 0,
+    };
   }
 
   makeResult(type: string, game?: Game | null, extra?: any) {
@@ -317,11 +362,14 @@ export class Games {
 
   transform(game: Game | null | undefined) {
     if (!game) return null;
-    const { team1, team2, collected, confirmed } = game;
+    const { team1, team2, players, collected, confirmed } = game;
     return {
-      ...omit(game, ['teams']),
+      // ...game,
+      // players: Array.from(players.values()),
+      ...omit(game, ['players', 'team1', 'team2']),
       team1: pick(team1, ['energy']),
       team2: pick(team2, ['energy']),
+      players: Array.from(players.values()).map(x => pick(x, ['uid', 'name'])),
       collected: Array.from(collected),
       confirmed: Array.from(confirmed),
     };
@@ -329,5 +377,9 @@ export class Games {
 
   get list() {
     return [...this.map.values()];
+  }
+
+  get config() {
+    return this.app.get('game');
   }
 }

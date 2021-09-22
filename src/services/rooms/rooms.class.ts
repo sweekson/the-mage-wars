@@ -49,13 +49,14 @@ export class Rooms {
   constructor(options: any, app: Application) {
     this.app = app;
     this.events = [
-      'joined',
-      'left',
       'refreshed',
+      'joined',
+      'leave',
+      'left',
       'starting',
       'started',
-      'deleted',
       'assigned',
+      'deleted',
     ];
   }
 
@@ -123,11 +124,7 @@ export class Rooms {
     const player = players.get(uid);
 
     if (!player) {
-      return makeError(
-        'leave',
-        404,
-        'Player not found',
-      )
+      return makeError('leave', 404, 'Player not found' )
     }
 
     players.delete(uid);
@@ -194,16 +191,12 @@ export class Rooms {
     };
   }
 
-  makePlayer(uid: string, name: string, isAdmin: boolean) {
+  makePlayer(uid: string, name: string, isAdmin: boolean): Player {
     return {
       index: Date.now(),
       uid,
       name,
-      team: 0,
-      elems: [],
-      cards: [],
-      attacked: 0,
-      isAdmin: true,
+      isAdmin,
     };
   }
 

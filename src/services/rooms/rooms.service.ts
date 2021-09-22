@@ -19,7 +19,6 @@ export default function (app: Application) {
   const rooms = app.service('rooms');
   const toRoomUsers = ({ room }: any) => app.channel(`rooms/${room.id}`);
   const toRoomReceivers = (data: any, context: any) => {
-    console.log('filter', context.result.type);
     return filterReceiver(`rooms/${data.room.id}`, context);
   };
   const onStarting = ({ room }: any) => {
@@ -28,7 +27,6 @@ export default function (app: Application) {
     }, wait.start);
   };
   const onLeft = ({ room, context }: any) => {
-    console.log('left');
     rooms.leaveChannel(room.id, context.params.connection);
   };
   const onLogout = async ({ user }: AuthenticationResult) => {

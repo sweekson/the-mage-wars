@@ -1,8 +1,12 @@
+import * as authentication from '@feathersjs/authentication';
+
 import { transmit } from '../../utils/hooks';
+
+const { authenticate } = authentication.hooks;
 
 export default {
   before: {
-    all: [],
+    all: [authenticate('jwt')],
     find: [],
     get: [],
     create: [],

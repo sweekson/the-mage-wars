@@ -1,6 +1,9 @@
 import { HookContext } from '@feathersjs/feathers';
+import * as authentication from '@feathersjs/authentication';
 
 import { transmit } from '../../utils/hooks';
+
+const { authenticate } = authentication.hooks;
 
 const create = async ({ app, data, params }: HookContext) => {
   const rooms = app.service('rooms');
@@ -13,18 +16,19 @@ const starting = async ({ app, result }: HookContext) => {
   const { wait } = app.get('game');
   const rooms = app.service('rooms');
   const games = app.service('games');
+  const { game } = result.detail;
   const params = { query: { starting: true } };
 
-  await rooms.update(result.room, {}, params);
+  await rooms.update(game.room, {}, params);
 
   setTimeout(() => {
-    games.update(result.id, {}, { query: { rotate: true } });
+    games.update(game.id, {}, { query: { rotate: true } });
   }, wait.start + 100);
 };
 
 export default {
   before: {
-    all: [],
+    all: [authenticate('jwt')],
     find: [],
     get: [],
     create: [create],
@@ -37,7 +41,7 @@ export default {
     all: [],
     find: [],
     get: [],
-    create: [starting],
+    create: [starting, transmit],
     update: [transmit],
     patch: [],
     remove: [transmit],
