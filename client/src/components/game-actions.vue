@@ -1,0 +1,53 @@
+<script>
+export default {
+  inject: ['room', 'game'],
+}
+</script>
+
+<template>
+  <section>
+    <button
+      :disabled="!game.action.isPrayable"
+      class="btn-block"
+      type="button"
+      @click="game.action.onPray"
+    >
+      Pray
+    </button>
+
+    <button
+      :disabled="!game.action.isExchangeable"
+      class="btn-block"
+      type="button"
+      @click="game.action.onExchange"
+    >
+      Exchange
+    </button>
+
+    <button
+      :disabled="!game.action.isCastable"
+      class="btn-block"
+      type="button"
+      @click="game.action.onCast"
+    >
+      Cast
+    </button>
+
+    <button
+      :disabled="!game.action.isPassable"
+      class="btn-block"
+      type="button"
+      @click="game.action.onPass"
+    >
+      Pass
+    </button>
+
+    <button
+      class="btn-block"
+      type="button"
+      @click="room.onLeave"
+    >
+      Leave
+    </button>
+  </section>
+</template>

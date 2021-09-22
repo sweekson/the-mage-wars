@@ -1,0 +1,31 @@
+<script>
+export default {
+  inject: ['logger'],
+}
+</script>
+
+<template>
+  <section class="logs">
+    <div>
+      <button type="button" class="btn-block" @click="logger.clear">Clear</button>
+    </div>
+
+    <div
+      v-for="(log, index) in logger.logs"
+      :key="index"
+    >
+      {{ log.time }} {{ log.text }}
+    </div>
+  </section>
+</template>
+
+<style scoped>
+.logs {
+  border-left: 1px solid #ccc;
+  line-height: 1.25;
+  white-space: nowrap;
+  padding: 4px;
+  width: 360px;
+  overflow-y: auto;
+}
+</style>
