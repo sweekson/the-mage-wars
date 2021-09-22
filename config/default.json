@@ -1,7 +1,7 @@
 {
   "host": "localhost",
   "port": 3030,
-  "public": "../public/",
+  "public": "../client/build/",
   "paginate": {
     "default": 10,
     "max": 50
@@ -36,6 +36,10 @@
     },
     "team": {
       "energy": 50
+    },
+    "player": {
+      "strength": 15,
+      "defense": 5
     }
   }
 }
