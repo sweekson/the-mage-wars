@@ -1,6 +1,11 @@
 
 h1, h2, h3, h4 {
   font-weight: 200;
+  margin-top: .3em;
+
+  &:first-child {
+    margin-top: 0;
+  }
 }
 
 h1 {
@@ -11,5 +16,10 @@ h1 {
 
 h2 {
   font-size: 2em;
+  line-height: 1.5;
+}
+
+h3 {
+  font-size: 1.5em;
   line-height: 1.5;
 }
