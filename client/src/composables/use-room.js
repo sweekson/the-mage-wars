@@ -59,9 +59,9 @@ export const useRoom = ({ client, auth, logger }) => {
     isRoomsLoaded.value = false;
     isMyRoomLoaded.value = false;
   };
-  const onRoomsLoaded = (rooms) => {
-    logger.info('rooms:loaded', rooms.length);
-    rooms.value = rooms;
+  const onRoomsLoaded = (list) => {
+    logger.info('rooms:loaded', list.length);
+    rooms.value = list;
     isRoomsLoaded.value = true;
     isLoaded.value = isRoomsLoaded.value && isMyRoomLoaded.value;
   };
