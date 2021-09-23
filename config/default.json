@@ -30,6 +30,7 @@
   },
   "nedb": "../data",
   "game": {
+    "minimum": 2,
     "wait": {
       "start": 3100,
       "confirm": 5100

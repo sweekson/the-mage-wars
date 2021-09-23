@@ -19,6 +19,7 @@ export type RoomsParams = Params & {
 
 export enum RoomStatus {
   Open = 'open',
+  Ready = 'ready',
   Starting = 'starting',
   Started = 'started',
 }
@@ -111,6 +112,10 @@ export class Rooms {
     room.players.set(uid, player);
     this.joinChannel(room.id, connection);
 
+    if (room.players.size >= this.config.minimum ) {
+      room.status = RoomStatus.Ready;
+    }
+
     return [
       this.makeResult('joined', room, { receiver: uid }),
       this.makeResult('refreshed', room),
@@ -134,6 +139,10 @@ export class Rooms {
         this.makeResult('left', room, { receiver: uid }),
         this.makeResult('deleted', null, { id }),
       ];
+    }
+
+    if (room.players.size < this.config.minimum) {
+      room.status = RoomStatus.Open;
     }
 
     if (!player.isAdmin) {
@@ -219,5 +228,9 @@ export class Rooms {
 
   get list() {
     return toArray(this.map);
+  }
+
+  get config() {
+    return this.app.get('game');
   }
 }

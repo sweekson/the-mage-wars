@@ -18,7 +18,7 @@ export default {
       <button
         v-if="room.isAdmin"
         v-t="'common.start'"
-        :disabled="room.status.isStarting"
+        :disabled="!room.status.isReady || room.status.isStarting"
         type="button"
         @click="game.onStart"
       />

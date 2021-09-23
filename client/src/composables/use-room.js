@@ -5,16 +5,19 @@ import { Emitter } from '../models/emitter.class';
 const useRoomStatus = ({ current }) => {
   const Status = {
     Open: 'open',
+    Ready: 'ready',
     Starting: 'starting',
     Started: 'started',
   };
   const status = computed(() => current.value.status);
   const isOpen = computed(() => status.value === Status.Open);
+  const isReady = computed(() => status.value === Status.Ready);
   const isStarting = computed(() => status.value === Status.Starting);
   const isStarted = computed(() => status.value === Status.Started);
 
   return {
     isOpen,
+    isReady,
     isStarting,
     isStarted,
   };
