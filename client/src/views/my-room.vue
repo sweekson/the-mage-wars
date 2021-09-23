@@ -17,13 +17,14 @@ export default {
     <form>
       <button
         v-if="room.isAdmin"
-        v-t="'common.start'"
+        v-html="$t('common.start')"
         :disabled="!room.status.isReady || room.status.isStarting"
         type="button"
         @click="game.onStart"
-      />
+      >
+      </button>
       <button
-        v-t="'common.leave'"
+        v-html="$t('common.leave')"
         type="button"
         :disabled="room.status.isStarting"
         @click="room.onLeave"
