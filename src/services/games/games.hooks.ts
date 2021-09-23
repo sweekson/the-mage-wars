@@ -1,7 +1,7 @@
 import { HookContext } from '@feathersjs/feathers';
 import * as authentication from '@feathersjs/authentication';
 
-import { transmit } from '../../utils/hooks';
+import { transmit, error } from '../../utils/hooks';
 
 const { authenticate } = authentication.hooks;
 
@@ -39,7 +39,7 @@ export default {
 
   after: {
     all: [],
-    find: [],
+    find: [transmit],
     get: [],
     create: [starting, transmit],
     update: [transmit],
