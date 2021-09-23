@@ -10,6 +10,7 @@ import { makeResult, makeError, toArray } from '../../utils/common';
 export type GamesQuery = {
   target?: string;
   spell?: string;
+  assigned?: boolean;
   rotate?: boolean;
   pray?: boolean;
   collect?: boolean;
@@ -104,9 +105,12 @@ export class Games {
   }
 
   async find(params: GamesParams) {
-    const { room } = params.query;
+    const { room, assigned } = params.query;
     if (room) {
       return this.findByRoom(room, params);
+    }
+    if (assigned) {
+      return this.findMyTeam(params);
     }
     return makeError(403, 'Access denied');
   }
@@ -149,27 +153,22 @@ export class Games {
       return makeError(404, 'Game not found', { room });
     }
 
-    return [
-      this.makeResult('found', game),
-      this.assign(game, params),
-    ]
+    return this.makeResult('found', game);
   }
 
-  assign(game: Game, params: GamesParams) {
-    if (!game) return null;
+  findMyTeam(params: GamesParams) {
+    const game = this.map.get(params.query.id);
+
+    if (!game) return makeError(400, 'Game not found');
 
     const { connection } = params;
 
-    if (!connection) {
-      return makeError(401, 'Empty connection instance');
-    }
+    if (!connection) return makeError(401, 'Empty connection instance');
 
     const { _id } = connection.user;
     const player = game.players.get(_id);
 
-    if (!player) {
-      return makeError(404, 'Player not found');
-    }
+    if (!player) return makeError(404, 'Player not found');
 
     const { team } = player;
 

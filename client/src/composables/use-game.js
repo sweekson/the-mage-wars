@@ -92,11 +92,13 @@ export const useGame = ({ client, auth, room, logger }) => {
   const current = ref(null);
   const status = reactive(useGameStatus({ auth, current }));
   const action = reactive(useGameAction({ client, auth, current, status }));
+  const me = ref({ team: 0 });
   const isReady = ref(false);
+  const find = (query) => GamesAPI.find({ query });
   const create = () => GamesAPI.create({ room: room.current.id });
   const onStart = () => create();
   const onRoomJoined = ({ detail }) => {
-    GamesAPI.find({ query: { room: detail.id } }).then(onLoaded);
+    detail.isStarted && find({ room: detail.id });
   };
   const onRoomStarted = () => {
     isReady.value = true;
@@ -106,20 +108,26 @@ export const useGame = ({ client, auth, room, logger }) => {
     current.value = null;
     isReady.value = false;
   };
-  const onLoaded = (game) => {
+  const onLoaded = ({ game }) => {
     logger.info('game:loaded', game?.status, game?.action?.step);
     current.value = game;
-    isReady.value = !!game;
-    isReady.value && emitter.emit('ready');
+    isReady.value = true;
+    find({ id: game.id, assigned: true });
+    emitter.emit('ready');
     console.log(game);
   };
   const onCreated = ({ game }) => {
     logger.info('game:created', game.id);
+    find({ id: game.id, assigned: true });
     current.value = game;
     console.log(game);
   };
+  const onAssigned = ({ team }) => {
+    logger.info('game:assigned', team);
+    me.value.team = team;
+  };
   const onRefreshed = ({ game }) => {
-    logger.info('game:refreshed ', game.status, game.action?.step);
+    logger.info('game:refreshed', game.status, game.action?.step);
     current.value = game;
   };
   const onRotated = ({ game }) => {
@@ -131,6 +139,8 @@ export const useGame = ({ client, auth, room, logger }) => {
   room.on('left', onRoomLeft);
 
   GamesAPI.on('created', onCreated);
+  GamesAPI.on('found', onLoaded);
+  GamesAPI.on('assigned', onAssigned);
   GamesAPI.on('refreshed', onRefreshed);
   GamesAPI.on('rotated', onRotated);
   GamesAPI.on('error', console.warn);
@@ -139,6 +149,7 @@ export const useGame = ({ client, auth, room, logger }) => {
     current,
     status,
     action,
+    me,
     isReady,
     on,
     onStart,

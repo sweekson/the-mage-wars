@@ -85,7 +85,10 @@ export const useRoom = ({ client, auth, logger }) => {
   const onJoined = ({ room }) => {
     logger.info('room:joined', room.id);
     current.value = room;
-    emitter.emit('joined', { id: current.value.id });
+    emitter.emit(
+      'joined',
+      { id: current.value.id, isStarted: status.isStarted },
+    );
   };
   const onRefreshed = ({ room }) => {
     logger.info('room:refreshed', room.id);
