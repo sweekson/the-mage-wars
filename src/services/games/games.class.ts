@@ -87,6 +87,10 @@ export class Games {
     this.app = app;
     this.events = [
       'created',
+      'find',
+      'found',
+      'assign',
+      'assigned',
       'update',
       'refreshed',
       'rotated',
@@ -110,9 +114,9 @@ export class Games {
   async find(params: GamesParams) {
     const { room } = params.query;
     if (room) {
-      return this.transform(this.list.find(x => x.room === room));
+      return this.findByRoom(room, params);
     }
-    return this.list.map(this.transform);
+    return makeError('find', 403, 'Access denied');
   }
 
   async create(data: any, params: Params) {
@@ -144,6 +148,40 @@ export class Games {
     this.map.delete(id);
 
     return this.makeResult('removed', game);
+  }
+
+  findByRoom(room: string, params: GamesParams) {
+    const game = this.list.find(x => x.room === room);
+
+    if (!game) {
+      return makeError('find', 404, 'Game not found', { room });
+    }
+
+    return [
+      this.makeResult('found', game),
+      this.assign(game, params),
+    ]
+  }
+
+  assign(game: Game, params: GamesParams) {
+    if (!game) return null;
+
+    const { connection } = params;
+
+    if (!connection) {
+      return makeError('assign', 400, 'Empty connection instance');
+    }
+
+    const { _id } = connection.user;
+    const player = game.players.get(_id);
+
+    if (!player) {
+      return makeError('assign', 400, 'Player not found');
+    }
+
+    const { team } = player;
+
+    return this.makeResult('assigned', game, { receiver: _id, team });
   }
 
   rotate(game: Game) {
