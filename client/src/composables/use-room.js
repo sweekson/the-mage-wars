@@ -27,7 +27,7 @@ export const useRoom = ({ client, auth, logger }) => {
   const name = ref('GOGOGO');
   const current = ref(null);
   const status = reactive(useRoomStatus({ current }));
-  const players = ref([]);;
+  const players = ref([]);
   const rooms = ref([]);
   const counts = ref(0);
   const isLoaded = ref(false);
