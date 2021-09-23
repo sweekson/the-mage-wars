@@ -1,4 +1,4 @@
-import { convert } from '@feathersjs/errors';
+import { FeathersError, convert } from '@feathersjs/errors';
 
 import { ServiceResult } from '../declarations';
 
@@ -13,6 +13,6 @@ export const makeError = (
   code: number,
   message: string,
   data: any = null,
-): Promise<ServiceResult> => {
+): Promise<FeathersError> => {
   return Promise.reject(convert({ name: code, message, data }));
 };
