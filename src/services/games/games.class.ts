@@ -87,22 +87,14 @@ export class Games {
     this.app = app;
     this.events = [
       'created',
-      'find',
       'found',
-      'assign',
       'assigned',
-      'update',
       'refreshed',
       'rotated',
-      'collect',
       'collected',
-      'accept',
       'accepted',
-      'confirm',
       'confirmed',
-      'remove',
       'removed',
-      'destroy',
       'destroyed',
     ];
   }
@@ -116,7 +108,7 @@ export class Games {
     if (room) {
       return this.findByRoom(room, params);
     }
-    return makeError('find', 403, 'Access denied');
+    return makeError(403, 'Access denied');
   }
 
   async create(data: any, params: Params) {
@@ -132,7 +124,7 @@ export class Games {
     const action = Object.keys(params.query).find(x => GameActions.includes(x)) || '';
 
     if (!game || !action) {
-      return makeError('update', 400, 'Invalid query');
+      return makeError(400, 'Invalid query');
     }
 
     return this[action](game, params);
@@ -142,7 +134,7 @@ export class Games {
     const game = this.map.get(id);
 
     if (!game) {
-      return makeError('remove', 404, 'Instance not found');
+      return makeError(404, 'Instance not found');
     }
 
     this.map.delete(id);
@@ -154,7 +146,7 @@ export class Games {
     const game = this.list.find(x => x.room === room);
 
     if (!game) {
-      return makeError('find', 404, 'Game not found', { room });
+      return makeError(404, 'Game not found', { room });
     }
 
     return [
@@ -169,14 +161,14 @@ export class Games {
     const { connection } = params;
 
     if (!connection) {
-      return makeError('assign', 400, 'Empty connection instance');
+      return makeError(401, 'Empty connection instance');
     }
 
     const { _id } = connection.user;
     const player = game.players.get(_id);
 
     if (!player) {
-      return makeError('assign', 400, 'Player not found');
+      return makeError(404, 'Player not found');
     }
 
     const { team } = player;
@@ -213,13 +205,13 @@ export class Games {
     const { connection } = params;
 
     if (!connection) {
-      return makeError('collect', 400, 'Empty connection instance');
+      return makeError(401, 'Empty connection instance');
     }
 
     const { _id } = connection.user;
 
     if (collected.has(_id)) {
-      return makeError('collect', 400, 'Bad action');
+      return makeError(400, 'Bad action');
     }
 
     collected.add(_id);
@@ -239,7 +231,7 @@ export class Games {
     const { action } = game;
 
     if (!action) {
-      return makeError('collected', 400, 'Bad action');
+      return makeError(400, 'Bad action');
     }
 
     action.step = Steps.Exchange;
@@ -256,7 +248,7 @@ export class Games {
     const { action } = game;
 
     if (!action) {
-      return makeError('accept', 400, 'Bad action');
+      return makeError(400, 'Bad action');
     }
 
     action.step = Steps.Cast;
@@ -272,7 +264,7 @@ export class Games {
     const { action } = game;
 
     if (!action) {
-      return makeError('casting', 400, 'Bad action');
+      return makeError(400, 'Bad action');
     }
 
     action.step = Steps.Pass;
@@ -290,13 +282,13 @@ export class Games {
     const { connection } = params;
 
     if (!connection) {
-      return makeError('confirm', 400, 'Empty connection instance');
+      return makeError(401, 'Empty connection instance');
     }
 
     const { _id } = connection.user;
 
     if (confirmed.has(_id)) {
-      return makeError('confirm', 400, 'Bad action');
+      return makeError(400, 'Bad action');
     }
 
     confirmed.add(_id);
@@ -327,13 +319,13 @@ export class Games {
 
   destroy(room: string) {
     if (!room) {
-      return makeError('destroy', 400, 'Bad request');
+      return makeError(400, 'Bad request');
     }
 
     const game = this.list.find(x => x.room === room);
 
     if (!game) {
-      return makeError('destroy', 404, 'Instance not found');
+      return makeError(404, 'Instance not found');
     }
 
     this.map.delete(game.id);

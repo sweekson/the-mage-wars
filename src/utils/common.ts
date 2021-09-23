@@ -9,7 +9,6 @@ export const makeResult = (
 };
 
 export const makeError = (
-  type: string,
   code: number,
   message: string,
   data: any = null,

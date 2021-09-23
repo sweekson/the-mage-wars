@@ -51,7 +51,6 @@ export class Rooms {
     this.events = [
       'refreshed',
       'joined',
-      'leave',
       'left',
       'starting',
       'started',
@@ -124,7 +123,7 @@ export class Rooms {
     const player = players.get(uid);
 
     if (!player) {
-      return makeError('leave', 404, 'Player not found' )
+      return makeError(404, 'Player not found' );
     }
 
     players.delete(uid);
