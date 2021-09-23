@@ -13,12 +13,12 @@ export default {
 
 <template>
   <section v-if="auth.isLoggedIn && room.isLoaded && !room.isJoined">
-    <h2>Lobby</h2>
+    <h2 v-html="$t('game.lobby')"></h2>
 
     <h3>Rooms</h3>
     <form class="flexbox">
       <input v-model="room.name" type="text" class="flex-1" />
-      <button type="button" @click="room.onCreate">Create</button>
+      <button v-html="$t('game.create')" type="button" @click="room.onCreate" />
     </form>
     <div
       v-for="item in room.rooms"

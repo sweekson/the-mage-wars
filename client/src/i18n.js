@@ -13,6 +13,10 @@ export const i18n = createI18n({
         start: 'Start',
         leave: 'Leave',
       },
+      game: {
+        lobby: 'Lobby',
+        create: 'Create',
+      },
     },
     ja: {
       common: {
@@ -22,6 +26,10 @@ export const i18n = createI18n({
         back: '戻る',
         start: 'スタート',
         leave: '離れる',
+      },
+      game: {
+        lobby: 'ロビー',
+        create: '作成',
       },
     },
   },
