@@ -11,6 +11,7 @@ export const i18n = createI18n({
         logout: 'Log Out',
         back: 'Back',
         start: 'Start',
+        leave: 'Leave',
       },
     },
     ja: {
@@ -20,6 +21,7 @@ export const i18n = createI18n({
         logout: 'ログアウト',
         back: '戻る',
         start: 'スタート',
+        leave: '離れる',
       },
     },
   },

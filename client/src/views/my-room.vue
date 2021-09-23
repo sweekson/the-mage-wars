@@ -22,7 +22,12 @@ export default {
         type="button"
         @click="game.onStart"
       />
-      <button type="button" @click="room.onLeave">Leave</button>
+      <button
+        v-t="'common.leave'"
+        type="button"
+        :disabled="room.status.isStarting"
+        @click="room.onLeave"
+      />
     </form>
     <Players :list="room.current.players" />
   </section>
