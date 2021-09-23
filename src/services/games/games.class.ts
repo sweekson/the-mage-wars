@@ -224,7 +224,9 @@ export class Games {
 
     collected.add(_id);
 
-    const result = [this.makeResult('collected', game, { receiver: _id })];
+    const result: Promise<any>[] = [
+      this.makeResult('collected', game, { receiver: _id }),
+    ];
 
     if (sequence.length === collected.size) {
       return result.concat(this.collected(game));
