@@ -5,7 +5,7 @@ import omit from 'lodash/omit';
 import { Application } from '../../declarations';
 import { RoomResponse } from '../rooms/rooms.class';
 import { Player, Players } from '../players/players.class';
-import { makeResult, makeError } from '../../utils/common';
+import { makeResult, makeError, toArray } from '../../utils/common';
 
 export type GamesQuery = {
   target?: string;
@@ -405,18 +405,18 @@ export class Games {
     const { team1, team2, players, collected, confirmed } = game;
     return {
       // ...game,
-      // players: Array.from(players.values()),
+      // players: toArray(players),
       ...omit(game, ['players', 'team1', 'team2']),
       team1: pick(team1, ['energy']),
       team2: pick(team2, ['energy']),
-      players: Array.from(players.values()).map(x => pick(x, ['uid', 'name'])),
+      players: toArray(players).map(x => pick(x, ['uid', 'name'])),
       collected: Array.from(collected),
       confirmed: Array.from(confirmed),
     };
   }
 
   get list() {
-    return [...this.map.values()];
+    return toArray(this.map);
   }
 
   get config() {

@@ -16,3 +16,5 @@ export const makeError = (
 ): Promise<FeathersError> => {
   return Promise.reject(convert({ name: code, message, data }));
 };
+
+export const toArray = (map: Map<any, any>) => Array.from(map.values());

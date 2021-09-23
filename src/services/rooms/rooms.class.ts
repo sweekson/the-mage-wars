@@ -3,7 +3,7 @@ import { Params } from '@feathersjs/feathers';
 import { Application } from '../../declarations';
 import { User } from '../users/users.class';
 import { Player, Players } from '../players/players.class';
-import { makeResult, makeError } from '../../utils/common';
+import { makeResult, makeError, toArray } from '../../utils/common';
 
 export type RoomsQuery = {
   uid?: string;
@@ -144,7 +144,7 @@ export class Rooms {
       ];
     }
 
-    room.admin = [...players.values()].sort((a, b) => a.index - b.index)[0];
+    room.admin = toArray(players).sort((a, b) => a.index - b.index)[0];
 
     return [
       this.makeResult('left', room, { receiver: uid }),
@@ -210,7 +210,7 @@ export class Rooms {
   transform(room: Room | null | undefined) {
     if (!room) return null;
     const isOpen = room.status === 'open';
-    const players = [...room.players.values()];
+    const players = toArray(room.players);
     return {
       ...room,
       isOpen,
@@ -219,6 +219,6 @@ export class Rooms {
   }
 
   get list() {
-    return [...this.map.values()];
+    return toArray(this.map);
   }
 }
