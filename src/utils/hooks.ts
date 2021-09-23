@@ -1,24 +1,19 @@
 import { HookContext, Service } from '@feathersjs/feathers';
 import { GeneralError } from '@feathersjs/errors';
 
-export const emit = (
+export const emit = async (
   service: Service<any>,
-  event: any,
+  result: Promise<any>,
   context: HookContext,
 ) => {
-  if (!event) return;
-
-  const { type, ok, detail, error } = event;
-
-  service.emit(
-    ok ? type : 'error',
-    ok ? { type, ...detail, context } : { type, ...error, context },
-  );
+  if (!result) return;
+  const { type, detail } = await result;
+  service.emit(type, { type, ...detail, context });
 };
 
 export const transmit = (context: HookContext) => {
   const { service, result } = context;
-  [].concat(result).forEach(event => emit(service, event, context));
+  [].concat(result).forEach(result => emit(service, result, context));
 };
 
 export const error = (context: HookContext) => {

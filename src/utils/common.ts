@@ -5,7 +5,7 @@ import { ServiceResult } from '../declarations';
 export const makeResult = (
   type: string, detail: any,
 ): Promise<ServiceResult> => {
-  return Promise.resolve({ type, ok: true, detail });
+  return Promise.resolve({ type, detail });
 };
 
 export const makeError = (

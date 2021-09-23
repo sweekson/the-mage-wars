@@ -7,6 +7,5 @@ export type Application = ExpressFeathers<ServiceTypes>;
 
 export interface ServiceResult {
   type: string;
-  ok: boolean;
   detail?: any;
 }
