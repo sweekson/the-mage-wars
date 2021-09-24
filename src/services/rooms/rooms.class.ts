@@ -178,8 +178,13 @@ export class Rooms {
     ];
   }
 
-  started(room: Room) {
+  started(id: string) {
+    const room = this.map.get(id);
+
+    if (!room) return makeError(404, 'Room not found');
+
     room.status = RoomStatus.Started;
+
     return [
       this.makeResult('started', room),
       this.makeResult('refreshed', room),

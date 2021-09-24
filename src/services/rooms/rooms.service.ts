@@ -24,7 +24,7 @@ export default function (app: Application) {
   };
   const onStarting = ({ room, context }: any) => {
     setTimeout(() => {
-      context.result = rooms.started(room);
+      context.result = rooms.started(room.id);
       transmit(context);
     }, wait.start);
   };
