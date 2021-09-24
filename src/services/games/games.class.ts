@@ -159,7 +159,13 @@ export class Games {
       return makeError(404, 'Game not found', { room });
     }
 
-    return this.makeResult('found', game);
+    const { connection } = params;
+
+    if (!connection) return makeError(401, 'Empty connection instance');
+
+    const { _id } = connection.user;
+
+    return this.makeResult('found', game, { receiver: _id });
   }
 
   findMyTeam(params: GamesParams) {
