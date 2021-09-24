@@ -3,7 +3,7 @@ import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 
 import { Application } from '../../declarations';
-import { RoomResponse } from '../rooms/rooms.class';
+import { RoomJSON } from '../rooms/rooms.class';
 import { Player, Players } from '../players/players.class';
 import { makeResult, makeError, toArray } from '../../utils/common';
 
@@ -332,7 +332,7 @@ export class Games {
     return this.makeResult('destroyed', null, { id: game.id });
   }
 
-  makeGame(room: RoomResponse): Game {
+  makeGame(room: RoomJSON): Game {
     const id = Math.random().toString(16).slice(2);
     const players = room.players.map(x => this.makePlayer(x));
     const { team1, team2 } = this.makeTeams(players);

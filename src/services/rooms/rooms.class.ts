@@ -33,7 +33,7 @@ export interface Room {
   players: Map<string, Player>;
 }
 
-export interface RoomResponse {
+export interface RoomJSON {
   id: string;
   index: number;
   status: RoomStatus;
