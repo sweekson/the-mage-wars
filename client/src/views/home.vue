@@ -15,11 +15,13 @@ export default {
       <button
         v-html="$t('common.signup')"
         type="button"
+        class="btn"
         @click="$router.push('/signup')"
       />
       <button
         v-html="$t('common.login')"
         type="button"
+        class="btn"
         @click="$router.push('/login')"
       />
     </div>

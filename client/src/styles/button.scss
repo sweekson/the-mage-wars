@@ -1,5 +1,33 @@
 
+.btn {
+  background-color: #e3e3e3;
+  border: 1px solid #999;
+  border-radius: 2px;
+  color: #333;
+
+  &:hover {
+    background-color: #f3f3f3;
+    color: #222;
+  }
+
+  &:disabled,
+  &.disabled {
+    border: 1px solid #ccc;
+    color: #aaa;
+    pointer-events: none;
+  }
+
+  + .btn {
+    margin-left: 4px;
+  }
+}
+
 .btn-block {
   display: block;
   width: 100%;
+
+  + .btn-block {
+    margin-top: 4px;
+    margin-left: 0;
+  }
 }

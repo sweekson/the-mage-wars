@@ -16,8 +16,18 @@ export default {
       <input v-model="auth.email" type="text" />
       <input v-model="auth.name" type="text" />
       <input v-model="auth.password" type="password" />
-      <button v-html="$t('common.signup')" type="button" @click="auth.onSignup"></button>
-      <button v-html="$t('common.back')" type="button" @click="$router.push('/')"></button>
+      <button
+        v-html="$t('common.signup')"
+        class="btn btn-block"
+        type="button"
+        @click="auth.onSignup"
+      />
+      <button
+        v-html="$t('common.back')"
+        class="btn btn-block"
+        type="button"
+        @click="$router.push('/')"
+      />
     </form>
   </Flexbox>
 </template>

@@ -21,6 +21,7 @@ export default {
       <h3>Pray</h3>
       <button
         type="button"
+        class="btn"
         @click="game.action.onCollect"
       >
         Collect
@@ -31,12 +32,14 @@ export default {
       <h3>Exchange</h3>
       <button
         type="button"
+        class="btn"
         @click="game.action.onAccept"
       >
         Accept
       </button>
       <button
         type="button"
+        class="btn"
         @click="game.action.onCancel"
       >
         Cancel
@@ -51,12 +54,14 @@ export default {
       <h3>Cast A Spell</h3>
       <button
         type="button"
+        class="btn"
         @click="game.action.onCasting"
       >
         Cast
       </button>
       <button
         type="button"
+        class="btn"
         @click="game.action.onCancel"
       >
         Cancel
@@ -67,6 +72,7 @@ export default {
       <h3>Current Status</h3>
       <button
         type="button"
+        class="btn"
         @click="game.action.onConfirm"
       >
         Confirm

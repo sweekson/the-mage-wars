@@ -7,7 +7,13 @@ export default {
 <template>
   <section class="logs">
     <div>
-      <button type="button" class="btn-block" @click="logger.clear">Clear</button>
+      <button
+        class="btn btn-block"
+        type="button"
+        @click="logger.clear"
+      >
+        Clear
+      </button>
     </div>
 
     <div

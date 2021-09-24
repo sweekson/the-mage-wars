@@ -18,7 +18,12 @@ export default {
     <h3>Rooms</h3>
     <form class="flexbox">
       <input v-model="room.name" type="text" class="flex-1" />
-      <button v-html="$t('game.create')" type="button" @click="room.onCreate" />
+      <button
+        v-html="$t('game.create')"
+        class="btn"
+        type="button"
+        @click="room.onCreate"
+      />
     </form>
     <div
       v-for="item in room.rooms"
@@ -26,7 +31,14 @@ export default {
       class="flexbox"
     >
       <span class="flex-1">{{ item.name }} ({{ item.admin.name }}) ({{ item.status }}) ({{ item.players.length }}) </span>
-      <button v-if="item.isOpen" type="button" @click="room.onJoin(item.id)">Join</button>
+      <button
+        v-if="item.isOpen"
+        class="btn"
+        type="button"
+        @click="room.onJoin(item.id)"
+      >
+        Join
+      </button>
     </div>
     <h3>Online Players</h3>
     <Players :list="room.players" />

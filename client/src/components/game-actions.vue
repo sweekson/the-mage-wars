@@ -8,7 +8,7 @@ export default {
   <section>
     <button
       :disabled="!game.action.isPrayable"
-      class="btn-block"
+      class="btn btn-block"
       type="button"
       @click="game.action.onPray"
     >
@@ -17,7 +17,7 @@ export default {
 
     <button
       :disabled="!game.action.isExchangeable"
-      class="btn-block"
+      class="btn btn-block"
       type="button"
       @click="game.action.onExchange"
     >
@@ -26,7 +26,7 @@ export default {
 
     <button
       :disabled="!game.action.isCastable"
-      class="btn-block"
+      class="btn btn-block"
       type="button"
       @click="game.action.onCast"
     >
@@ -35,7 +35,7 @@ export default {
 
     <button
       :disabled="!game.action.isPassable"
-      class="btn-block"
+      class="btn btn-block"
       type="button"
       @click="game.action.onPass"
     >
@@ -43,7 +43,7 @@ export default {
     </button>
 
     <button
-      class="btn-block"
+      class="btn btn-block"
       type="button"
       @click="room.onLeave"
     >

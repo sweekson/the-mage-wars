@@ -27,7 +27,12 @@ export default {
       />
     </template>
 
-    <button v-html="$t('common.logout')" type="button" @click="auth.onLogout"></button>
+    <button
+      v-html="$t('common.logout')"
+      class="btn"
+      type="button"
+      @click="auth.onLogout"
+    />
   </nav>
 </template>
 

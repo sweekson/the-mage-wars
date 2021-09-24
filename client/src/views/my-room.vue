@@ -19,12 +19,14 @@ export default {
         v-if="room.isAdmin"
         v-html="$t('common.start')"
         :disabled="!room.status.isReady || room.status.isStarting"
+        class="btn"
         type="button"
         @click="room.onStart"
       >
       </button>
       <button
         v-html="$t('common.leave')"
+        class="btn"
         type="button"
         :disabled="room.status.isStarting"
         @click="room.onLeave"
