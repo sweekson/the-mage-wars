@@ -12,7 +12,7 @@ export const useKeepAlive = ({ socket }) => {
   const disable = () => (enabled.value = false);
   const ping = () => {
     setTimeout(() => {
-      socket.emit('ping');
+      socket.send('ping');
       focused.value && enabled.value && ping();
     }, timeout.value);
   };
