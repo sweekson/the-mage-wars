@@ -103,9 +103,11 @@ export class Rooms {
 
   join(connection: any, room: Room) {
     const { _id: uid, name } = connection.user;
-    const player = this.makePlayer(uid, name, false);
 
-    room.players.set(uid, player);
+    if (!room.players.has(uid)) {
+      room.players.set(uid, this.makePlayer(uid, name, false));
+    }
+
     this.joinChannel(room.id, connection);
 
     if (
