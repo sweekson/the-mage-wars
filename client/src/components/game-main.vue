@@ -1,11 +1,22 @@
 <script>
+import Flexbox from '@components/flexbox.vue';
+
 export default {
   inject: ['game'],
+  components: {
+    Flexbox,
+  },
+  computed: {
+    visible() {
+      const { isPray, isExchange, isCast, isConfirm } = this.game.status;
+      return isPray || isExchange || isCast || isConfirm;
+    },
+  },
 }
 </script>
 
 <template>
-  <section>
+  <Flexbox v-if="visible" fullscreen class="dialog">
     <div v-if="game.status.isPray && !game.status.isCollected">
       <h3>Pray</h3>
       <button
@@ -61,5 +72,15 @@ export default {
         Confirm
       </button>
     </div>
-  </section>
+  </Flexbox>
 </template>
+
+<style lang="scss" scoped>
+.dialog {
+  background-color: rgba(0, 0, 0, .5);
+  color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+</style>
