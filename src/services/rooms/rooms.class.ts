@@ -8,9 +8,8 @@ import { makeResult, makeError, toArray } from '../../utils/common';
 export type RoomsQuery = {
   uid?: string;
   join?: boolean;
+  start?: boolean;
   leave?: boolean;
-  starting?: boolean;
-  started?: boolean;
 }
 
 export type RoomsParams = Params & {
@@ -84,7 +83,7 @@ export class Rooms {
 
   async update(id: string, data: any, params: RoomsParams) {
     const room = this.map.get(id);
-    const { join, leave, starting, started } = params.query;
+    const { join, start, leave } = params.query;
 
     if (!room) {
       return null;
@@ -92,14 +91,11 @@ export class Rooms {
     if (join) {
       return this.join(params.connection, room);
     }
+    if (start) {
+      return this.start(params.connection, room);
+    }
     if (leave) {
       return this.leave(params.connection, room);
-    }
-    if (starting) {
-      return this.starting(room);
-    }
-    if (started) {
-      return this.started(room);
     }
 
     return this.transform(room);
@@ -161,8 +157,15 @@ export class Rooms {
     ];
   }
 
-  starting(room: Room) {
+  start(connection: any, room: Room) {
+    if (!connection) return makeError(401, 'Empty connection instance');
+
+    const { _id } = connection.user;
+
+    if (room.admin.uid !== _id) return makeError(403, 'Not a room admin');
+
     room.status = RoomStatus.Starting;
+
     return [
       this.makeResult('starting', room),
       this.makeResult('refreshed', room),

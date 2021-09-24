@@ -5,6 +5,7 @@ import { Application } from '../../declarations';
 import { Rooms, Room } from './rooms.class';
 import hooks from './rooms.hooks';
 import { filterReceiver } from '../../utils/channel';
+import { transmit, emit } from '../../utils/hooks';
 
 declare module '../../declarations' {
   interface ServiceTypes {
@@ -21,9 +22,10 @@ export default function (app: Application) {
   const toRoomReceivers = (data: any, context: any) => {
     return filterReceiver(`rooms/${data.room.id}`, context);
   };
-  const onStarting = ({ room }: any) => {
+  const onStarting = ({ room, context }: any) => {
     setTimeout(() => {
-      rooms.update(room.id, {}, { query: { started: true } });
+      context.result = rooms.started(room);
+      transmit(context);
     }, wait.start);
   };
   const onLeft = ({ room, context }: any) => {

@@ -20,6 +20,7 @@ export default function (app: Application) {
   const toRoomReceivers = (data: any, context: any) => {
     return filterReceiver(`rooms/${data.game.room}`, context);
   };
+  const onRoomStarted = ({ room }: any) => games.create({ room: room.id });
   const onRoomDeleted = async ({ id }: any) => games.destroy(id);
 
   games.hooks(hooks);
@@ -27,5 +28,6 @@ export default function (app: Application) {
   games.publish('created', toRoomUsers);
   games.publish(toRoomReceivers);
 
+  rooms.on('started', onRoomStarted);
   rooms.on('deleted', onRoomDeleted);
 }

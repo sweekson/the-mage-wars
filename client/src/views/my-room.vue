@@ -20,7 +20,7 @@ export default {
         v-html="$t('common.start')"
         :disabled="!room.status.isReady || room.status.isStarting"
         type="button"
-        @click="game.onStart"
+        @click="room.onStart"
       >
       </button>
       <button

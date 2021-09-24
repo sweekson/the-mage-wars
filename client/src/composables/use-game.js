@@ -95,13 +95,8 @@ export const useGame = ({ client, auth, room, logger }) => {
   const me = ref({ team: 0 });
   const isReady = ref(false);
   const find = (query) => GamesAPI.find({ query });
-  const create = () => GamesAPI.create({ room: room.current.id });
-  const onStart = () => create();
   const onRoomJoined = ({ detail }) => {
     detail.isStarted && find({ room: detail.id });
-  };
-  const onRoomStarted = () => {
-    isReady.value = true;
   };
   const onRoomLeft = () => {
     logger.info('game:reset');
@@ -110,16 +105,10 @@ export const useGame = ({ client, auth, room, logger }) => {
   };
   const onLoaded = ({ game }) => {
     logger.info('game:loaded', game?.status, game?.action?.step);
+    find({ id: game.id, assigned: true });
     current.value = game;
     isReady.value = true;
-    find({ id: game.id, assigned: true });
     emitter.emit('ready');
-    console.log(game);
-  };
-  const onCreated = ({ game }) => {
-    logger.info('game:created', game.id);
-    find({ id: game.id, assigned: true });
-    current.value = game;
     console.log(game);
   };
   const onAssigned = ({ team }) => {
@@ -135,10 +124,9 @@ export const useGame = ({ client, auth, room, logger }) => {
   };
 
   room.on('joined', onRoomJoined);
-  room.on('started', onRoomStarted);
   room.on('left', onRoomLeft);
 
-  GamesAPI.on('created', onCreated);
+  GamesAPI.on('created', onLoaded);
   GamesAPI.on('found', onLoaded);
   GamesAPI.on('assigned', onAssigned);
   GamesAPI.on('refreshed', onRefreshed);
@@ -152,6 +140,5 @@ export const useGame = ({ client, auth, room, logger }) => {
     me,
     isReady,
     on,
-    onStart,
   };
 };

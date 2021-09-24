@@ -49,6 +49,7 @@ export const useRoom = ({ client, auth, logger }) => {
   };
   const onCreate = () => create();
   const onJoin = (id) => update(id, { join: true });
+  const onStart = () => update(current.value.id, { start: true });
   const onLeave = () => update(current.value.id, { leave: true });
   const onLogin = ({ detail }) => {
     RoomsAPI.find().then(onRoomsLoaded);
@@ -114,7 +115,7 @@ export const useRoom = ({ client, auth, logger }) => {
   const onStarted = () => {
     logger.info('room:started');
     counts.value = 0;
-    emitter.emit('started');
+    emitter.emit('started', { id: current.value.id });
   };
   const onLeft = () => {
     logger.info('room:left');
@@ -154,6 +155,7 @@ export const useRoom = ({ client, auth, logger }) => {
     on,
     onCreate,
     onJoin,
+    onStart,
     onLeave,
   };
 };

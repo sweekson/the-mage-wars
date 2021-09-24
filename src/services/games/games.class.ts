@@ -115,8 +115,14 @@ export class Games {
     return makeError(403, 'Access denied');
   }
 
-  async create(data: any, params: Params) {
-    const game = this.makeGame(params.detail.room);
+  async create(data: any, params?: Params) {
+    if (!params) return makeError(400, 'Incorrect parameters');
+
+    const { room } = params.detail;
+
+    if (!room) return makeError(404, 'Room not found');
+
+    const game = this.makeGame(room);
 
     this.map.set(game.id, game);
 
