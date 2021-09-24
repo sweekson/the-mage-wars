@@ -31,6 +31,7 @@
   "nedb": "../data",
   "game": {
     "minimum": 2,
+    "maximum": 10,
     "wait": {
       "start": 3100,
       "confirm": 5100

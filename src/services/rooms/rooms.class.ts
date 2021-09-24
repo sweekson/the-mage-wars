@@ -231,11 +231,13 @@ export class Rooms {
 
   transform(room: Room | null | undefined) {
     if (!room) return null;
-    const isOpen = room.status === 'open';
+    const { maximum } = this.config;
+    const isMax = room.players.size === maximum;
+    const isOpen = [RoomStatus.Open, RoomStatus.Ready].includes(room.status);
     const players = toArray(room.players);
     return {
       ...room,
-      isOpen,
+      isOpen: !isMax && isOpen,
       players,
     };
   }
