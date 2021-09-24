@@ -68,7 +68,7 @@ export class Rooms {
     if (uid) {
       return this.transform(this.list.find(x => x.players.has(uid)));
     }
-    return this.list.sort((a, b) => a.index - b.index).map(this.transform);
+    return this.list.sort((a, b) => a.index - b.index).map(x => this.transform(x));
   }
 
   async create(data: Pick<Room, 'name'>, params: Params) {
