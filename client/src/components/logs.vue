@@ -25,7 +25,7 @@ export default {
   line-height: 1.25;
   white-space: nowrap;
   padding: 4px;
-  width: 360px;
+  width: 300px;
   overflow-y: auto;
 }
 </style>
