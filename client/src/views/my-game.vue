@@ -2,7 +2,7 @@
 import Players from '@components/players.vue';
 import GameMyStatus from '@components/game-my-status.vue';
 import GameTiles from '@components/game-tiles.vue';
-import GameMain from '@components/game-main.vue';
+import GameDialog from '@components/game-dialog.vue';
 import GameActions from '@components/game-actions.vue';
 import BadRequest from '../errors/bad-request.vue';
 
@@ -12,7 +12,7 @@ export default {
     Players,
     GameMyStatus,
     GameTiles,
-    GameMain,
+    GameDialog,
     GameActions,
     BadRequest,
   },
@@ -26,7 +26,7 @@ export default {
     <div class="flexbox">
       <Players :list="room.current.players" class="flex-1" />
       <GameTiles />
-      <GameMain class="flex-2" />
+      <GameDialog class="flex-2" />
       <GameActions />
     </div>
   </section>
