@@ -157,6 +157,7 @@ export class Rooms {
     }
 
     room.admin = toArray(players).sort((a, b) => a.index - b.index)[0];
+    room.admin.isAdmin = true;
 
     return [
       this.makeResult('left', room, { receiver: uid }),
