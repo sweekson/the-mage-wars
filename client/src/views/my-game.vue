@@ -1,6 +1,7 @@
 <script>
 import Players from '@components/players.vue';
 import GameMyStatus from '@components/game-my-status.vue';
+import GameTiles from '@components/game-tiles.vue';
 import GameMain from '@components/game-main.vue';
 import GameActions from '@components/game-actions.vue';
 import BadRequest from '../errors/bad-request.vue';
@@ -10,6 +11,7 @@ export default {
   components: {
     Players,
     GameMyStatus,
+    GameTiles,
     GameMain,
     GameActions,
     BadRequest,
@@ -23,6 +25,7 @@ export default {
     <GameMyStatus />
     <div class="flexbox">
       <Players :list="room.current.players" class="flex-1" />
+      <GameTiles />
       <GameMain class="flex-2" />
       <GameActions />
     </div>

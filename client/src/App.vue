@@ -9,6 +9,7 @@ import { useFeathers } from '@composables/use-feathers';
 import { useAuth } from '@composables/use-auth';
 import { useRoom } from '@composables/use-room';
 import { useGame } from '@composables/use-game';
+import { useGameMap } from '@composables/use-game-map';
 
 export default {
   name: 'App',
@@ -23,12 +24,14 @@ export default {
     const auth = reactive(useAuth({ client, logger }));
     const room = reactive(useRoom({ client, logger, auth }));
     const game = reactive(useGame({ client, logger, auth, room }));
+    const map = reactive(useGameMap({ client, logger, auth, room, game }));
 
     provide('logger', logger);
     provide('client', client);
     provide('auth', auth);
     provide('room', room);
     provide('game', game);
+    provide('map', map);
 
     auth.on('login', () => router.push('/lobby'));
     auth.on('logout', () => router.push('/'));
