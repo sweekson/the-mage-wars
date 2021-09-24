@@ -7,6 +7,9 @@ export default {
     full: {
       type: Boolean,
     },
+    fullscreen: {
+      type: Boolean,
+    },
   },
 }
 </script>
@@ -16,6 +19,7 @@ export default {
     :class="[
       'flexbox flexbox-center',
       { 'full': full },
+      { 'fullscreen': fullscreen },
       { 'flexbox-column': column },
     ]"
   >
@@ -26,5 +30,9 @@ export default {
 <style scoped>
 .full {
   height: 100%;
+}
+.fullscreen {
+  width: 100vw;
+  height: 100vh;
 }
 </style>
