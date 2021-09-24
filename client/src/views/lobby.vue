@@ -1,10 +1,12 @@
 <script>
+import Rooms from '@components/rooms';
 import Players from '@components/players';
 import BadRequest from '../errors/bad-request.vue';
 
 export default {
   inject: ['auth', 'room'],
   components: {
+    Rooms,
     Players,
     BadRequest,
   },
@@ -25,21 +27,7 @@ export default {
         @click="room.onCreate"
       />
     </form>
-    <div
-      v-for="item in room.rooms"
-      :key="item.id"
-      class="flexbox"
-    >
-      <span class="flex-1">{{ item.name }} ({{ item.admin.name }}) ({{ item.status }}) ({{ item.players.length }}) </span>
-      <button
-        v-if="item.isOpen"
-        class="btn"
-        type="button"
-        @click="room.onJoin(item.id)"
-      >
-        Join
-      </button>
-    </div>
+    <Rooms />
     <h3>Online Players</h3>
     <Players :list="room.players" />
   </section>
