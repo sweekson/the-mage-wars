@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 
 import Navbar from '@components/navbar.vue';
 import Logs from '@components/logs.vue';
+import { useEnv } from '@composables/use-env';
 import { useLogger } from '@composables/use-logger';
 import { useFeathers } from '@composables/use-feathers';
 import { useAuth } from '@composables/use-auth';
@@ -18,9 +19,10 @@ export default {
     Logs,
   },
   setup() {
+    const env = useEnv();
     const logger = reactive(useLogger());
     const router = useRouter();
-    const { client } = useFeathers({ host: 'localhost:3030' });
+    const { client } = useFeathers({ host: env.get('SOCKET_HOST') });
     const auth = reactive(useAuth({ client, logger }));
     const room = reactive(useRoom({ client, logger, auth }));
     const game = reactive(useGame({ client, logger, auth, room }));
