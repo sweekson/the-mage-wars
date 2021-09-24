@@ -108,7 +108,10 @@ export class Rooms {
     room.players.set(uid, player);
     this.joinChannel(room.id, connection);
 
-    if (room.players.size >= this.config.minimum ) {
+    if (
+      room.status === RoomStatus.Open &&
+      room.players.size >= this.config.minimum
+    ) {
       room.status = RoomStatus.Ready;
     }
 
@@ -137,7 +140,10 @@ export class Rooms {
       ];
     }
 
-    if (room.players.size < this.config.minimum) {
+    if (
+      room.status === RoomStatus.Ready &&
+      room.players.size < this.config.minimum
+    ) {
       room.status = RoomStatus.Open;
     }
 
