@@ -2,6 +2,7 @@ import { Service } from '@feathersjs/feathers';
 
 import { Application } from '../../declarations';
 import { GamesService, Game } from './games.class';
+import { RoomStatus } from '../rooms/rooms.class';
 import hooks from './games.hooks';
 import { filterReceiver } from '../../utils/channel';
 
@@ -21,7 +22,9 @@ export default function (app: Application) {
     return filterReceiver(`rooms/${data.game.room}`, context);
   };
   const onRoomStarted = ({ room }: any) => games.create({ room: room.id });
-  const onRoomDeleted = async ({ id }: any) => games.destroy(id);
+  const onRoomDeleted = async ({ room }: any) => {
+    room.status === RoomStatus.Started && games.destroy(room.id);
+  };
 
   games.hooks(hooks);
 

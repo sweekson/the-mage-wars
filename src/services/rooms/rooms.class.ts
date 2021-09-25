@@ -138,7 +138,7 @@ export class RoomsService {
       this.map.delete(id);
       return [
         this.makeResult('left', room, { receiver: uid }),
-        this.makeResult('deleted', null, { id }),
+        this.makeResult('deleted', room),
       ];
     }
 
