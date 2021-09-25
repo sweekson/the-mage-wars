@@ -25,12 +25,12 @@ export default {
   <section v-if="auth.isLoggedIn && room.isJoined && game.isReady">
     <h2>My Game ({{ game.current.round }})</h2>
     <GameMyStatus />
-    <GameDialog />
     <Flexbox class="align-items-start">
       <Players :list="room.current.players" />
       <GameTiles class="flex-1" />
       <GameActions />
     </Flexbox>
+    <GameDialog />
   </section>
   <Flexbox v-else fullscreen><Loader /></Flexbox>
 </template>
