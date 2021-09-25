@@ -41,7 +41,7 @@ export interface RoomJSON {
   players: Players;
 }
 
-export class Rooms {
+export class RoomsService {
   app: Application;
   map: Map<string, Room> = new Map();
   events: string[];

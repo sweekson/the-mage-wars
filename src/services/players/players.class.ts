@@ -28,7 +28,7 @@ export interface Player {
 
 export type Players = Player[];
 
-export class PlayersController {
+export class PlayersService {
   app: Application;
   events: string[];
 

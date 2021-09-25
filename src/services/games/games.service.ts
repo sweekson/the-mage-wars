@@ -1,18 +1,18 @@
 import { ServiceAddons } from '@feathersjs/feathers';
 
 import { Application } from '../../declarations';
-import { Games, Game } from './games.class';
+import { GamesService, Game } from './games.class';
 import hooks from './games.hooks';
 import { filterReceiver } from '../../utils/channel';
 
 declare module '../../declarations' {
   interface ServiceTypes {
-    'games': Games & ServiceAddons<any>;
+    'games': GamesService & ServiceAddons<any>;
   }
 }
 
 export default function (app: Application) {
-  app.use('/games', new Games(null, app));
+  app.use('/games', new GamesService(null, app));
 
   const rooms = app.service('rooms');
   const games = app.service('games');

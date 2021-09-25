@@ -2,19 +2,19 @@ import { ServiceAddons, HookContext } from '@feathersjs/feathers';
 import { AuthenticationResult } from '@feathersjs/authentication';
 
 import { Application } from '../../declarations';
-import { Rooms, Room } from './rooms.class';
+import { RoomsService, Room } from './rooms.class';
 import hooks from './rooms.hooks';
 import { filterReceiver } from '../../utils/channel';
 import { transmit, emit } from '../../utils/hooks';
 
 declare module '../../declarations' {
   interface ServiceTypes {
-    'rooms': Rooms & ServiceAddons<any>;
+    'rooms': RoomsService & ServiceAddons<any>;
   }
 }
 
 export default function (app: Application) {
-  app.use('/rooms', new Rooms(null, app));
+  app.use('/rooms', new RoomsService(null, app));
 
   const { wait } = app.get('game');
   const rooms = app.service('rooms');

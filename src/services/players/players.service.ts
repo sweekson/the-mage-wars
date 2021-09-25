@@ -1,17 +1,17 @@
 import { ServiceAddons, Params } from '@feathersjs/feathers';
 
 import { Application } from '../../declarations';
-import { PlayersController } from './players.class';
+import { PlayersService } from './players.class';
 import hooks from './players.hooks';
 
 declare module '../../declarations' {
   interface ServiceTypes {
-    'players': PlayersController & ServiceAddons<any>;
+    'players': PlayersService & ServiceAddons<any>;
   }
 }
 
 export default function (app: Application) {
-  app.use('/players', new PlayersController(null, app));
+  app.use('/players', new PlayersService(null, app));
 
   const players = app.service('players');
   const onConnectionChanged = async (auth: any, { connection }: Params) => {

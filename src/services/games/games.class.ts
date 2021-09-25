@@ -78,7 +78,7 @@ export const GameActions = [
   'cancel',
 ];
 
-export class Games {
+export class GamesService {
   app: Application;
   map: Map<string, Game> = new Map();
   events: string[];
