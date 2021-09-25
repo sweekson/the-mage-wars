@@ -34,6 +34,7 @@ export default {
         @click="room.onLeave"
       />
     </form>
+    <h3>Players</h3>
     <Players :list="room.current.players" />
   </section>
   <Flexbox v-else fullscreen><Loader /></Flexbox>
