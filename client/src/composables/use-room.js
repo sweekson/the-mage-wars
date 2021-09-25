@@ -102,8 +102,8 @@ export const useRoom = ({ client, auth, logger }) => {
     rooms.value.splice(index, 1, room);
     rooms.value = rooms.value.slice(0);
   };
-  const onAssigned = ({ room }) => {
-    logger.info('room:assigned', room.id);
+  const onTransferred = ({ room }) => {
+    logger.info('room:transferred', room.id);
     current.value = room;
   };
   const onStarting = () => {
@@ -136,7 +136,7 @@ export const useRoom = ({ client, auth, logger }) => {
   RoomsAPI.on('created', onCreated);
   RoomsAPI.on('joined', onJoined);
   RoomsAPI.on('refreshed', onRefreshed);
-  RoomsAPI.on('assigned', onAssigned);
+  RoomsAPI.on('transferred', onTransferred);
   RoomsAPI.on('starting', onStarting);
   RoomsAPI.on('started', onStarted);
   RoomsAPI.on('left', onLeft);

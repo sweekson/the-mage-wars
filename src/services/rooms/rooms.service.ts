@@ -43,7 +43,7 @@ export default function (app: Application) {
   rooms.hooks(hooks);
 
   rooms.publish('joined', toRoomReceivers);
-  rooms.publish('assigned', toRoomReceivers);
+  rooms.publish('transferred', toRoomReceivers);
   rooms.publish('left', toRoomReceivers);
   rooms.publish('starting', toRoomUsers);
   rooms.publish('started', toRoomUsers);

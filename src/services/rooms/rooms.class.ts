@@ -54,7 +54,7 @@ export class RoomsService {
       'left',
       'starting',
       'started',
-      'assigned',
+      'transferred',
       'deleted',
     ];
   }
@@ -161,7 +161,7 @@ export class RoomsService {
 
     return [
       this.makeResult('left', room, { receiver: uid }),
-      this.makeResult('assigned', room, { receiver: room.admin.uid }),
+      this.makeResult('transferred', room, { receiver: room.admin.uid }),
       this.makeResult('refreshed', room),
     ];
   }
