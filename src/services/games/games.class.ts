@@ -4,7 +4,7 @@ import omit from 'lodash/omit';
 
 import { Application } from '../../declarations';
 import { RoomJSON } from '../rooms/rooms.class';
-import { Player, Players } from '../players/players.class';
+import { Player, GamePlayer, GamePlayers } from '../players/players.class';
 import { makeResult, makeError, toArray } from '../../utils/common';
 
 export type GamesQuery = {
@@ -37,7 +37,7 @@ export enum GameStatus {
 
 export interface Team {
   energy: number;
-  players: Players;
+  players: GamePlayers;
 }
 
 export enum Steps {
@@ -59,7 +59,7 @@ export interface Game {
   team1: Team;
   team2: Team;
   sequence: string[];
-  players: Map<string, Player>;
+  players: Map<string, GamePlayer>;
   collected: Set<string>;
   confirmed: Set<string>;
   round: number;
@@ -272,15 +272,31 @@ export class GamesService {
   }
 
   casting(game: Game, params: GamesParams) {
+    const { connection } = params;
+
+    if (!connection) return makeError(401, 'Empty connection instance');
+
+    const { _id } = connection.user;
+    const me = game.players.get(_id);
+
+    if (!me) return makeError(404, 'Player not found');
+
     const { action } = game;
 
-    if (!action) {
-      return makeError(400, 'Bad action');
+    if (!action) return makeError(400, 'Action not assigned');
+
+    me.actions -= 1;
+
+    if (!me.actions) {
+      action.step = Steps.Pass;
     }
 
-    action.step = Steps.Pass;
+    const player = omit(me, ['attack', 'attacked']);
 
-    return this.next(game, GameStatus.Wait);
+    return [
+      this.next(game, GameStatus.Wait),
+      this.makeResult('assigned', game, { receiver: _id, player }),
+    ];
   }
 
   confirming(game: Game) {
@@ -364,7 +380,7 @@ export class GamesService {
     };
   }
 
-  makeTeams(players: Players) {
+  makeTeams(players: GamePlayers) {
     const { team } = this.config;
     const length = players.length;
     const half = Math.floor(length * .5);
@@ -382,7 +398,7 @@ export class GamesService {
     return { team1, team2 };
   }
 
-  makePlayer(player: Player): Player {
+  makePlayer(player: Player): GamePlayer {
     const { strength, defense } = this.config.player;
     return {
       ...player,

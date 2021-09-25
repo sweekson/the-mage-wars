@@ -16,18 +16,23 @@ export interface Player {
   index: number;
   uid: string;
   name: string;
-  team?: number;
-  strength?: number;
-  defense?: number;
-  elems?: Elem[];
-  cards?: Card[];
-  actions?: number;
-  attack?: number;
-  attacked?: number;
   isAdmin: boolean;
 }
 
 export type Players = Player[];
+
+export interface GamePlayer extends Player {
+  team: number;
+  strength: number;
+  defense: number;
+  elems: Elem[];
+  cards: Card[];
+  actions: number;
+  attack: number;
+  attacked: number;
+}
+
+export type GamePlayers = GamePlayer[];
 
 export class PlayersService {
   app: Application;
