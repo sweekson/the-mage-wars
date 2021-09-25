@@ -1,6 +1,12 @@
 <script>
+import { NModal, NDialog } from 'naive-ui';
+
 export default {
   inject: ['room', 'game'],
+  components: {
+    NModal,
+    NDialog,
+  },
 }
 </script>
 
@@ -42,7 +48,21 @@ export default {
       class="btn btn-block btn-skew"
       type="button"
       data-text="Leave"
-      @click="room.onLeave"
+      @click="room.isLeaving = true"
     />
+
+    <NModal :show="room.isLeaving">
+      <NDialog
+        type="warning"
+        title="Confirmation"
+        content="You will not be able to join again until the game is over. Are you sure?"
+        positive-text="Leave"
+        negative-text="Stay"
+        :show-icon="false"
+        @positive-click="game.action.onCollect"
+        @negative-click="room.isLeaving = false"
+        @close="room.isLeaving = false"
+      />
+    </NModal>
   </section>
 </template>

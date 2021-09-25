@@ -38,6 +38,7 @@ export const useRoom = ({ client, auth, logger }) => {
   const isMyRoomLoaded = ref(false);
   const isJoined = computed(() => !!current.value);
   const isAdmin = computed(() => current.value?.admin.uid === auth.uid);
+  const isLeaving = ref(false);
   const create = () => RoomsAPI.create({ name: name.value });
   const update = (id, query) => RoomsAPI.update(id, {}, { query });
   const countdown = () => {
@@ -153,6 +154,7 @@ export const useRoom = ({ client, auth, logger }) => {
     isLoaded,
     isJoined,
     isAdmin,
+    isLeaving,
     on,
     onCreate,
     onJoin,
