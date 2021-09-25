@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-  <section
+  <div
     :class="[
       'flexbox flexbox-center',
       { 'full': full },
@@ -24,7 +24,7 @@ export default {
     ]"
   >
     <slot />
-  </section>
+  </div>
 </template>
 
 <style scoped>
