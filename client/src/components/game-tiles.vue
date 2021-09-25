@@ -15,7 +15,7 @@ export default {
       <div
         v-for="(tile, index) in map.tiles"
         :key="index"
-        :class="['tile', 'tile' + tile.type]"
+        :class="['tile', 'tile' + tile.type, 'tile' + tile.dir]"
         :style="{ order: tile.order }"
       >
         <Flexbox class="elems">
@@ -45,23 +45,158 @@ export default {
   gap: 5px;
 }
 .tile {
-  border: 1px solid #666;
+  border: 1px solid #ccc;
   display: flex;
   flex-direction: column;
   width: 72px;
   height: 72px;
+  position: relative;
+  z-index: 1;
+
+  &::before,
+  &::after {
+    background-color: #ccc;
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    z-index: -1;
+  }
+
+  &01,
+  &10 {
+    &::before {
+      width: 80%;
+      left: 10%;
+    }
+    &::after {
+      display: none;
+    }
+  }
+
+  &02,
+  &20 {
+    &::before {
+      height: 80%;
+      top: 10%;
+      left: 10%;
+    }
+    &::after {
+      display: none;
+    }
+  }
+
+  &03,
+  &30 {
+    &::before {
+      width: 80%;
+      top: 10%;
+      left: 10%;
+    }
+    &::after {
+      display: none;
+    }
+  }
+
+  &04,
+  &40 {
+    &::before {
+      height: 80%;
+      top: 10%;
+    }
+    &::after {
+      display: none;
+    }
+  }
+
+  &12,
+  &21 {
+    &::before {
+      width: 80%;
+      left: 10%;
+    }
+    &::after {
+      height: 80%;
+      top: 10%;
+      left: 10%;
+    }
+  }
+
+  &23,
+  &32 {
+    &::before {
+      height: 80%;
+      top: 10%;
+      left: 10%;
+    }
+    &::after {
+      width: 80%;
+      top: 10%;
+      left: 10%;
+    }
+  }
+
+  &34,
+  &43 {
+    &::before {
+      height: 80%;
+      top: 10%;
+    }
+    &::after {
+      width: 80%;
+      top: 10%;
+      left: 10%;
+    }
+  }
+
+  &14,
+  &41 {
+    &::before {
+      width: 80%;
+      left: 10%;
+    }
+    &::after {
+      height: 80%;
+      top: 10%;
+    }
+  }
+
+  &24,
+  &42 {
+    &::before {
+      width: 100%;
+      height: 80%;
+      top: 10%;
+    }
+    &::after {
+      display: none;
+    }
+  }
+
+  &13,
+  &31 {
+    &::before {
+      width: 80%;
+      height: 100%;
+      left: 10%;
+    }
+    &::after {
+      display: none;
+    }
+  }
 }
 .elems {
   justify-content: space-between;
-  padding: 0 4px;
+  margin: 7px 8px 0;
 }
 .elem {
   display: flex;
   width: 29px;
-  height: 35px;
+  height: 28px;
 
   &::after {
-    font-size: 40px;
+    font-size: 32px;
     color: #999;
     display: inline-block;
   }
@@ -96,7 +231,7 @@ export default {
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 4px;
-  padding: 7px;
+  margin: 4px 12px 11px;
 }
 .player {
   border-radius: 10px;
