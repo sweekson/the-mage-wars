@@ -30,7 +30,7 @@ export default {
       type="button"
       @click="game.action.onCast"
     >
-      Cast
+      Cast Spells ({{ game.me.actions }})
     </button>
 
     <button

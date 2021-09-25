@@ -178,13 +178,13 @@ export class GamesService {
     if (!connection) return makeError(401, 'Empty connection instance');
 
     const { _id } = connection.user;
-    const player = game.players.get(_id);
+    const me = game.players.get(_id);
 
-    if (!player) return makeError(404, 'Player not found');
+    if (!me) return makeError(404, 'Player not found');
 
-    const { team } = player;
+    const player = omit(me, ['attack', 'attacked']);
 
-    return this.makeResult('assigned', game, { receiver: _id, team });
+    return this.makeResult('assigned', game, { receiver: _id, player });
   }
 
   rotate(game: Game) {
@@ -391,6 +391,7 @@ export class GamesService {
       defense,
       elems: [],
       cards: [],
+      actions: 3,
       attack: 0,
       attacked: 0,
     };

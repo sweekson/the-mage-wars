@@ -21,6 +21,7 @@ export interface Player {
   defense?: number;
   elems?: Elem[];
   cards?: Card[];
+  actions?: number;
   attack?: number;
   attacked?: number;
   isAdmin: boolean;

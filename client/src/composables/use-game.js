@@ -92,7 +92,7 @@ export const useGame = ({ client, auth, room, logger }) => {
   const current = ref(null);
   const status = reactive(useGameStatus({ auth, current }));
   const action = reactive(useGameAction({ client, auth, current, status }));
-  const me = ref({ team: 0 });
+  const me = ref({});
   const isReady = ref(false);
   const find = (query) => GamesAPI.find({ query });
   const onRoomJoined = ({ detail }) => {
@@ -111,9 +111,9 @@ export const useGame = ({ client, auth, room, logger }) => {
     emitter.emit('ready');
     console.log(game);
   };
-  const onAssigned = ({ team }) => {
-    logger.info('game:assigned', team);
-    me.value.team = team;
+  const onAssigned = ({ player }) => {
+    logger.info('game:assigned', player.team);
+    Object.assign(me.value, player);
   };
   const onRefreshed = ({ game }) => {
     logger.info('game:refreshed', game.status, game.action?.step);
