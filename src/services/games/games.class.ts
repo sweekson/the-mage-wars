@@ -6,6 +6,7 @@ import { Application } from '../../declarations';
 import { RoomJSON } from '../rooms/rooms.class';
 import { Player, GamePlayer, GamePlayers } from '../players/players.class';
 import { makeResult, makeError, toArray } from '../../utils/common';
+import { halfOf } from '../../utils/math';
 
 export type GamesQuery = {
   target?: string;
@@ -392,7 +393,7 @@ export class GamesService {
   makeTeams(players: GamePlayers) {
     const { team } = this.config;
     const length = players.length;
-    const half = Math.floor(length * .5);
+    const half = halfOf(length, 'random');
     const sorted = players.slice(0).sort(() => Math.random() - .5);
     const team1 = {
       energy: team.energy * half,
