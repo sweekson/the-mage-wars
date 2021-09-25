@@ -320,7 +320,9 @@ export class GamesService {
 
     confirmed.add(_id);
 
-    const result = [this.makeResult('confirmed', game, { receiver: _id })];
+    const result: Promise<any>[] = [
+      this.makeResult('confirmed', game, { receiver: _id }),
+    ];
 
     if (sequence.length === confirmed.size) {
       return result.concat(this.confirmed(game));
