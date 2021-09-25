@@ -12,7 +12,8 @@ export default {
   computed: {
     visible() {
       const { isPray, isExchange, isCast, isConfirm } = this.game.status;
-      return isPray || isExchange || isCast || isConfirm;
+      const { isMine } = this.game.action;
+      return isPray || isExchange || (isCast && isMine) || isConfirm;
     },
   },
 }
