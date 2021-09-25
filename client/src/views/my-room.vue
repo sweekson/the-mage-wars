@@ -1,12 +1,14 @@
 <script>
 import Players from '@components/players.vue';
-import BadRequest from '../errors/bad-request.vue';
+import Flexbox from '@components/flexbox';
+import Loader from '@components/loader';
 
 export default {
   inject: ['auth', 'room', 'game'],
   components: {
     Players,
-    BadRequest,
+    Flexbox,
+    Loader,
   },
 }
 </script>
@@ -34,5 +36,5 @@ export default {
     </form>
     <Players :list="room.current.players" />
   </section>
-  <BadRequest v-else />
+  <Flexbox v-else fullscreen><Loader /></Flexbox>
 </template>

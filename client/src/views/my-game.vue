@@ -4,7 +4,8 @@ import GameMyStatus from '@components/game-my-status.vue';
 import GameTiles from '@components/game-tiles.vue';
 import GameDialog from '@components/game-dialog.vue';
 import GameActions from '@components/game-actions.vue';
-import BadRequest from '../errors/bad-request.vue';
+import Flexbox from '@components/flexbox';
+import Loader from '@components/loader';
 
 export default {
   inject: ['auth', 'room', 'game'],
@@ -14,7 +15,8 @@ export default {
     GameTiles,
     GameDialog,
     GameActions,
-    BadRequest,
+    Flexbox,
+    Loader,
   },
 }
 </script>
@@ -30,5 +32,5 @@ export default {
       <GameActions />
     </div>
   </section>
-  <BadRequest v-else />
+  <Flexbox v-else fullscreen><Loader /></Flexbox>
 </template>
