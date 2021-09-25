@@ -31,3 +31,15 @@
     margin-left: 0;
   }
 }
+
+.btn-skew {
+  padding-right: 6px;
+  padding-left: 6px;
+  transform: skew(-20deg) translateX(-4px);
+
+  &::after {
+    content: attr(data-text);
+    display: inline-block;
+    transform: skew(20deg);
+  }
+}
