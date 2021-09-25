@@ -1,6 +1,7 @@
 <script>
 import { reactive, provide } from 'vue';
 import { useRouter } from 'vue-router';
+import { NConfigProvider, darkTheme } from 'naive-ui';
 
 import Navbar from '@components/navbar.vue';
 import Logs from '@components/logs.vue';
@@ -15,6 +16,7 @@ import { useGameMap } from '@composables/use-game-map';
 export default {
   name: 'App',
   components: {
+    NConfigProvider,
     Navbar,
     Logs,
   },
@@ -44,18 +46,21 @@ export default {
 
     return {
       auth,
+      theme: darkTheme,
     };
   },
 };
 </script>
 
 <template>
-  <router-view v-if="!auth.isLoggedIn" />
-  <Navbar v-if="auth.isLoggedIn" />
-  <main v-if="auth.isLoggedIn" class="flexbox">
-    <router-view class="content flex-1" />
-    <Logs />
-  </main>
+  <NConfigProvider :theme="theme">
+    <router-view v-if="!auth.isLoggedIn" />
+    <Navbar v-if="auth.isLoggedIn" />
+    <main v-if="auth.isLoggedIn" class="flexbox">
+      <router-view class="content flex-1" />
+      <Logs />
+    </main>
+  </NConfigProvider>
 </template>
 
 <style scoped>
