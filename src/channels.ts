@@ -23,9 +23,7 @@ export default function(app: Application): void {
 
     if (connection) {
       // Obtain the logged in user from the connection
-      const user = connection.user;
-
-      console.log('login', user._id);
+      // const user = connection.user;
 
       // The connection is no longer anonymous, remove it
       app.channel('anonymous').leave(connection);
