@@ -1,4 +1,4 @@
-import { ServiceAddons, HookContext } from '@feathersjs/feathers';
+import { Service, HookContext } from '@feathersjs/feathers';
 import { AuthenticationResult } from '@feathersjs/authentication';
 
 import { Application } from '../../declarations';
@@ -9,7 +9,7 @@ import { transmit, emit } from '../../utils/hooks';
 
 declare module '../../declarations' {
   interface ServiceTypes {
-    'rooms': RoomsService & ServiceAddons<any>;
+    'rooms': RoomsService & Service<any>;
   }
 }
 

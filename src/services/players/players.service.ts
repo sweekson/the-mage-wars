@@ -1,4 +1,4 @@
-import { ServiceAddons, Params } from '@feathersjs/feathers';
+import { Service, Params } from '@feathersjs/feathers';
 
 import { Application } from '../../declarations';
 import { PlayersService } from './players.class';
@@ -6,7 +6,7 @@ import hooks from './players.hooks';
 
 declare module '../../declarations' {
   interface ServiceTypes {
-    'players': PlayersService & ServiceAddons<any>;
+    'players': PlayersService & Service<any>;
   }
 }
 

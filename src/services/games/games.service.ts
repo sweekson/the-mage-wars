@@ -1,4 +1,4 @@
-import { ServiceAddons } from '@feathersjs/feathers';
+import { Service } from '@feathersjs/feathers';
 
 import { Application } from '../../declarations';
 import { GamesService, Game } from './games.class';
@@ -7,7 +7,7 @@ import { filterReceiver } from '../../utils/channel';
 
 declare module '../../declarations' {
   interface ServiceTypes {
-    'games': GamesService & ServiceAddons<any>;
+    'games': GamesService & Service<any>;
   }
 }
 
