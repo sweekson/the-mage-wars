@@ -14,7 +14,7 @@
     "@feathersjs/socketio-client": "^4.5.11",
     "core-js": "^3.6.5",
     "socket.io-client": "^2.4.0",
-    "vue": "^3.0.0",
+    "vue": "^3.2.18",
     "vue-i18n": "^9.1.7",
     "vue-router": "^4.0.11"
   },
