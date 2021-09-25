@@ -1,9 +1,12 @@
 <script>
+import { NDialog } from 'naive-ui';
+
 import Flexbox from '@components/flexbox.vue';
 
 export default {
   inject: ['game'],
   components: {
+    NDialog,
     Flexbox,
   },
   computed: {
@@ -17,67 +20,56 @@ export default {
 
 <template>
   <Flexbox v-if="visible" fullscreen class="dialog">
-    <div v-if="game.status.isPray && !game.status.isCollected">
-      <h3>Pray</h3>
-      <button
-        type="button"
-        class="btn"
-        @click="game.action.onCollect"
-      >
-        Collect
-      </button>
-    </div>
+    <NDialog
+      v-if="game.status.isPray && !game.status.isCollected"
+      type="success"
+      title="Pray"
+      positive-text="Collect"
+      :closable="false"
+      :show-icon="false"
+      @positive-click="game.action.onCollect"
+    />
 
-    <div v-if="game.status.isExchange && game.action.isMine">
-      <h3>Exchange</h3>
-      <button
-        type="button"
-        class="btn"
-        @click="game.action.onAccept"
-      >
-        Accept
-      </button>
-      <button
-        type="button"
-        class="btn"
-        @click="game.action.onCancel"
-      >
-        Cancel
-      </button>
-    </div>
+    <NDialog
+      v-if="game.status.isExchange && game.action.isMine"
+      title="Exchange"
+      positive-text="Accept"
+      negative-text="Cancel"
+      :closable="false"
+      :show-icon="false"
+      @positive-click="game.action.onAccept"
+      @negative-click="game.action.onCancel"
+    />
 
-    <div v-if="game.status.isExchange && !game.action.isMine">
-      <h3>Ask For Exchange</h3>
-    </div>
+    <NDialog
+      v-if="game.status.isExchange && !game.action.isMine"
+      title="Ask For Exchange"
+      positive-text="Confirm"
+      negative-text="Cancel"
+      :closable="false"
+      :show-icon="false"
+    />
 
-    <div v-if="game.status.isCast && game.action.isMine">
-      <h3>Cast A Spell</h3>
-      <button
-        type="button"
-        class="btn"
-        @click="game.action.onCasting"
-      >
-        Cast
-      </button>
-      <button
-        type="button"
-        class="btn"
-        @click="game.action.onCancel"
-      >
-        Cancel
-      </button>
-    </div>
+    <NDialog
+      v-if="game.status.isCast && game.action.isMine"
+      title="Cast Spells"
+      positive-text="Cast"
+      negative-text="Cancel"
+      :closable="false"
+      :show-icon="false"
+      @positive-click="game.action.onCasting"
+      @negative-click="game.action.onCancel"
+    />
 
-    <div v-if="game.status.isConfirm && !game.status.isConfirmed">
-      <h3>Current Status</h3>
-      <button
-        type="button"
-        class="btn"
-        @click="game.action.onConfirm"
-      >
-        Confirm
-      </button>
-    </div>
+    <NDialog
+      v-if="game.status.isConfirm && !game.status.isConfirmed"
+      type="success"
+      title="Current Status"
+      positive-text="Confirm"
+      :closable="false"
+      :show-icon="false"
+      @positive-click="game.action.onConfirm"
+    />
   </Flexbox>
 </template>
 
