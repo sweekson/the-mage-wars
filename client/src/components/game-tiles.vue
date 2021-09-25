@@ -64,8 +64,7 @@ export default {
     z-index: -1;
   }
 
-  &01,
-  &10 {
+  &1000 {
     &::before {
       width: 80%;
       left: 10%;
@@ -75,8 +74,7 @@ export default {
     }
   }
 
-  &02,
-  &20 {
+  &0200 {
     &::before {
       height: 80%;
       top: 10%;
@@ -87,8 +85,7 @@ export default {
     }
   }
 
-  &03,
-  &30 {
+  &0030 {
     &::before {
       width: 80%;
       top: 10%;
@@ -99,8 +96,7 @@ export default {
     }
   }
 
-  &04,
-  &40 {
+  &0004 {
     &::before {
       height: 80%;
       top: 10%;
@@ -110,8 +106,7 @@ export default {
     }
   }
 
-  &12,
-  &21 {
+  &1200 {
     &::before {
       width: 80%;
       left: 10%;
@@ -123,8 +118,7 @@ export default {
     }
   }
 
-  &23,
-  &32 {
+  &0230 {
     &::before {
       height: 80%;
       top: 10%;
@@ -137,8 +131,7 @@ export default {
     }
   }
 
-  &34,
-  &43 {
+  &0034 {
     &::before {
       height: 80%;
       top: 10%;
@@ -150,8 +143,7 @@ export default {
     }
   }
 
-  &14,
-  &41 {
+  &1004 {
     &::before {
       width: 80%;
       left: 10%;
@@ -162,8 +154,7 @@ export default {
     }
   }
 
-  &24,
-  &42 {
+  &0204 {
     &::before {
       width: 100%;
       height: 80%;
@@ -174,8 +165,7 @@ export default {
     }
   }
 
-  &13,
-  &31 {
+  &1030 {
     &::before {
       width: 80%;
       height: 100%;

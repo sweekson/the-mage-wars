@@ -2,22 +2,22 @@ import { ref, computed } from 'vue';
 
 export const useGameMap = () => {
   const tiles = ref([
-    { type: 1, order: 1, dir: '02', occupied: [1, 0], players: [1] },
-    { type: 2, order: 2, dir: '42', occupied: [0, 0], players: [] },
-    { type: 1, order: 3, dir: '43', occupied: [1, 2], players: [2] },
-    { type: 3, order: 7, dir: '14', occupied: [2, 3], players: [] },
-    { type: 1, order: 6, dir: '24', occupied: [1, 0], players: [] },
-    { type: 3, order: 5, dir: '23', occupied: [2, 0], players: [] },
-    { type: 2, order: 9, dir: '13', occupied: [0, 0], players: [3] },
-    { type: 1, order: 13, dir: '12', occupied: [3, 0], players: [] },
-    { type: 2, order: 14, dir: '41', occupied: [0, 0], players: [] },
-    { type: 1, order: 10, dir: '32', occupied: [2, 0], players: [] },
-    { type: 3, order: 11, dir: '43', occupied: [1, 0], players: [] },
-    { type: 2, order: 15, dir: '12', occupied: [2, 3], players: [] },
-    { type: 1, order: 16, dir: '41', occupied: [1, 0], players: [] },
-    { type: 3, order: 12, dir: '31', occupied: [0, 0], players: [] },
-    { type: 2, order: 8, dir: '31', occupied: [2, 0], players: [] },
-    { type: 2, order: 4, dir: '30', occupied: [3, 3], players: [] },
+    { type: 1, order: 1, dir: '0200', occupied: [1, 0], players: [1] },
+    { type: 2, order: 2, dir: '0204', occupied: [0, 0], players: [] },
+    { type: 1, order: 3, dir: '0034', occupied: [1, 2], players: [2] },
+    { type: 3, order: 7, dir: '1004', occupied: [2, 3], players: [] },
+    { type: 1, order: 6, dir: '0204', occupied: [1, 0], players: [] },
+    { type: 3, order: 5, dir: '0230', occupied: [2, 0], players: [] },
+    { type: 2, order: 9, dir: '1030', occupied: [0, 0], players: [3] },
+    { type: 1, order: 13, dir: '1200', occupied: [3, 0], players: [] },
+    { type: 2, order: 14, dir: '1004', occupied: [0, 0], players: [] },
+    { type: 1, order: 10, dir: '0230', occupied: [2, 0], players: [] },
+    { type: 3, order: 11, dir: '0034', occupied: [1, 0], players: [] },
+    { type: 2, order: 15, dir: '1200', occupied: [2, 3], players: [] },
+    { type: 1, order: 16, dir: '1004', occupied: [1, 0], players: [] },
+    { type: 3, order: 12, dir: '1030', occupied: [0, 0], players: [] },
+    { type: 2, order: 8, dir: '1030', occupied: [2, 0], players: [] },
+    { type: 2, order: 4, dir: '0030', occupied: [3, 3], players: [] },
   ]);
   const last = computed(() => tiles.value.length - 1);
   const size = computed(() => Math.sqrt(tiles.value.length));
