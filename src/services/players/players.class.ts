@@ -1,4 +1,5 @@
 import { Application } from '../../declarations';
+import { makeResult } from '../../utils/common';
 
 export interface Elem {
   id: string;
@@ -33,12 +34,13 @@ export class PlayersController {
 
   constructor(options: any, app: Application) {
     this.app = app;
-    this.events = [];
+    this.events = ['refreshed'];
   }
 
   async find() {
-    return this.app.channel('authenticated').connections.map(
+    const list = this.app.channel('authenticated').connections.map(
       ({ user }) => ({ uid: user._id, name: user.name }),
     );
+    return makeResult('refreshed', { list });
   }
 }

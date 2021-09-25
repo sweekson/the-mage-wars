@@ -54,7 +54,6 @@ export const useRoom = ({ client, auth, logger }) => {
   const onLogin = ({ detail }) => {
     RoomsAPI.find().then(onRoomsLoaded);
     RoomsAPI.find({ query: { uid: detail.uid } }).then(onMyRoomLoaded);
-    PlayersAPI.find().then(onPlayersLoaded);
   };
   const onLogout = () => {
     current.value = null;
@@ -75,7 +74,7 @@ export const useRoom = ({ client, auth, logger }) => {
     isMyRoomLoaded.value = true;
     isLoaded.value = isRoomsLoaded.value && isMyRoomLoaded.value;
   };
-  const onPlayersLoaded = (list) => {
+  const onPlayersLoaded = ({ list }) => {
     players.value = list;
   };
   const onCreated = (room) => {
@@ -131,6 +130,8 @@ export const useRoom = ({ client, auth, logger }) => {
 
   auth.on('login', onLogin);
   auth.on('logout', onLogout);
+
+  PlayersAPI.on('refreshed', onPlayersLoaded);
 
   RoomsAPI.on('created', onCreated);
   RoomsAPI.on('joined', onJoined);
