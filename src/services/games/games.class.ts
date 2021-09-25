@@ -197,12 +197,19 @@ export class GamesService {
     }
 
     const uid = sequence[index];
+    const next = game.players.get(uid);
+
+    if (!next) return makeError(404, 'Player not found');
 
     game.status = GameStatus.Wait;
     game.action = { uid, step: Steps.Pray };
+    next.actions = 3;
+
+    const player = omit(next, ['attack', 'attacked']);
 
     return [
       this.makeResult('rotated', game, { receiver: uid }),
+      this.makeResult('assigned', game, { receiver: uid, player }),
       this.makeResult('refreshed', game),
     ];
   }
