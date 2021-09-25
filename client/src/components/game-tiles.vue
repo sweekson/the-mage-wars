@@ -15,7 +15,7 @@ export default {
       <div
         v-for="(tile, index) in map.tiles"
         :key="index"
-        :class="['tile', 'tile' + tile.type, 'tile' + tile.dir]"
+        :class="['tile', 'tile' + tile.type, 'tile' + tile.shape]"
         :style="{ order: tile.order }"
       >
         <Flexbox class="elems">
