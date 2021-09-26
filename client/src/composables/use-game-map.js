@@ -90,6 +90,7 @@ export const useGameMap = () => {
   const last = computed(() => tiles.value.length - 1);
   const size = computed(() => Math.sqrt(tiles.value.length));
   const width = computed(() => `${size.value * (72 + 5) - 5}px`);
+  const selected = ref(null);
   const player1 = ref({ uid: 1, position: 0, moves: 6 });
   const update = ({ uid, position }) => {
     const previous = tiles.value[position ? position - 1 : last.value];
@@ -106,6 +107,7 @@ export const useGameMap = () => {
       player.value.moves && move(player);
     }, 300);
   };
+  const onSelect = (tile) => (selected.value = tile);
 
   tiles.value = resolveTileShape(tiles.value);
   tiles.value = resolveTileTypeName(tiles.value);
@@ -116,5 +118,7 @@ export const useGameMap = () => {
     tiles,
     size,
     width,
+    selected,
+    onSelect,
   };
 };

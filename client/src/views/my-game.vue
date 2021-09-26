@@ -10,7 +10,7 @@ import Flexbox from '@components/flexbox';
 import Loader from '@components/loader';
 
 export default {
-  inject: ['auth', 'room', 'game'],
+  inject: ['auth', 'room', 'game', 'map'],
   components: {
     NLayout,
     NLayoutHeader,
@@ -42,7 +42,7 @@ export default {
 
         <n-layout-content class="dark">
           <flexbox class="align-items-start">
-            <game-tiles class="flex-1" />
+            <game-tiles class="flex-1" @selected="tile => map.onSelect(tile)" />
             <game-actions />
           </flexbox>
           <game-dialog />

@@ -23,8 +23,13 @@ export default {
       <div
         v-for="(tile, index) in map.tiles"
         :key="index"
-        :class="['tile', 'tile-' + tile.shape]"
+        :class="[
+          'tile',
+          'tile-' + tile.shape,
+          { selected: map.selected?.order === tile.order },
+        ]"
         :style="{ order: tile.order }"
+        @click="$emit('selected', tile)"
       >
         <flexbox class="elems">
           <flexbox
@@ -82,13 +87,21 @@ $colors: (
   gap: 5px;
 }
 .tile {
-  border: 1px solid #ccc;
+  border: 1px solid #666;
   display: flex;
   flex-direction: column;
   width: 72px;
   height: 72px;
   position: relative;
   z-index: 1;
+
+  &:hover {
+    border-color: #ccc;
+  }
+
+  &.selected {
+    border-color: #ff0;
+  }
 
   &::before,
   &::after {
