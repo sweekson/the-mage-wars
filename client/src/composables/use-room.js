@@ -120,6 +120,7 @@ export const useRoom = ({ client, auth, logger }) => {
   const onLeft = () => {
     logger.info('room:left');
     current.value = null;
+    isLeaving.value = false;
     emitter.emit('left');
   };
   const onDeleted = ({ id }) => {
