@@ -53,7 +53,7 @@ export default {
 </script>
 
 <template>
-  <n-config-provider :theme="theme">
+  <n-config-provider :theme="theme" class="provider">
     <router-view v-if="!auth.isLoggedIn" />
     <navbar v-if="auth.isLoggedIn" />
     <main v-if="auth.isLoggedIn" class="flexbox">
@@ -64,6 +64,9 @@ export default {
 </template>
 
 <style scoped>
+.provider{
+  height: 100%;
+}
 main {
   height: calc(100% - 30px);
 }
