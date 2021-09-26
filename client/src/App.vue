@@ -57,7 +57,7 @@ export default {
     <router-view v-if="!auth.isLoggedIn" />
     <navbar v-if="auth.isLoggedIn" />
     <main v-if="auth.isLoggedIn" class="flexbox">
-      <router-view class="content flex-1" />
+      <router-view class="flex-1" />
       <logs />
     </main>
   </n-config-provider>
@@ -66,9 +66,5 @@ export default {
 <style scoped>
 main {
   height: calc(100% - 30px);
-}
-
-.content {
-  padding: 4px;
 }
 </style>
