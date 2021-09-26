@@ -14,6 +14,10 @@ export default {
       type: Object,
       required: true,
     },
+    size: {
+      type: String,
+      default: 'md',
+    },
     standalone: {
       type: Boolean,
       default: false,
@@ -31,8 +35,10 @@ export default {
   <div
     :class="[
       'tile',
+      'tile-' + size,
       'tile-' + data.shape,
-      { selected: map.selected?.order === data.order },
+      { standalone: standalone },
+      { selected: !standalone && map.selected?.order === data.order },
     ]"
     :style="{ order: data.order }"
     @click="$emit('selected', data)"
@@ -47,7 +53,7 @@ export default {
         <game-icon
           :name="data.name"
           :color="TileIconColorMap[uid]"
-          size="sm"
+          :size="size ==='md' ? 'sm' : 'lg'"
         />
       </flexbox>
     </flexbox>
@@ -84,19 +90,32 @@ $colors: (
 );
 
 .tile {
+  --span: calc(var(--size) * 0.1);
+
   border: 1px solid #666;
   display: flex;
   flex-direction: column;
-  width: 72px;
-  height: 72px;
+  width: var(--size);
+  height: var(--size);
   position: relative;
   z-index: 1;
 
-  &:hover {
+  &-md {
+    --size: 72px;
+    --gap: 4px;
+  }
+
+  &-lg {
+    --size: 144px;
+    --gap: 8px;
+  }
+
+  &:not(.standalone):hover {
     border-color: #ccc;
   }
 
-  &.selected {
+  &.selected,
+  &.selected:hover {
     border-color: #ff0;
   }
 
@@ -225,29 +244,29 @@ $colors: (
 }
 .elems {
   justify-content: space-between;
-  margin: 11px 11px 0;
+  margin: calc(var(--span) + var(--gap)) calc(var(--span) + var(--gap)) 0;
 }
 .elem {
   background-color: rgba(255, 255, 255, .6);
   box-shadow: 0 0 2px #666;
-  border-radius: 22px;
+  border-radius: calc(var(--size) * 0.5 - var(--span) * 2);
   display: flex;
-  width: 22px;
-  height: 22px;
+  width: calc(var(--size) * 0.5 - var(--span) * 2);
+  height: calc(var(--size) * 0.5 - var(--span) * 2);
 }
 .players {
   flex: 1;
   align-items: flex-start;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 1px 3px;
-  margin: 6px 11px 8px;
+  gap: 1px calc(var(--span) * 0.5 - 0.5px);
+  margin: var(--span) calc(var(--span) + var(--gap) - 1px) var(--span);
 }
 .player {
   box-shadow: 0 0 1px 1px #fff;
-  border-radius: 7px;
-  width: 7px;
-  height: 7px;
+  border-radius: var(--span);
+  width: var(--span);
+  height: var(--span);
 }
 
 @include generate-player-colors($colors);
