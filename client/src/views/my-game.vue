@@ -1,4 +1,6 @@
 <script>
+import { NLayout, NLayoutHeader, NLayoutSider, NLayoutContent } from 'naive-ui';
+
 import Players from '@components/players.vue';
 import GameMyStatus from '@components/game-my-status.vue';
 import GameTiles from '@components/game-tiles.vue';
@@ -10,6 +12,10 @@ import Loader from '@components/loader';
 export default {
   inject: ['auth', 'room', 'game'],
   components: {
+    NLayout,
+    NLayoutHeader,
+    NLayoutSider,
+    NLayoutContent,
     Players,
     GameMyStatus,
     GameTiles,
@@ -22,21 +28,37 @@ export default {
 </script>
 
 <template>
-  <section v-if="auth.isLoggedIn && room.isJoined && game.isReady" class="game">
-    <h2 class="round">Round {{ game.current.round }}</h2>
-    <game-my-status />
-    <flexbox class="align-items-start">
-      <players :list="room.current.players" class="players" />
-      <game-tiles class="flex-1" />
-      <game-actions />
-    </flexbox>
-    <game-dialog />
+  <section v-if="auth.isLoggedIn && room.isJoined && game.isReady">
+    <n-layout content-style="padding: 8px 8px;" class="game dark">
+      <n-layout-header class="header dark">
+        <game-my-status />
+        <h2 class="round">Round {{ game.current.round }}</h2>
+      </n-layout-header>
+
+      <n-layout has-sider>
+        <n-layout-sider width="120" content-style="margin-right: 4px;" class="players dark">
+          <players :list="room.current.players" />
+        </n-layout-sider>
+
+        <n-layout-content class="dark">
+          <flexbox class="align-items-start">
+            <game-tiles class="flex-1" />
+            <game-actions />
+          </flexbox>
+          <game-dialog />
+        </n-layout-content>
+      </n-layout>
+    </n-layout>
   </section>
   <flexbox v-else fullscreen><loader /></flexbox>
 </template>
 
 <style lang="scss" scoped>
+.dark {
+  --color: #222 !important;
+}
 .game {
+  height: calc(100vh - 30px);
   position: relative;
 }
 .round {
@@ -45,7 +67,9 @@ export default {
   display: flex;
   align-items: center;
   height: 32px;
+  margin: 0;
   position: absolute;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
 
@@ -68,7 +92,11 @@ export default {
     transform: skewX(-20deg) translateX(15px);
   }
 }
+.header {
+  height: 80px;
+  position: relative;
+}
 .players {
-  width: 120px;
+  color: #222;
 }
 </style>
