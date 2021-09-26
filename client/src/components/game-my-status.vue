@@ -17,7 +17,7 @@ export default {
 </script>
 
 <template>
-  <n-grid cols="8" :x-gap="4">
+  <n-grid cols="7 720:10 960:12 1200:14 1440:16" :x-gap="4">
     <n-grid-item>
       <hexagon height="60">
         <flexbox column>
