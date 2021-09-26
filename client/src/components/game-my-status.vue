@@ -28,7 +28,7 @@ export default {
     </n-grid-item>
 
     <n-grid-item>
-      <n-statistic label="Strengths">{{ game.me.strength }}</n-statistic>
+      <n-statistic label="Strength">{{ game.me.strength }}</n-statistic>
     </n-grid-item>
 
     <n-grid-item>
