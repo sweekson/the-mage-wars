@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-  <Flexbox column full>
+  <flexbox column full>
     <h1>Welcome</h1>
     <div>
       <button
@@ -25,5 +25,5 @@ export default {
         @click="$router.push('/login')"
       />
     </div>
-  </Flexbox>
+  </flexbox>
 </template>

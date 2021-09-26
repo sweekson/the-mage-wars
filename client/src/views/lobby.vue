@@ -29,9 +29,9 @@ export default {
         @click="room.onCreate"
       />
     </form>
-    <Rooms />
+    <rooms />
     <h3>Online Players</h3>
-    <Players :list="room.players" />
+    <players :list="room.players" />
   </section>
-  <Flexbox v-else fullscreen><Loader /></Flexbox>
+  <flexbox v-else fullscreen><loader /></flexbox>
 </template>

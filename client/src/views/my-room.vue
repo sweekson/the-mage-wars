@@ -35,7 +35,7 @@ export default {
       />
     </form>
     <h3>Players</h3>
-    <Players :list="room.current.players" />
+    <players :list="room.current.players" />
   </section>
-  <Flexbox v-else fullscreen><Loader /></Flexbox>
+  <flexbox v-else fullscreen><loader /></flexbox>
 </template>

@@ -51,8 +51,8 @@ export default {
       @click="room.isLeaving = true"
     />
 
-    <NModal :show="room.isLeaving">
-      <NDialog
+    <n-modal :show="room.isLeaving">
+      <n-dialog
         type="warning"
         title="Confirmation"
         content="You will not be able to join again until the game is over. Are you sure?"
@@ -63,6 +63,6 @@ export default {
         @negative-click="room.isLeaving = false"
         @close="room.isLeaving = false"
       />
-    </NModal>
+    </n-modal>
   </section>
 </template>

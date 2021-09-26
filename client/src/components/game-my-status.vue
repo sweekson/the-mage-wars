@@ -10,15 +10,15 @@ export default {
 </script>
 
 <template>
-  <Flexbox class="my-status align-items-start">
+  <flexbox class="my-status align-items-start">
     <div class="team">{{ game.me.team }}</div>
-    <Flexbox class="attribute">
+    <flexbox class="attribute">
       <span class="flex-1">Strength</span> {{ game.me.strength }}
-    </Flexbox>
-    <Flexbox class="attribute">
+    </flexbox>
+    <flexbox class="attribute">
       <span class="flex-1">Defense</span> {{ game.me.defense }}
-    </Flexbox>
-  </Flexbox>
+    </flexbox>
+  </flexbox>
 </template>
 
 <style lang="scss" scoped>

@@ -53,14 +53,14 @@ export default {
 </script>
 
 <template>
-  <NConfigProvider :theme="theme">
+  <n-config-provider :theme="theme">
     <router-view v-if="!auth.isLoggedIn" />
-    <Navbar v-if="auth.isLoggedIn" />
+    <navbar v-if="auth.isLoggedIn" />
     <main v-if="auth.isLoggedIn" class="flexbox">
       <router-view class="content flex-1" />
-      <Logs />
+      <logs />
     </main>
-  </NConfigProvider>
+  </n-config-provider>
 </template>
 
 <style scoped>

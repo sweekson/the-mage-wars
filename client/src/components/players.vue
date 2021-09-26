@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-  <Flexbox class="players">
+  <flexbox class="players">
     <div
       v-for="player in list"
       :key="player.uid"
@@ -23,7 +23,7 @@ export default {
     >
       {{ player.name }}
     </div>
-  </Flexbox>
+  </flexbox>
 </template>
 
 <style lang="scss" scoped>

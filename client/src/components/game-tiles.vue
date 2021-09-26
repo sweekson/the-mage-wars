@@ -11,31 +11,31 @@ export default {
 
 <template>
   <section class="map">
-    <Flexbox class="tiles" :style="{ width: map.width }">
+    <flexbox class="tiles" :style="{ width: map.width }">
       <div
         v-for="(tile, index) in map.tiles"
         :key="index"
         :class="['tile', 'tile' + tile.type, 'tile' + tile.shape]"
         :style="{ order: tile.order }"
       >
-        <Flexbox class="elems">
-          <Flexbox
+        <flexbox class="elems">
+          <flexbox
             center
             v-for="key in tile.occupied"
             :key="key"
             :class="['elem', 'elem' + key]"
           />
-        </Flexbox>
+        </flexbox>
 
-        <Flexbox class="players">
+        <flexbox class="players">
           <div
             v-for="key in tile.players"
             :key="key"
             :class="['player', 'player' + key]"
           />
-        </Flexbox>
+        </flexbox>
       </div>
-    </Flexbox>
+    </flexbox>
   </section>
 </template>
 

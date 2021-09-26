@@ -24,15 +24,15 @@ export default {
 <template>
   <section v-if="auth.isLoggedIn && room.isJoined && game.isReady" class="game">
     <h2 class="round">Round {{ game.current.round }}</h2>
-    <GameMyStatus />
-    <Flexbox class="align-items-start">
-      <Players :list="room.current.players" />
-      <GameTiles class="flex-1" />
-      <GameActions />
-    </Flexbox>
-    <GameDialog />
+    <game-my-status />
+    <flexbox class="align-items-start">
+      <players :list="room.current.players" />
+      <game-tiles class="flex-1" />
+      <game-actions />
+    </flexbox>
+    <game-dialog />
   </section>
-  <Flexbox v-else fullscreen><Loader /></Flexbox>
+  <flexbox v-else fullscreen><loader /></flexbox>
 </template>
 
 <style lang="scss" scoped>

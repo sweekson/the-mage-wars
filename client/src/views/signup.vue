@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-  <Flexbox full>
+  <flexbox full>
     <form class="flexbox-column" @keyup.enter="auth.onLogin">
       <h2 v-html="$t('common.signup')"></h2>
       <input v-model="auth.email" type="text" />
@@ -29,5 +29,5 @@ export default {
         @click="$router.push('/')"
       />
     </form>
-  </Flexbox>
+  </flexbox>
 </template>

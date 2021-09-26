@@ -20,8 +20,8 @@ export default {
 </script>
 
 <template>
-  <Flexbox v-if="visible" fullscreen class="dialog">
-    <NDialog
+  <flexbox v-if="visible" fullscreen class="dialog">
+    <n-dialog
       v-if="game.status.isPray && !game.status.isCollected"
       type="success"
       title="Pray"
@@ -31,7 +31,7 @@ export default {
       @positive-click="game.action.onCollect"
     />
 
-    <NDialog
+    <n-dialog
       v-if="game.status.isExchange && game.action.isMine"
       title="Exchange"
       positive-text="Accept"
@@ -42,7 +42,7 @@ export default {
       @negative-click="game.action.onCancel"
     />
 
-    <NDialog
+    <n-dialog
       v-if="game.status.isExchange && !game.action.isMine"
       title="Ask For Exchange"
       positive-text="Confirm"
@@ -51,7 +51,7 @@ export default {
       :show-icon="false"
     />
 
-    <NDialog
+    <n-dialog
       v-if="game.status.isCast && game.action.isMine"
       title="Cast Spells"
       positive-text="Cast"
@@ -62,7 +62,7 @@ export default {
       @negative-click="game.action.onCancel"
     />
 
-    <NDialog
+    <n-dialog
       v-if="game.status.isConfirm && !game.status.isConfirmed"
       type="success"
       title="Current Status"
@@ -71,7 +71,7 @@ export default {
       :show-icon="false"
       @positive-click="game.action.onConfirm"
     />
-  </Flexbox>
+  </flexbox>
 </template>
 
 <style lang="scss" scoped>

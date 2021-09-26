@@ -10,8 +10,8 @@ export default {
 </script>
 
 <template>
-  <Flexbox class="rooms">
-    <Flexbox
+  <flexbox class="rooms">
+    <flexbox
       v-for="item in room.rooms"
       :key="item.id"
       class="room flexbox"
@@ -19,7 +19,7 @@ export default {
       <header class="room-heading">
         <h4 class="room-title">{{ item.name }}</h4>
       </header>
-      <Flexbox class="room-toolbar">
+      <flexbox class="room-toolbar">
         <span class="room-status">{{ item.status }}</span>
         <span class="room-players">{{ item.players.length }}</span>
         <span class="room-admin flex-1">{{ item.admin.name }}</span>
@@ -31,9 +31,9 @@ export default {
         >
           Join
         </button>
-      </Flexbox>
-    </Flexbox>
-  </Flexbox>
+      </flexbox>
+    </flexbox>
+  </flexbox>
 </template>
 
 <style lang="scss" scoped>
