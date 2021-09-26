@@ -14,4 +14,13 @@ module.exports = {
       .set('@composables', path.resolve('./src/composables'))
       .set('@utils', path.resolve('./src/utils'));
   },
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `
+          @import "@/styles/_variables.scss";
+        `,
+      },
+    },
+  },
 };
