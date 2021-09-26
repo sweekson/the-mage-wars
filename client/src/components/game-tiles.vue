@@ -1,10 +1,18 @@
 <script>
 import Flexbox from '@components/flexbox.vue';
+import GameIcon from '@components/game-icon.vue';
+import { TileIconColorMap } from '@composables/use-game-map';
 
 export default {
   inject: ['map'],
   components: {
     Flexbox,
+    GameIcon,
+  },
+  setup() {
+    return {
+      TileIconColorMap,
+    };
   },
 }
 </script>
@@ -15,7 +23,7 @@ export default {
       <div
         v-for="(tile, index) in map.tiles"
         :key="index"
-        :class="['tile', 'tile' + tile.type, 'tile' + tile.shape]"
+        :class="['tile', 'tile-' + tile.shape]"
         :style="{ order: tile.order }"
       >
         <flexbox class="elems">
@@ -23,15 +31,21 @@ export default {
             center
             v-for="key in tile.occupied"
             :key="key"
-            :class="['elem', 'elem' + key]"
-          />
+            :class="['elem']"
+          >
+            <game-icon
+              :name="tile.name"
+              :color="TileIconColorMap[key]"
+              size="sm"
+            />
+          </flexbox>
         </flexbox>
 
         <flexbox class="players">
           <div
             v-for="key in tile.players"
             :key="key"
-            :class="['player', 'player' + key]"
+            :class="['player', 'player-' + key]"
           />
         </flexbox>
       </div>
@@ -40,6 +54,29 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+
+@mixin generate-player-colors($colors) {
+  @each $color, $name in $colors {
+    .player-#{$name} { background-color: $color; }
+  }
+}
+
+$colors: (
+  #f34: "1",
+  #f73: "2",
+  #fd4: "3",
+  #9d1: "4",
+  #4a2: "5",
+  #1ce: "6",
+  #37f: "7",
+  #13e: "8",
+  #a4f: "9",
+  #f4c: "10",
+);
+
+.map {
+  margin: 0 4px;
+}
 .tiles {
   flex-wrap: wrap;
   gap: 5px;
@@ -64,7 +101,7 @@ export default {
     z-index: -1;
   }
 
-  &1000 {
+  &-1000 {
     &::before {
       width: 80%;
       left: 10%;
@@ -74,7 +111,7 @@ export default {
     }
   }
 
-  &0200 {
+  &-0200 {
     &::before {
       height: 80%;
       top: 10%;
@@ -85,7 +122,7 @@ export default {
     }
   }
 
-  &0030 {
+  &-0030 {
     &::before {
       width: 80%;
       top: 10%;
@@ -96,7 +133,7 @@ export default {
     }
   }
 
-  &0004 {
+  &-0004 {
     &::before {
       height: 80%;
       top: 10%;
@@ -106,7 +143,7 @@ export default {
     }
   }
 
-  &1200 {
+  &-1200 {
     &::before {
       width: 80%;
       left: 10%;
@@ -118,7 +155,7 @@ export default {
     }
   }
 
-  &0230 {
+  &-0230 {
     &::before {
       height: 80%;
       top: 10%;
@@ -131,7 +168,7 @@ export default {
     }
   }
 
-  &0034 {
+  &-0034 {
     &::before {
       height: 80%;
       top: 10%;
@@ -143,7 +180,7 @@ export default {
     }
   }
 
-  &1004 {
+  &-1004 {
     &::before {
       width: 80%;
       left: 10%;
@@ -154,7 +191,7 @@ export default {
     }
   }
 
-  &0204 {
+  &-0204 {
     &::before {
       width: 100%;
       height: 80%;
@@ -165,7 +202,7 @@ export default {
     }
   }
 
-  &1030 {
+  &-1030 {
     &::before {
       width: 80%;
       height: 100%;
@@ -178,66 +215,31 @@ export default {
 }
 .elems {
   justify-content: space-between;
-  margin: 7px 8px 0;
+  margin: 11px 11px 0;
 }
 .elem {
+  background-color: rgba(255, 255, 255, .6);
+  box-shadow: 0 0 2px #666;
+  border-radius: 22px;
   display: flex;
-  width: 29px;
-  height: 28px;
-
-  &::after {
-    font-size: 32px;
-    color: #999;
-    display: inline-block;
-  }
-
-  @at-root .tile1 &::after {
-    content: "\2660";
-  }
-
-  @at-root .tile2 &::after {
-    content: "\2663";
-  }
-
-  @at-root .tile3 &::after {
-    content: "\2666";
-  }
-
-  &1::after {
-    color: #f00;
-  }
-
-  &2::after {
-    color: #0f0;
-  }
-
-  &3::after {
-    color: #00f;
-  }
+  width: 22px;
+  height: 22px;
 }
 .players {
   flex: 1;
   align-items: flex-start;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 4px;
-  margin: 4px 12px 11px;
+  gap: 2px 4px;
+  margin: 6px 9px 7px;
 }
 .player {
-  border-radius: 10px;
-  width: 8px;
-  height: 8px;
-
-  &1 {
-    background-color: #f00;
-  }
-
-  &2 {
-    background-color: #0f0;
-  }
-
-  &3 {
-    background-color: #00f;
-  }
+  box-shadow: 0 0 1px 1px #fff;
+  border-radius: 7px;
+  width: 7px;
+  height: 7px;
 }
+
+@include generate-player-colors($colors);
+
 </style>
