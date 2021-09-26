@@ -1,7 +1,11 @@
+@import './mixins/mask';
+@import './mixins/shape';
+
 @import './heading.scss';
 @import './button.scss';
 @import './form.scss';
 @import './flexbox.scss';
+@import './game-icons.scss';
 
 * {
   box-sizing: border-box;

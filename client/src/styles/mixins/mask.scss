@@ -1,0 +1,15 @@
+
+@mixin mask-image($url) {
+  -webkit-mask-image: url($url);
+  mask-image: url($url);
+}
+
+@mixin mask-repeat($val) {
+  -webkit-mask-repeat: $val;
+  mask-repeat: $val;
+}
+
+@mixin mask-size($val) {
+  -webkit-mask-size: $val;
+  mask-size: $val;
+}

@@ -1,0 +1,160 @@
+
+@mixin generate-icons($names) {
+  @each $name in $names {
+    .game-icon-#{$name} {
+      @include mask-image("../assets/game/icons/#{$name}.svg");
+    }
+  }
+}
+
+@mixin generate-icon-colors($colors) {
+  @each $color, $name in $colors {
+    .game-icon-color-#{$name} {
+      background-color: $color;
+    }
+  }
+}
+
+@mixin generate-icon-sizes($sizes) {
+  @each $size, $name in $sizes {
+    .game-icon-#{$name} {
+      width: $size * 1px;
+      height: $size * 1px;
+    }
+  }
+}
+
+@mixin generate-icon-rarities($rarities) {
+  @each $color, $name in $rarities {
+    .game-icon-rarity-#{$name} {
+      box-shadow: inset 0 0 8px $color, inset 0 0 4px $color;
+    }
+  }
+}
+
+@mixin generate-icons-spacing($name, $size) {
+  .game-icons-#{$name} {
+    padding: $size * 1px;
+
+    .game-icon-square,
+    .game-icon-circle {
+      margin: $size * 1px;
+    }
+  }
+}
+
+$names: (
+  "drop",
+  "electric",
+  "flamer",
+  "three-leaves",
+);
+
+$colors: (
+  #111: "black",
+  #666: "gray",
+  #eee: "white",
+  #f54: "red",
+  #f73: "volcano",
+  #fa4: "orange",
+  #fd4: "yellow",
+  #9d1: "lime",
+  #5b2: "green",
+  #1bb: "turquoise",
+  #49f: "cyan",
+  #25f: "navy",
+  #a4f: "purple",
+  #f6a: "magenta",
+  #b28: "berry",
+  #fe3: "golden",
+  #ccc: "silver",
+  #c73: "bronze",
+);
+
+$square-sizes: (
+  20: "sm",
+  30: "md",
+  40: "lg",
+  50: "xlg",
+);
+
+$circle-sizes: (
+  16: "sm",
+  26: "md",
+  36: "lg",
+  46: "xlg",
+);
+
+$rarities: (
+  #666: 1,
+  #eee: 2,
+  #49f: 3,
+  #5b2: 4,
+  #fd4: 5,
+  #fa4: 6,
+  #f54: 7,
+);
+
+.game-icon-item {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+}
+
+.game-icon-bordered {
+  border: 1px solid #999;
+
+  &.game-icon-square {
+    padding: 4px;
+  }
+
+  &.game-icon-circle {
+    padding: 6px;
+  }
+}
+
+.game-icon-hover {
+  cursor: pointer;
+  opacity: .7;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.game-icon-circle {
+  border-radius: 50%;
+}
+
+.game-icon-selected {
+  border-color: #3cc;
+}
+
+.game-icon-active {
+  border-color: #cc0;
+}
+
+.game-icon-disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+.game-icon {
+  @include mask-repeat(no-repeat);
+  @include mask-size(contain);
+  display: block;
+}
+
+@include generate-icons($names);
+@include generate-icon-colors($colors);
+@include generate-icon-rarities($rarities);
+@include generate-icons-spacing(compact, 2);
+@include generate-icons-spacing(loose, 4);
+
+.game-icon-square {
+  @include generate-icon-sizes($square-sizes);
+}
+
+.game-icon-circle {
+  @include generate-icon-sizes($circle-sizes);
+}

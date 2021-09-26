@@ -1,0 +1,20 @@
+
+@mixin square($size) {
+  display: inline-block;
+  width: $size * 1px;
+  height: $size * 1px;
+}
+
+@mixin rounded-square($size) {
+  border-radius: 4px;
+  display: inline-block;
+  width: $size * 1px;
+  height: $size * 1px;
+}
+
+@mixin circle($size) {
+  border-radius: 50%;
+  display: inline-block;
+  width: $size * 1px;
+  height: $size * 1px;
+}
