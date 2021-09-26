@@ -22,8 +22,8 @@ export default {
 </script>
 
 <template>
-  <section v-if="auth.isLoggedIn && room.isJoined && game.isReady">
-    <h2>My Game ({{ game.current.round }})</h2>
+  <section v-if="auth.isLoggedIn && room.isJoined && game.isReady" class="game">
+    <h2 class="round">Round {{ game.current.round }}</h2>
     <GameMyStatus />
     <Flexbox class="align-items-start">
       <Players :list="room.current.players" />
@@ -34,3 +34,38 @@ export default {
   </section>
   <Flexbox v-else fullscreen><Loader /></Flexbox>
 </template>
+
+<style lang="scss" scoped>
+.game {
+  position: relative;
+}
+.round {
+  font-size: 24px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  height: 32px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  &::before,
+  &::after {
+    background: #666;
+    content: "";
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+  }
+
+  &::before {
+    transform: skewX(20deg) translateX(-15px);
+  }
+
+  &::after {
+    transform: skewX(-20deg) translateX(15px);
+  }
+}
+</style>
