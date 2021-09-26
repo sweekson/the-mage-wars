@@ -230,8 +230,8 @@ $colors: (
   align-items: flex-start;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 2px 4px;
-  margin: 6px 9px 7px;
+  gap: 1px 3px;
+  margin: 6px 11px 8px;
 }
 .player {
   box-shadow: 0 0 1px 1px #fff;
