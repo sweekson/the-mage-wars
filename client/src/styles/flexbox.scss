@@ -25,6 +25,10 @@
   align-items: flex-start;
 }
 
+.align-items-end {
+  align-items: flex-end;
+}
+
 .flex {
   &-1 {
     flex: 1;
