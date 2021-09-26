@@ -26,7 +26,7 @@ export default {
     <h2 class="round">Round {{ game.current.round }}</h2>
     <game-my-status />
     <flexbox class="align-items-start">
-      <players :list="room.current.players" />
+      <players :list="room.current.players" class="players" />
       <game-tiles class="flex-1" />
       <game-actions />
     </flexbox>
@@ -67,5 +67,8 @@ export default {
   &::after {
     transform: skewX(-20deg) translateX(15px);
   }
+}
+.players {
+  width: 120px;
 }
 </style>
