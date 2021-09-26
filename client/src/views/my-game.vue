@@ -36,7 +36,7 @@ export default {
       </n-layout-header>
 
       <n-layout has-sider>
-        <n-layout-sider width="120" content-style="margin-right: 4px;" class="players dark">
+        <n-layout-sider width="120" content-style="padding-right: 4px;" class="players dark">
           <players :list="room.current.players" />
         </n-layout-sider>
 
