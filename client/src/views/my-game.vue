@@ -6,6 +6,7 @@ import GameMyStatus from '@components/game-my-status.vue';
 import GameTiles from '@components/game-tiles.vue';
 import GameDialog from '@components/game-dialog.vue';
 import GameActions from '@components/game-actions.vue';
+import GameTileDetail from '@components/game-tile-detail.vue';
 import Flexbox from '@components/flexbox';
 import Loader from '@components/loader';
 
@@ -21,6 +22,7 @@ export default {
     GameTiles,
     GameDialog,
     GameActions,
+    GameTileDetail,
     Flexbox,
     Loader,
   },
@@ -43,7 +45,10 @@ export default {
         <n-layout-content class="dark">
           <flexbox class="align-items-start">
             <game-tiles class="flex-1" @selected="tile => map.onSelect(tile)" />
-            <game-actions />
+            <flexbox column class="align-items-end">
+              <game-tile-detail :data="map.selected" />
+              <game-actions />
+            </flexbox>
           </flexbox>
           <game-dialog />
         </n-layout-content>
