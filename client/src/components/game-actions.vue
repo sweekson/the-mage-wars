@@ -16,7 +16,7 @@ export default {
       :disabled="!game.action.isPrayable"
       class="btn btn-block btn-skew"
       type="button"
-      data-text="Pray"
+      data-text="Roll Dice"
       @click="game.action.onPray"
     />
 

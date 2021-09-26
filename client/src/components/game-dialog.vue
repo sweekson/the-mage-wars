@@ -24,7 +24,7 @@ export default {
     <n-dialog
       v-if="game.status.isPray && !game.status.isCollected"
       type="success"
-      title="Pray"
+      title="Roll Dice"
       positive-text="Collect"
       :closable="false"
       :show-icon="false"
@@ -34,7 +34,7 @@ export default {
     <n-dialog
       v-if="game.status.isExchange && game.action.isMine"
       title="Exchange"
-      positive-text="Accept"
+      positive-text="Confirm"
       negative-text="Cancel"
       :closable="false"
       :show-icon="false"
