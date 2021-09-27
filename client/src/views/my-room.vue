@@ -1,4 +1,6 @@
 <script>
+import { NSpace, NButton } from 'naive-ui';
+
 import Players from '@components/players.vue';
 import Flexbox from '@components/flexbox';
 import Loader from '@components/loader';
@@ -6,6 +8,8 @@ import Loader from '@components/loader';
 export default {
   inject: ['auth', 'room', 'game'],
   components: {
+    NSpace,
+    NButton,
     Players,
     Flexbox,
     Loader,
@@ -16,24 +20,24 @@ export default {
 <template>
   <section v-if="auth.isLoggedIn && room.isJoined && !game.isReady">
     <h2>{{ room.current.name }}</h2>
-    <form>
-      <button
+    <n-space>
+      <n-button
         v-if="room.isAdmin"
-        v-html="$t('common.start')"
+        type="primary"
         :disabled="!room.status.isReady || room.status.isStarting"
-        class="btn"
-        type="button"
         @click="room.onStart"
       >
-      </button>
-      <button
-        v-html="$t('common.leave')"
-        class="btn"
-        type="button"
+        {{ $t('common.start') }}
+      </n-button>
+
+      <n-button
+        type="warning"
         :disabled="room.status.isStarting"
         @click="room.onLeave"
-      />
-    </form>
+      >
+        {{ $t('common.leave') }}
+      </n-button>
+    </n-space>
     <h3>Players</h3>
     <players :list="room.current.players" />
   </section>
