@@ -32,10 +32,11 @@ export default {
 
 <style lang="scss" scoped>
 .player {
-  background-color: #f6f6f6;
+  background-color: #444;
   border: 1px solid #999;
   border-radius: 2px;
   font-size: 14px;
+  color: #eee;
   width: 100%;
   padding: 4px;
 }
