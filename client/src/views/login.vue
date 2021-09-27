@@ -26,8 +26,8 @@ export default {
     <n-space vertical justify="start" class="login-form" @keyup.enter="auth.onLogin">
       <h1 class="login-form-header">{{ $t('common.login') }}</h1>
 
-      <n-input v-model:value="auth.email" type="text" />
-      <n-input v-model:value="auth.password" type="password" />
+      <n-input v-model:value="auth.email" type="text" placeholder="Email address" />
+      <n-input v-model:value="auth.password" type="password" placeholder="Password" />
 
       <n-button
         type="primary"
