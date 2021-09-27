@@ -1,7 +1,7 @@
 <script>
 import { reactive, provide } from 'vue';
 import { useRouter } from 'vue-router';
-import { NConfigProvider, darkTheme } from 'naive-ui';
+import { NConfigProvider, NGlobalStyle, NMessageProvider, darkTheme } from 'naive-ui';
 
 import Navbar from '@components/navbar.vue';
 import Logs from '@components/logs.vue';
@@ -17,6 +17,8 @@ export default {
   name: 'App',
   components: {
     NConfigProvider,
+    NGlobalStyle,
+    NMessageProvider,
     Navbar,
     Logs,
   },
@@ -54,12 +56,15 @@ export default {
 
 <template>
   <n-config-provider :theme="theme" class="provider">
-    <router-view v-if="!auth.isLoggedIn" />
-    <navbar v-if="auth.isLoggedIn" />
-    <main v-if="auth.isLoggedIn" class="flexbox">
-      <router-view class="flex-1" />
-      <logs />
-    </main>
+    <n-global-style />
+    <n-message-provider>
+      <router-view v-if="!auth.isLoggedIn" />
+      <navbar v-if="auth.isLoggedIn" />
+      <main v-if="auth.isLoggedIn" class="flexbox">
+        <router-view class="flex-1" />
+        <logs />
+      </main>
+    </n-message-provider>
   </n-config-provider>
 </template>
 
