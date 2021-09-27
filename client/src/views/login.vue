@@ -32,6 +32,7 @@ export default {
       <n-button
         type="primary"
         block
+        :disabled="!auth.email || !auth.password"
         @click="auth.onLogin"
       >
         {{ $t('common.login') }}
