@@ -1,6 +1,11 @@
 <script>
+import { NButton } from 'naive-ui';
+
 export default {
   inject: ['auth'],
+  components: {
+    NButton,
+  },
   computed: {
     langs() {
       return [
@@ -27,12 +32,9 @@ export default {
       />
     </template>
 
-    <button
-      v-html="$t('common.logout')"
-      class="btn"
-      type="button"
-      @click="auth.onLogout"
-    />
+    <n-button size="tiny" @click="auth.onLogout">
+      {{ $t('common.logout') }}
+    </n-button>
   </nav>
 </template>
 
