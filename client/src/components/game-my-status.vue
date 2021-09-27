@@ -21,7 +21,7 @@ export default {
     <n-grid-item>
       <hexagon height="60">
         <flexbox column>
-          <h6 class="team-title">Team</h6>
+          <h6 class="team-title">Camp</h6>
           <span class="team-number">{{ game.me.team }}</span>
         </flexbox>
       </hexagon>
