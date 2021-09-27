@@ -1,33 +1,52 @@
 <script>
-import Flexbox from '@components/flexbox.vue';
+import { NSpace, NInput, NButton } from 'naive-ui';
 
 export default {
   inject: ['auth'],
   components: {
-    Flexbox,
+    NSpace,
+    NInput,
+    NButton,
   },
 }
 </script>
 
 <template>
-  <flexbox full>
-    <form class="flexbox-column" @keyup.enter="auth.onLogin">
-      <h2 v-html="$t('common.signup')"></h2>
-      <input v-model="auth.email" type="text" />
-      <input v-model="auth.name" type="text" />
-      <input v-model="auth.password" type="password" />
-      <button
-        v-html="$t('common.signup')"
-        class="btn btn-block"
-        type="button"
+  <n-space align="start" justify="center" class="fullscreen">
+    <n-space vertical justify="start" class="signup-form" @keyup.enter="auth.onSignup">
+      <h1 class="signup-form-header">{{ $t('common.signup') }}</h1>
+
+      <n-input v-model:value="auth.email" type="text" placeholder="Email address"  />
+      <n-input v-model:value="auth.name" type="text" placeholder="Display name" />
+      <n-input v-model:value="auth.password" type="password" placeholder="Password" />
+
+      <n-button
+        type="primary"
+        block
         @click="auth.onSignup"
-      />
-      <button
-        v-html="$t('common.back')"
-        class="btn btn-block"
-        type="button"
+      >
+        {{ $t('common.signup') }}
+      </n-button>
+
+      <n-button
+        block
         @click="$router.push('/')"
-      />
-    </form>
-  </flexbox>
+      >
+        {{ $t('common.back') }}
+      </n-button>
+    </n-space>
+  </n-space>
 </template>
+
+<style lang="scss" scoped>
+.signup-form {
+  border: 1px solid #666;
+  border-radius: 4px;
+  width: 300px;
+  margin-top: 140px;
+  padding: 24px 16px;
+}
+.signup-form-header {
+  text-align: center;
+}
+</style>
