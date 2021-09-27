@@ -25,7 +25,7 @@ export const useAuth = ({ client, logger }) => {
         });
       }
     } catch (error) {
-      if (error.code === 401) return;
+      if (error.code === 401) return emitter.emit('unauthenticated');
       console.error(error);
     }
   };
