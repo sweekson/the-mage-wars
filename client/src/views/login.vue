@@ -1,32 +1,51 @@
 <script>
-import Flexbox from '@components/flexbox.vue';
+import { NSpace, NInput, NButton } from 'naive-ui';
 
 export default {
   inject: ['auth'],
   components: {
-    Flexbox,
+    NSpace,
+    NInput,
+    NButton,
   },
 }
 </script>
 
 <template>
-  <flexbox full>
-    <form class="flexbox-column" @keyup.enter="auth.onLogin">
-      <h2 v-html="$t('common.login')"></h2>
-      <input v-model="auth.email" type="text" />
-      <input v-model="auth.password" type="password" />
-      <button
-        v-html="$t('common.login')"
-        class="btn btn-block"
-        type="button"
+  <n-space align="start" justify="center" class="fullscreen">
+    <n-space vertical justify="start" class="login-form" @keyup.enter="auth.onLogin">
+      <h1 class="login-form-header">{{ $t('common.login') }}</h1>
+
+      <n-input v-model:value="auth.email" type="text" />
+      <n-input v-model:value="auth.password" type="password" />
+
+      <n-button
+        type="primary"
+        block
         @click="auth.onLogin"
-      />
-      <button
-        v-html="$t('common.back')"
-        class="btn btn-block"
-        type="button"
+      >
+        {{ $t('common.login') }}
+      </n-button>
+
+      <n-button
+        block
         @click="$router.push('/')"
-      />
-    </form>
-  </flexbox>
+      >
+        {{ $t('common.back') }}
+      </n-button>
+    </n-space>
+  </n-space>
 </template>
+
+<style lang="scss" scoped>
+.login-form {
+  border: 1px solid #666;
+  border-radius: 4px;
+  width: 300px;
+  margin-top: 140px;
+  padding: 24px 16px;
+}
+.login-form-header {
+  text-align: center;
+}
+</style>
