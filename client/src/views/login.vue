@@ -1,5 +1,6 @@
 <script>
-import { NSpace, NInput, NButton } from 'naive-ui';
+import { inject } from 'vue';
+import { NSpace, NInput, NButton, useMessage } from 'naive-ui';
 
 export default {
   inject: ['auth'],
@@ -7,6 +8,15 @@ export default {
     NSpace,
     NInput,
     NButton,
+  },
+  setup() {
+    const auth = inject('auth');
+    const message = useMessage();
+
+    auth.on(
+      'unauthenticated',
+      () => message.error('Incorrect email address or password.'),
+    );
   },
 }
 </script>
