@@ -41,6 +41,10 @@ export default {
 
     auth.on('login', () => router.push('/lobby'));
     auth.on('logout', () => router.push('/'));
+    auth.on('unauthenticated', () => {
+      if (['#/signup', '#/login'].includes(location.hash)) return;
+      router.push('/');
+    });
     room.on('joined', () => router.push('/room'));
     room.on('started', () => router.push('/game'));
     room.on('left', () => router.push('/lobby'));
