@@ -39,7 +39,6 @@ export default {
   position: absolute;
   left: calc(var(--height) * 0.307);
   transform-origin: center;
-  box-sizing: border-box;
 }
 .hexagon div:nth-of-type(1) {
   display: flex;
