@@ -4,6 +4,7 @@ import { NSpace, NButton } from 'naive-ui';
 import Players from '@components/players.vue';
 import Flexbox from '@components/flexbox';
 import Loader from '@components/loader';
+import GameCountdown from '@components/game-countdown';
 
 export default {
   inject: ['auth', 'room', 'game'],
@@ -13,6 +14,7 @@ export default {
     Players,
     Flexbox,
     Loader,
+    GameCountdown,
   },
 }
 </script>
@@ -40,6 +42,7 @@ export default {
     </n-space>
     <h3>Players</h3>
     <players :list="room.current.players" />
+    <game-countdown />
   </section>
   <flexbox v-else fullscreen><loader /></flexbox>
 </template>
