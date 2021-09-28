@@ -1,5 +1,5 @@
 <script>
-import { NLayout, NLayoutHeader, NLayoutSider, NLayoutContent } from 'naive-ui';
+import { NSpace, NLayout, NLayoutHeader, NLayoutContent, NGrid, NGridItem } from 'naive-ui';
 
 import Players from '@components/players.vue';
 import GameMyStatus from '@components/game-my-status.vue';
@@ -13,10 +13,12 @@ import Loader from '@components/loader';
 export default {
   inject: ['auth', 'room', 'game', 'map'],
   components: {
+    NSpace,
     NLayout,
     NLayoutHeader,
-    NLayoutSider,
     NLayoutContent,
+    NGrid,
+    NGridItem,
     Players,
     GameMyStatus,
     GameTiles,
@@ -37,19 +39,25 @@ export default {
         <h2 class="round">Round {{ game.current.round }}</h2>
       </n-layout-header>
 
-      <n-layout has-sider>
-        <n-layout-sider width="120" content-style="padding-right: 4px;" class="dark">
-          <players :list="room.current.players" />
-        </n-layout-sider>
-
+      <n-layout>
         <n-layout-content class="dark">
-          <flexbox class="align-items-start">
-            <game-tiles class="flex-1" @selected="tile => map.onSelect(tile)" />
-            <flexbox column class="align-items-end">
-              <game-tile-detail :data="map.selected" />
+          <n-grid :y-gap="16" responsive="self">
+            <n-grid-item span="4 m:3 l:2">
+              <players :list="room.current.players" />
+            </n-grid-item>
+
+            <n-grid-item span="15 m:17 l:19">
+              <n-space align="center" justify="center">
+                <game-tiles @selected="tile => map.onSelect(tile)" />
+              </n-space>
+            </n-grid-item>
+
+            <n-grid-item span="4 m:3 l:2" offset="1">
               <game-actions />
-            </flexbox>
-          </flexbox>
+            </n-grid-item>
+          </n-grid>
+
+          <game-tile-detail :data="map.selected" />
           <game-dialog />
         </n-layout-content>
       </n-layout>
