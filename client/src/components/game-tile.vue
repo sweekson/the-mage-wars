@@ -53,7 +53,7 @@ export default {
         <game-icon
           :name="data.name"
           :color="TileIconColorMap[uid]"
-          :size="size ==='md' ? 'sm' : 'lg'"
+          :size="size ==='md' ? 'sm' : (size ==='lg' ? 'md' : 'lg')"
         />
       </flexbox>
     </flexbox>
@@ -106,6 +106,11 @@ $colors: (
   }
 
   &-lg {
+    --size: 108px;
+    --gap: 6px;
+  }
+
+  &-xl {
     --size: 144px;
     --gap: 8px;
   }
