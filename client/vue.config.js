@@ -12,6 +12,7 @@ module.exports = {
       .set('@models', path.resolve('./src/models'))
       .set('@components', path.resolve('./src/components'))
       .set('@composables', path.resolve('./src/composables'))
+      .set('@directives', path.resolve('./src/directives'))
       .set('@utils', path.resolve('./src/utils'));
   },
   css: {
