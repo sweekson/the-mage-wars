@@ -92,7 +92,9 @@ $colors: (
 .tile {
   --span: calc(var(--size) * 0.1);
 
-  border: 1px solid #666;
+  background-color: $color-mist-100;
+  border: 1px solid $color-mist-200;
+  border-radius: 2px;
   display: flex;
   flex-direction: column;
   width: var(--size);

@@ -1,9 +1,22 @@
 /* Background Colors */
 $color: #222;
 
+$color-reverse: #fff;
+
+$color-mist-100: rgba(255, 255, 255, .25);
+$color-mist-200: rgba(255, 255, 255, .5);
+$color-mist-300: rgba(255, 255, 255, .75);
+
+$color-dusk-100: rgba(0, 0, 0, .25);
+$color-dusk-200: rgba(0, 0, 0, .5);
+$color-dusk-300: rgba(0, 0, 0, .75);
+
 /* Text Colors */
 $text-color: #eee;
 
+$text-color-reverse: #222;
+
+/* Grid */
 $screen-breakpoints: (
   xs: 0,
   sm: 576px,

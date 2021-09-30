@@ -30,7 +30,7 @@ export default {
         <span class="room-players">{{ item.players.length }}</span>
         <span class="room-admin flex-1">{{ item.admin.name }}</span>
         <n-button
-          size="tiny"
+          size="small"
           :disabled="!item.isOpen"
           @click="room.onJoin(item.id)"
         >
@@ -43,9 +43,10 @@ export default {
 
 <style lang="scss" scoped>
 .room {
-  background-color: #555;
-  border: 1px solid #ccc;
+  background-color: $color-mist-100;
+  border: 1px solid $color-mist-200;
   border-radius: 2px;
+  padding: 12px 10px 8px;
 
   &:hover {
     border-color: #63e2b7;
@@ -53,19 +54,19 @@ export default {
 }
 .room-heading {
   width: 100%;
-  height: 20px;
 }
 .room-title {
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 200;
+  line-height: 1.2em;
   color: #fff;
-  padding: 4px 8px;
 }
 .room-toolbar {
   font-size: 14px;
   color: #ccc;
   justify-content: flex-start;
   width: 100%;
-  padding: 4px 8px;
+  margin-top: 4px;
 }
 .room-status:first-letter {
   text-transform: uppercase;

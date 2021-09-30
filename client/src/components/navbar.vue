@@ -38,13 +38,16 @@ export default {
   </nav>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 nav {
-  background-color: #444;
+  background-color: $color;
+  box-shadow: 0 2px 4px #000, inset 0 2px 4px #000;
   color: #eee;
   width: 100%;
   height: 30px;
   padding: 4px;
+  position: relative;
+  z-index: 1;
 }
 .lang {
   background-color: transparent;

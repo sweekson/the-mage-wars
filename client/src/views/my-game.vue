@@ -76,7 +76,7 @@ export default {
 }
 .round {
   font-size: 24px;
-  color: #fff;
+  color: $text-color-reverse;
   display: flex;
   align-items: center;
   height: 32px;
@@ -84,11 +84,12 @@ export default {
   position: absolute;
   top: 0;
   left: 50%;
+  opacity: .5;
   transform: translateX(-50%);
 
   &::before,
   &::after {
-    background: #666;
+    background-color: $color-reverse;
     content: "";
     display: inline-block;
     width: 100%;

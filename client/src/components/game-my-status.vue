@@ -19,10 +19,10 @@ export default {
 <template>
   <n-grid cols="7 720:10 960:12 1200:14 1440:16" :x-gap="4">
     <n-grid-item>
-      <hexagon height="60">
+      <hexagon height="60" color="#eee">
         <flexbox column>
-          <h6 class="team-title">Camp</h6>
-          <span class="team-number">{{ game.me.team }}</span>
+          <h6 class="camp-title">Camp</h6>
+          <span class="camp-number">{{ game.me.team }}</span>
         </flexbox>
       </hexagon>
     </n-grid-item>
@@ -38,14 +38,16 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.team-title {
+.camp-title {
   font-size: 13px;
   font-weight: 500;
-  color: #999;
+  line-height: 1em;
+  color: #444;
 }
-.team-number {
+.camp-number {
   font-size: 32px;
   font-weight: 400;
-  line-height: 32px;
+  line-height: 1em;
+  color: #222;
 }
 </style>

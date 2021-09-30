@@ -3,6 +3,8 @@
   background-color: #e3e3e3;
   border: 1px solid #999;
   border-radius: 2px;
+  font-family: v-sans, system-ui;
+  font-weight: 300;
   color: #333;
 
   &:hover {
@@ -15,6 +17,12 @@
     border: 1px solid #ccc;
     color: #aaa;
     pointer-events: none;
+  }
+
+  &-lg {
+    font-size: 16px;
+    line-height: 1em;
+    padding: 8px 12px;
   }
 
   + .btn {
@@ -41,5 +49,25 @@
     content: attr(data-text);
     display: inline-block;
     transform: skew(20deg);
+  }
+
+  &.btn-lg {
+    transform: skew(-20deg) translateX(-8px);
+  }
+}
+
+.btn-mist {
+  background-color: $color-mist-200;
+  border-color: $color-mist-300;
+  color: #222;
+
+  &:hover {
+    background-color: $color-mist-300;
+  }
+
+  &:disabled,
+  &.disabled {
+    border-color: $color-mist-200;
+    color: #666;
   }
 }

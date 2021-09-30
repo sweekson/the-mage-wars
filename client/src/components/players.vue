@@ -32,12 +32,12 @@ export default {
 
 <style lang="scss" scoped>
 .player {
-  background-color: #444;
-  border: 1px solid #999;
+  background-color: $color-dusk-200;
+  border: 1px solid $color-dusk-300;
   border-radius: 2px;
   font-size: 14px;
   color: #eee;
   width: 100%;
-  padding: 4px;
+  padding: 4px 8px;
 }
 </style>

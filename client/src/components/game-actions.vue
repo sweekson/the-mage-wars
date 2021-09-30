@@ -14,7 +14,7 @@ export default {
   <section>
     <button
       :disabled="!game.action.isPrayable"
-      class="btn btn-block btn-skew"
+      class="btn btn-lg btn-block btn-skew btn-mist"
       type="button"
       data-text="Roll Dice"
       @click="game.action.onPray"
@@ -22,7 +22,7 @@ export default {
 
     <button
       :disabled="!game.action.isExchangeable"
-      class="btn btn-block btn-skew"
+      class="btn btn-lg btn-block btn-skew btn-mist"
       type="button"
       data-text="Exchange"
       @click="game.action.onExchange"
@@ -30,7 +30,7 @@ export default {
 
     <button
       :disabled="!game.action.isCastable"
-      class="btn btn-block btn-skew"
+      class="btn btn-lg btn-block btn-skew btn-mist"
       type="button"
       :data-text="`Cast Spells (${game.me.actions})`"
       @click="game.action.onCast"
@@ -38,14 +38,14 @@ export default {
 
     <button
       :disabled="!game.action.isPassable"
-      class="btn btn-block btn-skew"
+      class="btn btn-lg btn-block btn-skew btn-mist"
       type="button"
       data-text="Pass"
       @click="game.action.onPass"
     />
 
     <button
-      class="btn btn-block btn-skew"
+      class="btn btn-lg btn-block btn-skew btn-mist"
       type="button"
       data-text="Leave"
       @click="room.isLeaving = true"
