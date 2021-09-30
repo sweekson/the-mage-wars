@@ -1,5 +1,5 @@
 <script>
-import { reactive, provide } from 'vue';
+import { reactive, computed, provide } from 'vue';
 import { useRouter } from 'vue-router';
 import { NConfigProvider, NGlobalStyle, NMessageProvider, darkTheme } from 'naive-ui';
 
@@ -31,6 +31,7 @@ export default {
     const room = reactive(useRoom({ client, logger, auth }));
     const game = reactive(useGame({ client, logger, auth, room }));
     const map = reactive(useGameMap({ client, logger, auth, room, game }));
+    const hash = computed(() => location.hash.slice(2));
 
     provide('logger', logger);
     provide('client', client);
@@ -53,6 +54,7 @@ export default {
     return {
       auth,
       theme: darkTheme,
+      hash,
     };
   },
 };
@@ -64,19 +66,28 @@ export default {
     <n-message-provider>
       <router-view v-if="!auth.isLoggedIn" />
       <navbar v-if="auth.isLoggedIn" />
-      <main v-if="auth.isLoggedIn" class="flexbox">
-        <router-view class="flex-1" />
+      <main v-if="auth.isLoggedIn" :class="['flexbox', hash]">
+        <router-view class="router-view flex-1" />
         <logs />
       </main>
     </n-message-provider>
   </n-config-provider>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .provider{
   height: 100%;
 }
 main {
+  background-position: center;
+  background-size: cover;
   height: calc(100% - 30px);
+
+  &.lobby {
+    background-image: url('~@/assets/backgrounds/magic-doors.jpeg');
+  }
+}
+.router-view {
+  backdrop-filter: blur(2px) brightness(80%);
 }
 </style>
