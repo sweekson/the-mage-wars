@@ -85,6 +85,8 @@ main {
   background-position: center;
   background-size: cover;
   height: calc(100% - 30px);
+  position: relative;
+  z-index: 0;
 
   &.lobby {
     background-image: url('~@/assets/backgrounds/magic-doors.jpeg');
@@ -97,8 +99,16 @@ main {
   &.game {
     background-image: url('~@/assets/backgrounds/tree.jpeg');
   }
-}
-.router-view {
-  backdrop-filter: blur(2px) brightness(80%);
+
+  &::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(2px) brightness(80%);
+  }
 }
 </style>
