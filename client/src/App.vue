@@ -89,6 +89,14 @@ main {
   &.lobby {
     background-image: url('~@/assets/backgrounds/magic-doors.jpeg');
   }
+
+  &.room {
+    background-image: url('~@/assets/backgrounds/bridge-and-mountain.jpeg');
+  }
+
+  &.game {
+    background-image: url('~@/assets/backgrounds/tree.jpeg');
+  }
 }
 .router-view {
   backdrop-filter: blur(2px) brightness(80%);
