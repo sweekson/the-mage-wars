@@ -1,7 +1,8 @@
 <script>
 import { reactive } from 'vue';
 import { NIcon } from 'naive-ui';
-import { KeyboardArrowDownOutlined, KeyboardArrowUpOutlined } from '@vicons/material';
+import KeyboardArrowDownOutlined from '@vicons/material/KeyboardArrowDownOutlined';
+import KeyboardArrowUpOutlined from '@vicons/material/KeyboardArrowUpOutlined';
 
 import Flexbox from '@components/flexbox.vue';
 import GameTile from '@components/game-tile.vue';
