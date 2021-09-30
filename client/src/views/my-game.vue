@@ -33,14 +33,14 @@ export default {
 
 <template>
   <section v-if="auth.isLoggedIn && room.isJoined && game.isReady">
-    <n-layout content-style="padding: 8px 8px;" class="game dark">
-      <n-layout-header class="header dark">
+    <n-layout content-style="padding: 8px 8px;" class="game transparent">
+      <n-layout-header class="header transparent">
         <game-my-status />
         <h2 class="round">Round {{ game.current.round }}</h2>
       </n-layout-header>
 
-      <n-layout>
-        <n-layout-content class="dark">
+      <n-layout class="transparent">
+        <n-layout-content class="transparent">
           <n-grid :y-gap="16" responsive="self">
             <n-grid-item span="4 m:3 l:2">
               <players :list="room.current.players" />
@@ -67,8 +67,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.dark {
-  --color: #222 !important;
+.transparent {
+  --color: transparent !important;
 }
 .game {
   height: calc(100vh - 30px);
