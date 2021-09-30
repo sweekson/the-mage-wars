@@ -64,8 +64,8 @@ export default {
 
 <style lang="scss" scoped>
 .tile-detail {
-  background-color: #444;
-  border: 1px solid #666;
+  background-color: $color-dusk-200;
+  border: 1px solid $color-dusk-300;
   border-radius: 2px;
   width: 200px;
   position: fixed;
@@ -86,7 +86,7 @@ export default {
   }
 
   &-title {
-    background-color: #333;
+    background-color: $color-dusk-200;
     border-radius: 2px;
     cursor: move;
     font-size: 14px;
