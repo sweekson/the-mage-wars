@@ -1,6 +1,6 @@
 <script>
-import { reactive, computed, provide } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, reactive, watch, provide } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { NConfigProvider, NGlobalStyle, NMessageProvider, darkTheme } from 'naive-ui';
 
 import Navbar from '@components/navbar.vue';
@@ -26,12 +26,13 @@ export default {
     const env = useEnv();
     const logger = reactive(useLogger());
     const router = useRouter();
+    const route = useRoute();
     const { client } = useFeathers({ host: env.get('SOCKET_HOST') });
     const auth = reactive(useAuth({ client, logger }));
     const room = reactive(useRoom({ client, logger, auth }));
     const game = reactive(useGame({ client, logger, auth, room }));
     const map = reactive(useGameMap({ client, logger, auth, room, game }));
-    const hash = computed(() => location.hash.slice(2));
+    const page = ref(null);
 
     provide('logger', logger);
     provide('client', client);
@@ -51,10 +52,12 @@ export default {
     room.on('left', () => router.push('/lobby'));
     game.on('ready', () => router.push('/game'));
 
+    watch(route, () => page.value = route.path.slice(1));
+
     return {
       auth,
       theme: darkTheme,
-      hash,
+      page,
     };
   },
 };
@@ -66,7 +69,7 @@ export default {
     <n-message-provider>
       <router-view v-if="!auth.isLoggedIn" />
       <navbar v-if="auth.isLoggedIn" />
-      <main v-if="auth.isLoggedIn" :class="['flexbox', hash]">
+      <main v-if="auth.isLoggedIn" :class="['flexbox', page]">
         <router-view class="router-view flex-1" />
         <logs />
       </main>
