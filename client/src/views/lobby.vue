@@ -1,7 +1,7 @@
 <script>
 import {
   NLayout, NLayoutHeader, NLayoutSider, NLayoutContent,
-  NSpace, NInputGroup, NInput, NButton,
+  NSpace, NInput, NButton,
 } from 'naive-ui';
 
 import Rooms from '@components/rooms';
@@ -17,7 +17,6 @@ export default {
     NLayoutSider,
     NLayoutContent,
     NSpace,
-    NInputGroup,
     NInput,
     NButton,
     Rooms,
