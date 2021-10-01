@@ -4,6 +4,7 @@ import { NDialog } from 'naive-ui';
 import Flexbox from '@components/flexbox.vue';
 import GameExchangeRequest from '@components/game-exchange-request.vue';
 import GameExchangeResponse from '@components/game-exchange-response.vue';
+import GameCastSpell from '@components/game-cast-spell.vue';
 
 export default {
   inject: ['game'],
@@ -12,6 +13,7 @@ export default {
     Flexbox,
     GameExchangeRequest,
     GameExchangeResponse,
+    GameCastSpell,
   },
   computed: {
     visible() {
@@ -68,7 +70,9 @@ export default {
       :show-icon="false"
       @positive-click="game.action.onCasting"
       @negative-click="game.action.onCancel"
-    />
+    >
+      <game-cast-spell />
+    </n-dialog>
 
     <n-dialog
       v-if="game.status.isConfirm && !game.status.isConfirmed"
