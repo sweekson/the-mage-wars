@@ -2,12 +2,16 @@
 import { NDialog } from 'naive-ui';
 
 import Flexbox from '@components/flexbox.vue';
+import GameExchangeRequest from '@components/game-exchange-request.vue';
+import GameExchangeResponse from '@components/game-exchange-response.vue';
 
 export default {
   inject: ['game'],
   components: {
     NDialog,
     Flexbox,
+    GameExchangeRequest,
+    GameExchangeResponse,
   },
   computed: {
     visible() {
@@ -40,7 +44,9 @@ export default {
       :show-icon="false"
       @positive-click="game.action.onAccept"
       @negative-click="game.action.onCancel"
-    />
+    >
+      <game-exchange-request />
+    </n-dialog>
 
     <n-dialog
       v-if="game.status.isExchange && !game.action.isMine"
@@ -49,7 +55,9 @@ export default {
       negative-text="Cancel"
       :closable="false"
       :show-icon="false"
-    />
+    >
+      <game-exchange-response />
+    </n-dialog>
 
     <n-dialog
       v-if="game.status.isCast && game.action.isMine"
