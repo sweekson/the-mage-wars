@@ -15,7 +15,7 @@ export default {
       default: 'white',
     },
     amount: {
-      type: String,
+      type: Number,
       required: true,
     },
     bordered: {
