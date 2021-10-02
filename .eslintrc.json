@@ -13,8 +13,7 @@
     "@typescript-eslint"
   ],
   "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:vue/vue3-recommended"
+    "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
     "indent": [
@@ -33,7 +32,6 @@
       "error",
       "always"
     ],
-    "vetur.validation.style": false,
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-empty-interface": "off"
   }
