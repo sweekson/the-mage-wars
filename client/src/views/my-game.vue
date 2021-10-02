@@ -43,7 +43,10 @@ export default {
         <n-layout-content class="transparent">
           <n-grid :y-gap="16" responsive="self">
             <n-grid-item span="4 m:3 l:2">
-              <players :list="room.current.players" />
+              <players
+                :list="room.current.players"
+                :highlight="game.current.action?.uid"
+              />
             </n-grid-item>
 
             <n-grid-item span="15 m:17 l:19">

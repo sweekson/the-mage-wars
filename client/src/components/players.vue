@@ -12,6 +12,9 @@ export default {
       type: Array,
       required: true,
     },
+    highlight: {
+      type: String,
+    },
   },
 }
 </script>
@@ -22,7 +25,7 @@ export default {
       <n-grid-item
         v-for="player in list"
         :key="player.uid"
-        class="player"
+        :class="['player', { 'player-highlight': highlight === player.uid }]"
       >
         <n-ellipsis :tooltip="false">{{ player.name }}</n-ellipsis>
       </n-grid-item>
@@ -39,5 +42,9 @@ export default {
   color: #eee;
   width: 100%;
   padding: 4px 8px;
+
+  &-highlight {
+    border-color: #63e2b7;
+  }
 }
 </style>
