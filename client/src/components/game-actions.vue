@@ -41,7 +41,7 @@ export default {
       class="btn btn-lg btn-block btn-skew btn-mist"
       type="button"
       data-text="Pass"
-      @click="game.action.onPass"
+      @click="game.action.onTryPass"
     />
 
     <button
@@ -50,6 +50,20 @@ export default {
       data-text="Leave"
       @click="room.isLeaving = true"
     />
+
+    <n-modal :show="game.action.isPassing">
+      <n-dialog
+        type="warning"
+        title="Confirmation"
+        :content="`You still have ${game.me.actions} action(s) to perform. Are you sure you want to skip?`"
+        positive-text="Pass"
+        negative-text="Cancel"
+        :show-icon="false"
+        @positive-click="game.action.onPass"
+        @negative-click="game.action.isPassing = false"
+        @close="game.action.isPassing = false"
+      />
+    </n-modal>
 
     <n-modal :show="room.isLeaving">
       <n-dialog

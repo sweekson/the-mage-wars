@@ -30,7 +30,7 @@ const useGameStatus = ({ auth, current }) => {
   };
 };
 
-const useGameAction = ({ client, auth, current, status }) => {
+const useGameAction = ({ client, auth, current, status, me }) => {
   const { GamesAPI } = client;
   const Steps = {
     Pray: 1,
@@ -54,6 +54,7 @@ const useGameAction = ({ client, auth, current, status }) => {
   const isPassable = computed(
     () => isMine.value && !isPray.value
   );
+  const isPassing = ref(false);
   const update = (query) => GamesAPI.update(current.value.id, {}, { query });
   const onPray = () => update({ pray: true });
   const onCollect = () => update({ collect: true });
@@ -62,6 +63,10 @@ const useGameAction = ({ client, auth, current, status }) => {
   const onCast = () => update({ cast: true });
   const onCasting = () => update({ casting: true });
   const onPass = () => update({ rotate: true });
+  const onTryPass = () => {
+    if (!me.value.actions) return onPass();
+    isPassing.value = true;
+  };
   const onConfirm = () => update({ confirm: true });
   const onCancel = () => update({ cancel: true });
   const onRemove = () => GamesAPI.remove(current.value.id);
@@ -72,6 +77,7 @@ const useGameAction = ({ client, auth, current, status }) => {
     isExchangeable,
     isCastable,
     isPassable,
+    isPassing,
     onPray,
     onCollect,
     onExchange,
@@ -79,6 +85,7 @@ const useGameAction = ({ client, auth, current, status }) => {
     onCast,
     onCasting,
     onPass,
+    onTryPass,
     onConfirm,
     onCancel,
     onRemove,
@@ -90,9 +97,9 @@ export const useGame = ({ client, auth, room, logger }) => {
   const on = emitter.on.bind(emitter);
   const { GamesAPI } = client;
   const current = ref(null);
-  const status = reactive(useGameStatus({ auth, current }));
-  const action = reactive(useGameAction({ client, auth, current, status }));
   const me = ref({});
+  const status = reactive(useGameStatus({ auth, current }));
+  const action = reactive(useGameAction({ client, auth, current, status, me }));
   const isReady = ref(false);
   const find = (query) => GamesAPI.find({ query });
   const onRoomJoined = ({ detail }) => {
