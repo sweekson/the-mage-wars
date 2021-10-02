@@ -3,6 +3,7 @@ import { NSpace, NGrid, NGridItem } from 'naive-ui';
 
 import Flexbox from '@components/flexbox.vue';
 import GameIcon from '@components/game-icon.vue';
+import GameIconPill from '@components/game-icon-pill.vue';
 
 export default {
   components: {
@@ -11,6 +12,7 @@ export default {
     NGridItem,
     Flexbox,
     GameIcon,
+    GameIconPill,
   },
   props: {
     data: {
@@ -42,14 +44,11 @@ export default {
     <div class="spell-costs">
       <n-grid cols="2" x-gap="4" y-gap="4">
         <n-grid-item v-for="cost in data.costs" :key="cost.type">
-          <div class="spell-cost flexbox">
-            <game-icon
-              :name="cost.name"
-              :color="'silver'"
-              :size="'sm'"
-            />
-            <span class="spell-cost-amount">{{ cost.amount }}</span>
-          </div>
+          <game-icon-pill
+            :name="cost.name"
+            :color="'silver'"
+            :amount="cost.amount"
+          />
         </n-grid-item>
       </n-grid>
     </div>
