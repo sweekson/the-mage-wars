@@ -18,6 +18,10 @@ export default {
       type: String,
       required: true,
     },
+    bordered: {
+      type: Boolean,
+      default: true,
+    },
     rounded: {
       type: Boolean,
     },
@@ -28,6 +32,7 @@ export default {
 <template>
   <div :class="[
       'game-icon-pill flexbox',
+      { 'game-icon-pill-bordered': bordered },
       { 'game-icon-pill-rounded': rounded },
     ]"
   >
@@ -42,10 +47,13 @@ export default {
 
 <style lang="scss" scoped>
 .game-icon-pill {
-  background-color: $color-dusk-100;
-  border: 1px solid $color-dusk-200;
-  border-radius: 4px;
   padding: 2px;
+
+  &-bordered {
+    background-color: $color-dusk-100;
+    border: 1px solid $color-dusk-200;
+    border-radius: 4px;
+  }
 
   &-rounded {
     border-radius: 50px;
