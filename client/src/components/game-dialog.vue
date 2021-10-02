@@ -2,8 +2,8 @@
 import { NDialog } from 'naive-ui';
 
 import Flexbox from '@components/flexbox.vue';
-import GameExchangeRequest from '@components/game-exchange-request.vue';
-import GameExchangeResponse from '@components/game-exchange-response.vue';
+import GameExchangeRequester from '@components/game-exchange-requester.vue';
+import GameExchangeResponder from '@components/game-exchange-responder.vue';
 import GameCastSpell from '@components/game-cast-spell.vue';
 
 export default {
@@ -11,8 +11,8 @@ export default {
   components: {
     NDialog,
     Flexbox,
-    GameExchangeRequest,
-    GameExchangeResponse,
+    GameExchangeRequester,
+    GameExchangeResponder,
     GameCastSpell,
   },
   computed: {
@@ -47,7 +47,7 @@ export default {
       @positive-click="game.action.onAccept"
       @negative-click="game.action.onCancel"
     >
-      <game-exchange-request />
+      <game-exchange-requester />
     </n-dialog>
 
     <n-dialog
@@ -58,7 +58,7 @@ export default {
       :closable="false"
       :show-icon="false"
     >
-      <game-exchange-response />
+      <game-exchange-responder />
     </n-dialog>
 
     <n-dialog
