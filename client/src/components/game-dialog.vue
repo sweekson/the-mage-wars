@@ -2,6 +2,7 @@
 import { NDialog } from 'naive-ui';
 
 import Flexbox from '@components/flexbox.vue';
+import GameDices from '@components/game-dices.vue';
 import GameExchangeRequester from '@components/game-exchange-requester.vue';
 import GameExchangeResponder from '@components/game-exchange-responder.vue';
 import GameCastSpell from '@components/game-cast-spell.vue';
@@ -11,6 +12,7 @@ export default {
   components: {
     NDialog,
     Flexbox,
+    GameDices,
     GameExchangeRequester,
     GameExchangeResponder,
     GameCastSpell,
@@ -35,7 +37,9 @@ export default {
       :closable="false"
       :show-icon="false"
       @positive-click="game.action.onCollect"
-    />
+    >
+      <game-dices />
+    </n-dialog>
 
     <n-dialog
       v-if="game.status.isExchange && game.action.isMine"
