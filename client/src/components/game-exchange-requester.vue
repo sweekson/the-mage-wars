@@ -5,7 +5,13 @@ import { NGrid, NGridItem, NSpace, NDivider } from 'naive-ui';
 import Flexbox from '@components/flexbox.vue';
 import GameElementSelector from '@components/game-element-selector.vue';
 import GameExchangeResponse from '@components/game-exchange-response.vue';
-import { TileTypeNameMap } from '@composables/use-game-map';
+import {
+  TileTypeNameMap,
+  TileTypeColorMap,
+  resolveTileTypeName,
+  resolveTileTypeColor,
+} from '@composables/use-game-map';
+import { pipe } from '../utils/common';
 
 export default {
   components: {
@@ -23,68 +29,77 @@ export default {
         uid: 1,
         name: 'Tom',
         body: [
-          { type: 1, name: 'drop', amount: 4 },
-          { type: 2, name: 'electric', amount: 1 },
-          { type: 3, name: 'flamer', amount: 0 },
-          { type: 4, name: 'three-leaves', amount: 2 },
+          { type: 1, amount: 4 },
+          { type: 2, amount: 1 },
+          { type: 3, amount: 0 },
+          { type: 4, amount: 2 },
         ],
       },
       {
         uid: 2,
         name: 'Zack',
         body: [
-          { type: 1, name: 'drop', amount: 3 },
-          { type: 2, name: 'electric', amount: 2 },
-          { type: 3, name: 'flamer', amount: 1 },
-          { type: 4, name: 'three-leaves', amount: 0 },
+          { type: 1, amount: 3 },
+          { type: 2, amount: 2 },
+          { type: 3, amount: 1 },
+          { type: 4, amount: 0 },
         ],
       },
       {
         uid: 3,
         name: 'Ivan',
         body: [
-          { type: 1, name: 'drop', amount: 4 },
-          { type: 2, name: 'electric', amount: 1 },
-          { type: 3, name: 'flamer', amount: 0 },
-          { type: 4, name: 'three-leaves', amount: 2 },
+          { type: 1, amount: 4 },
+          { type: 2, amount: 1 },
+          { type: 3, amount: 0 },
+          { type: 4, amount: 2 },
         ],
       },
       {
         uid: 4,
         name: 'Bruce',
         body: [
-          { type: 1, name: 'drop', amount: 3 },
-          { type: 2, name: 'electric', amount: 2 },
-          { type: 3, name: 'flamer', amount: 1 },
-          { type: 4, name: 'three-leaves', amount: 0 },
+          { type: 1, amount: 3 },
+          { type: 2, amount: 2 },
+          { type: 3, amount: 1 },
+          { type: 4, amount: 0 },
         ],
       },
       {
         uid: 5,
         name: 'Nico',
         body: [
-          { type: 1, name: 'drop', amount: 4 },
-          { type: 2, name: 'electric', amount: 1 },
-          { type: 3, name: 'flamer', amount: 0 },
-          { type: 4, name: 'three-leaves', amount: 2 },
+          { type: 1, amount: 4 },
+          { type: 2, amount: 1 },
+          { type: 3, amount: 0 },
+          { type: 4, amount: 2 },
         ],
       },
       {
         uid: 6,
         name: 'Sherry',
         body: [
-          { type: 1, name: 'drop', amount: 3 },
-          { type: 2, name: 'electric', amount: 2 },
-          { type: 3, name: 'flamer', amount: 1 },
-          { type: 4, name: 'three-leaves', amount: 0 },
+          { type: 1, amount: 3 },
+          { type: 2, amount: 2 },
+          { type: 3, amount: 1 },
+          { type: 4, amount: 0 },
         ],
       },
     ]);
     const selected = ref(null);
     const select = (uid) => (selected.value = uid);
+    const resolveElemProps = pipe(
+      resolveTileTypeName,
+      resolveTileTypeColor,
+    );
+
+    responses.value.forEach(x => {
+      Object.assign(x, { body: resolveElemProps(x.body) });
+    });
 
     return {
       TileTypeNameMap,
+      TileTypeColorMap,
       responses,
       selected,
       select,
@@ -99,6 +114,7 @@ export default {
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[1]"
+          :color="TileTypeColorMap[1]"
           :value="999"
           :limit="999"
         />
@@ -107,6 +123,7 @@ export default {
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[2]"
+          :color="TileTypeColorMap[2]"
           :value="0"
           :limit="10"
         />
@@ -115,6 +132,7 @@ export default {
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[3]"
+          :color="TileTypeColorMap[3]"
           :value="0"
           :limit="10"
         />
@@ -123,6 +141,7 @@ export default {
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[4]"
+          :color="TileTypeColorMap[4]"
           :value="0"
           :limit="10"
         />

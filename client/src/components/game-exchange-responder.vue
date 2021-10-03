@@ -2,7 +2,7 @@
 import { NGrid, NGridItem, NDivider } from 'naive-ui';
 
 import GameElementSelector from '@components/game-element-selector.vue';
-import { TileTypeNameMap } from '@composables/use-game-map';
+import { TileTypeNameMap, TileTypeColorMap } from '@composables/use-game-map';
 
 export default {
   components: {
@@ -14,6 +14,7 @@ export default {
   setup() {
     return {
       TileTypeNameMap,
+      TileTypeColorMap,
     };
   },
 }
@@ -25,6 +26,7 @@ export default {
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[1]"
+          :color="TileTypeColorMap[1]"
           :value="50"
           readonly
         />
@@ -33,6 +35,7 @@ export default {
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[2]"
+          :color="TileTypeColorMap[2]"
           :value="0"
           readonly
         />
@@ -41,6 +44,7 @@ export default {
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[3]"
+          :color="TileTypeColorMap[3]"
           :value="10"
           readonly
         />
@@ -49,6 +53,7 @@ export default {
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[4]"
+          :color="TileTypeColorMap[4]"
           :value="0"
           readonly
         />
@@ -61,6 +66,7 @@ export default {
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[1]"
+          :color="TileTypeColorMap[1]"
           :value="0"
           :limit="20"
         />
@@ -69,6 +75,7 @@ export default {
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[2]"
+          :color="TileTypeColorMap[2]"
           :value="0"
           :limit="10"
         />
@@ -77,6 +84,7 @@ export default {
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[3]"
+          :color="TileTypeColorMap[3]"
           :value="0"
           :limit="10"
         />
@@ -85,6 +93,7 @@ export default {
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[4]"
+          :color="TileTypeColorMap[4]"
           :value="0"
           :limit="10"
         />

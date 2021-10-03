@@ -37,7 +37,7 @@ export default {
       <n-grid-item v-for="item in data.body" :key="item.type">
         <game-icon-pill
           :name="item.name"
-          :color="'silver'"
+          :color="item.color"
           :amount="item.amount"
           :bordered="false"
         />

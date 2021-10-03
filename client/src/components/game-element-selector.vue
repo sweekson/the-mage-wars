@@ -24,6 +24,10 @@ export default {
       type: String,
       required: true,
     },
+    color: {
+      type: String,
+      default: 'white',
+    },
     value: {
       type: Number,
     },
@@ -56,7 +60,7 @@ export default {
     <flexbox class="elem-type">
       <game-icon
         :name="type"
-        :color="'white'"
+        :color="color"
         :size="'4xl'"
       />
     </flexbox>
