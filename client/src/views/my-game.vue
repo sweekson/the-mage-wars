@@ -44,8 +44,9 @@ export default {
           <n-grid :y-gap="16" responsive="self">
             <n-grid-item span="4 m:3 l:2">
               <players
-                :list="room.current.players"
+                :list="game.current.players"
                 :highlight="game.current.action?.uid"
+                colored
               />
             </n-grid-item>
 

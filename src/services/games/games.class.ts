@@ -1,6 +1,7 @@
 import { Params } from '@feathersjs/feathers';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
+import range from 'lodash/range';
 
 import { Application } from '../../declarations';
 import { RoomJSON } from '../rooms/rooms.class';
@@ -372,7 +373,8 @@ export class GamesService {
 
   makeGame(room: RoomJSON): Game {
     const id = Math.random().toString(16).slice(2);
-    const players = room.players.map(x => this.makePlayer(x));
+    const colors = this.makePlayColors(room.players.length);
+    const players = room.players.map((x, i) => this.makePlayer(x, colors[i]));
     const { team1, team2 } = this.makeTeams(players);
     const sequence = players.map(x => x.uid).sort(() => Math.random() - .5);
     return {
@@ -408,11 +410,17 @@ export class GamesService {
     return { team1, team2 };
   }
 
-  makePlayer(player: Player): GamePlayer {
+  makePlayColors(length: number): number[] {
+    const colors = range(1, 11).sort(() => Math.random() - .5);
+    return colors.slice(0, length);
+  }
+
+  makePlayer(player: Player, color: number): GamePlayer {
     const { strength, defense } = this.config.player;
     return {
       ...player,
       team: 0,
+      color,
       strength,
       defense,
       elems: [],
@@ -439,7 +447,7 @@ export class GamesService {
       ...omit(game, ['players', 'team1', 'team2']),
       team1: pick(team1, ['energy']),
       team2: pick(team2, ['energy']),
-      players: toArray(players).map(x => pick(x, ['uid', 'name'])),
+      players: toArray(players).map(x => pick(x, ['uid', 'name', 'color'])),
       collected: Array.from(collected),
       confirmed: Array.from(confirmed),
     };

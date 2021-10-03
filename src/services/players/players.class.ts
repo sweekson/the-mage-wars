@@ -23,6 +23,7 @@ export type Players = Player[];
 
 export interface GamePlayer extends Player {
   team: number;
+  color: number;
   strength: number;
   defense: number;
   elems: Elem[];
