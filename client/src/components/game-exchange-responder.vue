@@ -1,5 +1,6 @@
 <script>
-import { NGrid, NGridItem, NDivider } from 'naive-ui';
+import { NGrid, NGridItem, NDivider, NIcon } from 'naive-ui';
+import ArrowDropDownOutlined from '@vicons/material/ArrowDropDownOutlined';
 
 import GameElementSelector from '@components/game-element-selector.vue';
 import { TileTypeNameMap, TileTypeColorMap } from '@composables/use-game-map';
@@ -9,6 +10,8 @@ export default {
     NGrid,
     NGridItem,
     NDivider,
+    NIcon,
+    ArrowDropDownOutlined,
     GameElementSelector,
   },
   setup() {
@@ -60,7 +63,11 @@ export default {
       </n-grid-item>
     </n-grid>
 
-    <n-divider />
+    <n-divider>
+      <n-icon size="26"><arrow-drop-down-outlined /></n-icon>
+      <span>My Response</span>
+      <n-icon size="26"><arrow-drop-down-outlined /></n-icon>
+    </n-divider>
 
     <n-grid cols="4" x-gap="8">
       <n-grid-item>
