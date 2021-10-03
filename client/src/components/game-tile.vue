@@ -76,19 +76,6 @@ export default {
   }
 }
 
-$colors: (
-  #f34: "1",
-  #f73: "2",
-  #fd4: "3",
-  #9d1: "4",
-  #4a2: "5",
-  #1ce: "6",
-  #37f: "7",
-  #13e: "8",
-  #a4f: "9",
-  #f4c: "10",
-);
-
 .tile {
   --span: calc(var(--size) * 0.1);
 
@@ -276,6 +263,6 @@ $colors: (
   height: var(--span);
 }
 
-@include generate-player-colors($colors);
+@include generate-player-colors($player-colors);
 
 </style>
