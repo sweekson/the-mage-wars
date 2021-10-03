@@ -1,10 +1,19 @@
 import { ref, computed } from 'vue';
 
+import { pipe } from '../utils/common';
+
 export const TileTypeNameMap = {
   1: 'drop',
   2: 'electric',
   3: 'flamer',
   4: 'three-leaves',
+};
+
+export const TileTypeColorMap = {
+  1: 'cyan',
+  2: 'yellow',
+  3: 'volcano',
+  4: 'green',
 };
 
 export const TileIconColorMap = {
@@ -68,6 +77,13 @@ export const resolveTileTypeName = (tiles) => {
   });
 };
 
+export const resolveTileTypeColor = (tiles) => {
+  return tiles.map(tile => {
+    const color = TileTypeColorMap[tile.type];
+    return Object.assign(tile, { color });
+  });
+};
+
 export const useGameMap = () => {
   const tiles = ref([
     { type: 1, order: 1, occupied: [1, 4], players: [1] },
@@ -108,9 +124,13 @@ export const useGameMap = () => {
     }, 300);
   };
   const onSelect = (tile) => (selected.value = tile);
+  const resolveTileProps = pipe(
+    resolveTileShape,
+    resolveTileTypeName,
+    resolveTileTypeColor,
+  );
 
-  tiles.value = resolveTileShape(tiles.value);
-  tiles.value = resolveTileTypeName(tiles.value);
+  tiles.value = resolveTileProps(tiles.value);
 
   move(player1);
 

@@ -1,7 +1,6 @@
 <script>
 import Flexbox from '@components/flexbox.vue';
 import GameIcon from '@components/game-icon.vue';
-import { TileIconColorMap } from '@composables/use-game-map';
 
 export default {
   inject: ['map'],
@@ -23,11 +22,6 @@ export default {
       default: false,
     },
   },
-  setup() {
-    return {
-      TileIconColorMap,
-    };
-  },
 }
 </script>
 
@@ -46,14 +40,15 @@ export default {
     <flexbox class="elems">
       <flexbox
         center
-        v-for="uid in data.occupied"
-        :key="uid"
-        :class="['elem']"
+        v-for="(color, index) in data.occupied"
+        :key="index"
+        :class="['elem', `elem-${color}`]"
       >
         <game-icon
           :name="data.name"
-          :color="TileIconColorMap[uid]"
+          :color="data.color"
           :size="size ==='md' ? 'sm' : (size ==='lg' ? 'md' : 'lg')"
+          shape="circle"
         />
       </flexbox>
     </flexbox>
@@ -69,6 +64,12 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+
+@mixin generate-elem-colors($colors) {
+  @each $color, $name in $colors {
+    .elem-#{$name} { border-color: $color; }
+  }
+}
 
 @mixin generate-player-colors($colors) {
   @each $color, $name in $colors {
@@ -241,12 +242,26 @@ export default {
   margin: calc(var(--span) + var(--gap)) calc(var(--span) + var(--gap)) 0;
 }
 .elem {
-  background-color: rgba(255, 255, 255, .6);
-  box-shadow: 0 0 2px #666;
-  border-radius: calc(var(--size) * 0.5 - var(--span) * 2);
+  background-color: #fff;
+  border: 2px solid #aaa;
+  border-radius: 50%;
+  box-shadow: 0 0 1px 1px #fff;
   display: flex;
   width: calc(var(--size) * 0.5 - var(--span) * 2);
   height: calc(var(--size) * 0.5 - var(--span) * 2);
+
+  &-0 {
+    background-color: $color-mist-300;
+    opacity: .75;
+  }
+
+  @at-root .tile-lg & {
+    border-width: 3px;
+  }
+
+  @at-root .tile-xl & {
+    border-width: 4px;
+  }
 }
 .players {
   flex: 1;
@@ -263,6 +278,7 @@ export default {
   height: var(--span);
 }
 
+@include generate-elem-colors($player-colors);
 @include generate-player-colors($player-colors);
 
 </style>
