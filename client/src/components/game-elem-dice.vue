@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { NGrid, NGridItem } from 'naive-ui';
 
 import Flexbox from '@components/flexbox.vue';
-import Dice from '@components/dice.vue';
+import BlankDice from '@components/blank-dice.vue';
 import GameIcon from '@components/game-icon.vue';
 
 export default {
@@ -11,7 +11,7 @@ export default {
     NGrid,
     NGridItem,
     Flexbox,
-    Dice,
+    BlankDice,
     GameIcon,
   },
   props: {
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <template>
-  <dice :face="type" :rolling="rolling" @click="rolling = !rolling">
+  <blank-dice :face="type" :rolling="rolling" @click="rolling = !rolling">
     <template v-for="elem in elems" v-slot:[elem.face] :key="elem.type">
       <flexbox style="height: 100%;">
         <game-icon
@@ -66,5 +66,5 @@ export default {
         </flexbox>
       </n-grid>
     </template>
-  </dice>
+  </blank-dice>
 </template>
