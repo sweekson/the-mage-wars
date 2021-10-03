@@ -1,6 +1,6 @@
 <script>
 import { ref } from 'vue';
-import { NGrid, NGridItem } from 'naive-ui';
+import { NGrid } from 'naive-ui';
 
 import Flexbox from '@components/flexbox.vue';
 import BlankDice from '@components/blank-dice.vue';
@@ -9,7 +9,6 @@ import GameIcon from '@components/game-icon.vue';
 export default {
   components: {
     NGrid,
-    NGridItem,
     Flexbox,
     BlankDice,
     GameIcon,
