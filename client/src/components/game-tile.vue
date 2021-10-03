@@ -36,6 +36,7 @@ export default {
     ]"
     :style="{ order: data.order }"
     @click="$emit('selected', data)"
+    @focus="$emit('selected', data)"
   >
     <flexbox class="elems">
       <flexbox
@@ -89,6 +90,10 @@ export default {
   height: var(--size);
   position: relative;
   z-index: 1;
+
+  &:focus {
+    outline: none;
+  }
 
   &-md {
     --size: 72px;

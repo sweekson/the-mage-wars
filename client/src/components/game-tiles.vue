@@ -15,9 +15,10 @@ export default {
   <section class="map">
     <flexbox class="tiles" :style="{ width: map.width }">
       <game-tile
-        v-for="tile in map.tiles"
+        v-for="(tile, index) in map.tiles"
         :key="tile.order"
         :data="tile"
+        :tabindex="index + 1"
         @selected="$emit('selected', tile)"
       />
     </flexbox>
