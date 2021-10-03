@@ -108,7 +108,7 @@ main {
     z-index: -1;
     top: 0;
     left: 0;
-    backdrop-filter: blur(2px) brightness(80%);
+    backdrop-filter: blur(3px) brightness(90%);
   }
 }
 </style>
