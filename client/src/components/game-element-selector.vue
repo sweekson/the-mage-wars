@@ -87,13 +87,12 @@ export default {
 
 <style lang="scss" scoped>
 .elem-type {
-  background-color: $color-mist-100;
+  background-color: $color-dusk-100;
   border: 1px solid $color-mist-200;
   border-radius: 4px;
   padding: 40px 0;
 }
 .elem-readonly .elem-type {
-  background-color: $color-dusk-100;
   border: 1px solid $color-dusk-200;
 }
 .elem-amount-button {
