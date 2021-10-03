@@ -46,7 +46,7 @@ export default {
       >
         <game-icon
           :name="data.name"
-          :color="data.color"
+          :color="color ? 'white' : data.color"
           :size="size ==='md' ? 'sm' : (size ==='lg' ? 'md' : 'lg')"
           shape="circle"
         />
@@ -67,7 +67,7 @@ export default {
 
 @mixin generate-elem-colors($colors) {
   @each $color, $name in $colors {
-    .elem-#{$name} { border-color: $color; }
+    .elem-#{$name} { background-color: $color; }
   }
 }
 
@@ -80,7 +80,7 @@ export default {
 .tile {
   --span: calc(var(--size) * 0.1);
 
-  background-color: $color-mist-100;
+  background-color: $color-dusk-100;
   border: 1px solid $color-mist-200;
   border-radius: 2px;
   display: flex;
@@ -107,6 +107,7 @@ export default {
 
   &:not(.standalone):hover {
     border-color: #ccc;
+    cursor: pointer;
   }
 
   &.selected,
@@ -243,24 +244,14 @@ export default {
 }
 .elem {
   background-color: #fff;
-  border: 2px solid #aaa;
   border-radius: 50%;
-  box-shadow: 0 0 1px 1px #fff;
+  box-shadow: inset 0 0 1px 1px $color-dusk-100;
   display: flex;
   width: calc(var(--size) * 0.5 - var(--span) * 2);
   height: calc(var(--size) * 0.5 - var(--span) * 2);
 
   &-0 {
     background-color: $color-mist-300;
-    opacity: .75;
-  }
-
-  @at-root .tile-lg & {
-    border-width: 3px;
-  }
-
-  @at-root .tile-xl & {
-    border-width: 4px;
   }
 }
 .players {
