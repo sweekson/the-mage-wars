@@ -30,12 +30,18 @@ export default {
       elems,
     };
   },
-}
+};
 </script>
 
 <template>
-  <n-grid cols="4" x-gap="4">
-    <n-grid-item v-for="elem in elems" :key="elem.type">
+  <n-grid
+    cols="4"
+    x-gap="4"
+  >
+    <n-grid-item
+      v-for="elem in elems"
+      :key="elem.type"
+    >
       <game-icon-pill
         :name="elem.name"
         :color="elem.color"

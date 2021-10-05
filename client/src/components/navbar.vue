@@ -2,10 +2,10 @@
 import { NButton } from 'naive-ui';
 
 export default {
-  inject: ['auth'],
   components: {
     NButton,
   },
+  inject: ['auth'],
   computed: {
     langs() {
       return [
@@ -14,7 +14,7 @@ export default {
       ];
     },
   },
-}
+};
 </script>
 
 <template>
@@ -24,15 +24,18 @@ export default {
     <template v-for="lang in langs">
       <button
         v-if="$i18n.locale !== lang.locale"
-        v-html="lang.text"
         :key="lang.locale"
         type="button"
         class="lang"
         @click="() => $i18n.locale = lang.locale"
+        v-html="lang.text"
       />
     </template>
 
-    <n-button size="tiny" @click="auth.onLogout">
+    <n-button
+      size="tiny"
+      @click="auth.onLogout"
+    >
       {{ $t('common.logout') }}
     </n-button>
   </nav>

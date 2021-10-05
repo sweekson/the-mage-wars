@@ -11,7 +11,6 @@ import Flexbox from '@components/flexbox';
 import Loader from '@components/loader';
 
 export default {
-  inject: ['auth', 'room', 'game', 'map'],
   components: {
     NSpace,
     NLayout,
@@ -28,20 +27,29 @@ export default {
     Flexbox,
     Loader,
   },
-}
+  inject: ['auth', 'room', 'game', 'map'],
+};
 </script>
 
 <template>
   <section v-if="auth.isLoggedIn && room.isJoined && game.isReady">
-    <n-layout content-style="padding: 8px 8px;" class="game transparent">
+    <n-layout
+      content-style="padding: 8px 8px;"
+      class="game transparent"
+    >
       <n-layout-header class="header transparent">
         <game-my-status />
-        <h2 class="round">Round {{ game.current.round }}</h2>
+        <h2 class="round">
+          Round {{ game.current.round }}
+        </h2>
       </n-layout-header>
 
       <n-layout class="transparent">
         <n-layout-content class="transparent">
-          <n-grid :y-gap="16" responsive="self">
+          <n-grid
+            :y-gap="16"
+            responsive="self"
+          >
             <n-grid-item span="4 m:3 l:2">
               <players
                 :list="game.current.players"
@@ -51,12 +59,18 @@ export default {
             </n-grid-item>
 
             <n-grid-item span="15 m:17 l:19">
-              <n-space align="center" justify="center">
+              <n-space
+                align="center"
+                justify="center"
+              >
                 <game-tiles @selected="tile => map.onSelect(tile)" />
               </n-space>
             </n-grid-item>
 
-            <n-grid-item span="4 m:3 l:2" offset="1">
+            <n-grid-item
+              span="4 m:3 l:2"
+              offset="1"
+            >
               <game-actions />
             </n-grid-item>
           </n-grid>
@@ -67,7 +81,12 @@ export default {
       </n-layout>
     </n-layout>
   </section>
-  <flexbox v-else fullscreen><loader /></flexbox>
+  <flexbox
+    v-else
+    fullscreen
+  >
+    <loader />
+  </flexbox>
 </template>
 
 <style lang="scss" scoped>

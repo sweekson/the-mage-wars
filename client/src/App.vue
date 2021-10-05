@@ -64,12 +64,18 @@ export default {
 </script>
 
 <template>
-  <n-config-provider :theme="theme" class="provider">
+  <n-config-provider
+    :theme="theme"
+    class="provider"
+  >
     <n-global-style />
     <n-message-provider>
       <router-view v-if="!auth.isLoggedIn" />
       <navbar v-if="auth.isLoggedIn" />
-      <main v-if="auth.isLoggedIn" :class="['flexbox', page]">
+      <main
+        v-if="auth.isLoggedIn"
+        :class="['flexbox', page]"
+      >
         <router-view class="router-view flex-1" />
         <logs />
       </main>

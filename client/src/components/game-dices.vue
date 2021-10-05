@@ -9,12 +9,15 @@ export default {
     NGridItem,
     GameElemDice,
   },
-}
+};
 </script>
 
 <template>
   <div class="dices">
-    <n-grid cols="2" x-gap="72">
+    <n-grid
+      cols="2"
+      x-gap="72"
+    >
       <n-grid-item>
         <game-elem-dice :type="2" />
       </n-grid-item>

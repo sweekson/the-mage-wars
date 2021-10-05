@@ -2,23 +2,46 @@
 import { NSpace, NInput, NButton } from 'naive-ui';
 
 export default {
-  inject: ['auth'],
   components: {
     NSpace,
     NInput,
     NButton,
   },
-}
+  inject: ['auth'],
+};
 </script>
 
 <template>
-  <n-space align="start" justify="center" class="fullscreen">
-    <n-space vertical justify="start" class="signup-form" @keyup.enter="auth.onSignup">
-      <h1 class="signup-form-header">{{ $t('common.signup') }}</h1>
+  <n-space
+    align="start"
+    justify="center"
+    class="fullscreen"
+  >
+    <n-space
+      vertical
+      justify="start"
+      class="signup-form"
+      @keyup.enter="auth.onSignup"
+    >
+      <h1 class="signup-form-header">
+        {{ $t('common.signup') }}
+      </h1>
 
-      <n-input v-model:value="auth.email" type="text" placeholder="Email address"  />
-      <n-input v-model:value="auth.name" type="text" placeholder="Display name" />
-      <n-input v-model:value="auth.password" type="password" placeholder="Password" />
+      <n-input
+        v-model:value="auth.email"
+        type="text"
+        placeholder="Email address"
+      />
+      <n-input
+        v-model:value="auth.name"
+        type="text"
+        placeholder="Display name"
+      />
+      <n-input
+        v-model:value="auth.password"
+        type="password"
+        placeholder="Password"
+      />
 
       <n-button
         type="primary"

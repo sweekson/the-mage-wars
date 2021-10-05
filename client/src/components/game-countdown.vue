@@ -1,19 +1,24 @@
 <script>
 export default {
   inject: ['room'],
-}
+};
 </script>
 
 <template>
-  <div v-if="room.counts" class="counter">
+  <div
+    v-if="room.counts"
+    class="counter"
+  >
     <div class="counter-colored-blocks">
       <div class="counter-colored-blocks-rotater">
-        <div class="counter-colored-block"></div>
-        <div class="counter-colored-block"></div>
-        <div class="counter-colored-block"></div>
-        <div class="counter-colored-block"></div>
+        <div class="counter-colored-block" />
+        <div class="counter-colored-block" />
+        <div class="counter-colored-block" />
+        <div class="counter-colored-block" />
       </div>
-      <div class="counter-text">{{ room.counts }}</div>
+      <div class="counter-text">
+        {{ room.counts }}
+      </div>
     </div>
   </div>
 </template>

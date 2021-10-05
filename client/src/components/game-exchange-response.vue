@@ -18,7 +18,7 @@ export default {
       type: Boolean,
     },
   },
-}
+};
 </script>
 
 <template>
@@ -29,12 +29,21 @@ export default {
     ]"
     @click="$emit('select', data.uid)"
   >
-    <n-grid cols="6" x-gap="4">
-      <n-grid-item span="2" class="game-exchange-response-player">
+    <n-grid
+      cols="6"
+      x-gap="4"
+    >
+      <n-grid-item
+        span="2"
+        class="game-exchange-response-player"
+      >
         {{ data.name }}
       </n-grid-item>
 
-      <n-grid-item v-for="item in data.body" :key="item.type">
+      <n-grid-item
+        v-for="item in data.body"
+        :key="item.type"
+      >
         <game-icon-pill
           :name="item.name"
           :color="item.color"

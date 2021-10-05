@@ -3,12 +3,12 @@ import { inject } from 'vue';
 import { NSpace, NInput, NButton, useMessage } from 'naive-ui';
 
 export default {
-  inject: ['auth'],
   components: {
     NSpace,
     NInput,
     NButton,
   },
+  inject: ['auth'],
   setup() {
     const auth = inject('auth');
     const message = useMessage();
@@ -18,16 +18,35 @@ export default {
       () => message.error('Incorrect email address or password.'),
     );
   },
-}
+};
 </script>
 
 <template>
-  <n-space align="start" justify="center" class="fullscreen">
-    <n-space vertical justify="start" class="login-form" @keyup.enter="auth.onLogin">
-      <h1 class="login-form-header">{{ $t('common.login') }}</h1>
+  <n-space
+    align="start"
+    justify="center"
+    class="fullscreen"
+  >
+    <n-space
+      vertical
+      justify="start"
+      class="login-form"
+      @keyup.enter="auth.onLogin"
+    >
+      <h1 class="login-form-header">
+        {{ $t('common.login') }}
+      </h1>
 
-      <n-input v-model:value="auth.email" type="text" placeholder="Email address" />
-      <n-input v-model:value="auth.password" type="password" placeholder="Password" />
+      <n-input
+        v-model:value="auth.email"
+        type="text"
+        placeholder="Email address"
+      />
+      <n-input
+        v-model:value="auth.password"
+        type="password"
+        placeholder="Password"
+      />
 
       <n-button
         type="primary"

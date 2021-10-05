@@ -6,7 +6,6 @@ import Flexbox from '@components/flexbox';
 import GameMyElems from '@components/game-my-elems';
 
 export default {
-  inject: ['game'],
   components: {
     NGrid,
     NGridItem,
@@ -15,29 +14,46 @@ export default {
     Flexbox,
     GameMyElems,
   },
-}
+  inject: ['game'],
+};
 </script>
 
 <template>
-  <n-grid cols="10 960:12 1200:16" x-gap="8" item-responsive>
+  <n-grid
+    cols="10 960:12 1200:16"
+    x-gap="8"
+    item-responsive
+  >
     <n-grid-item>
-      <hexagon height="60" color="#eee">
+      <hexagon
+        height="60"
+        color="#eee"
+      >
         <flexbox column>
-          <h6 class="camp-title">Camp</h6>
+          <h6 class="camp-title">
+            Camp
+          </h6>
           <span class="camp-number">{{ game.me.team }}</span>
         </flexbox>
       </hexagon>
     </n-grid-item>
 
     <n-grid-item>
-      <n-statistic label="Strength">{{ game.me.strength }}</n-statistic>
+      <n-statistic label="Strength">
+        {{ game.me.strength }}
+      </n-statistic>
     </n-grid-item>
 
     <n-grid-item>
-      <n-statistic label="Defense">{{ game.me.defense }}</n-statistic>
+      <n-statistic label="Defense">
+        {{ game.me.defense }}
+      </n-statistic>
     </n-grid-item>
 
-    <n-grid-item offset="3 960:5 1200:9" span="4">
+    <n-grid-item
+      offset="3 960:5 1200:9"
+      span="4"
+    >
       <game-my-elems />
     </n-grid-item>
   </n-grid>

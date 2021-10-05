@@ -29,12 +29,20 @@ export default {
     const rolling = ref(true);
     return { elems, rolling };
   },
-}
+};
 </script>
 
 <template>
-  <blank-dice :face="type" :rolling="rolling" @click="rolling = !rolling">
-    <template v-for="elem in elems" v-slot:[elem.face] :key="elem.type">
+  <blank-dice
+    :face="type"
+    :rolling="rolling"
+    @click="rolling = !rolling"
+  >
+    <template
+      v-for="elem in elems"
+      #[elem.face]
+      :key="elem.type"
+    >
       <flexbox style="height: 100%;">
         <game-icon
           :name="elem.name"
@@ -44,7 +52,7 @@ export default {
       </flexbox>
     </template>
 
-    <template v-slot:top>
+    <template #top>
       <flexbox style="height: 100%;">
         <game-icon
           :name="'broken-skull'"
@@ -54,9 +62,15 @@ export default {
       </flexbox>
     </template>
 
-    <template v-slot:bottom>
-      <n-grid cols="2" style="height: 100%; padding: 12px;">
-        <flexbox v-for="elem in elems" :key="elem.type">
+    <template #bottom>
+      <n-grid
+        cols="2"
+        style="height: 100%; padding: 12px;"
+      >
+        <flexbox
+          v-for="elem in elems"
+          :key="elem.type"
+        >
           <game-icon
             :name="elem.name"
             :color="elem.color"

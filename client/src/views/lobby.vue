@@ -10,7 +10,6 @@ import Flexbox from '@components/flexbox';
 import Loader from '@components/loader';
 
 export default {
-  inject: ['auth', 'room'],
   components: {
     NLayout,
     NLayoutHeader,
@@ -24,20 +23,34 @@ export default {
     Flexbox,
     Loader,
   },
-}
+  inject: ['auth', 'room'],
+};
 </script>
 
 <template>
   <section v-if="auth.isLoggedIn && room.isLoaded && !room.isJoined">
-    <n-layout content-style="padding: 8px;" class="transparent">
+    <n-layout
+      content-style="padding: 8px;"
+      class="transparent"
+    >
       <n-layout-header class="header transparent">
-        <h2 v-html="$t('game.lobby')"></h2>
+        <h2 v-html="$t('game.lobby')" />
       </n-layout-header>
 
-      <n-layout has-sider sider-placement="right" class="transparent">
-        <n-layout-content content-style="padding-right: 8px;" class="transparent">
+      <n-layout
+        has-sider
+        sider-placement="right"
+        class="transparent"
+      >
+        <n-layout-content
+          content-style="padding-right: 8px;"
+          class="transparent"
+        >
           <h3>Rooms</h3>
-          <flexbox v-if="!room.rooms.length" class="panel panel-empty empty-rooms">
+          <flexbox
+            v-if="!room.rooms.length"
+            class="panel panel-empty empty-rooms"
+          >
             No rooms have been created
           </flexbox>
           <rooms />
@@ -46,9 +59,15 @@ export default {
           <players :list="room.players" />
         </n-layout-content>
 
-        <n-layout-sider :width="240" class="transparent">
+        <n-layout-sider
+          :width="240"
+          class="transparent"
+        >
           <form class="flexbox panel panel-ghost">
-            <n-space vertical style="width: 100%;">
+            <n-space
+              vertical
+              style="width: 100%;"
+            >
               <h3>Create Room</h3>
 
               <n-input
@@ -72,7 +91,12 @@ export default {
       </n-layout>
     </n-layout>
   </section>
-  <flexbox v-else fullscreen><loader /></flexbox>
+  <flexbox
+    v-else
+    fullscreen
+  >
+    <loader />
+  </flexbox>
 </template>
 
 <style lang="scss" scoped>

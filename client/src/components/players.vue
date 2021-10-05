@@ -19,12 +19,16 @@ export default {
       type: Boolean,
     },
   },
-}
+};
 </script>
 
 <template>
   <section :class="['players', { 'players-colored': colored } ]">
-    <n-grid cols="1 240:2 480:4 720:6 960:8 1200:10" :x-gap="4" :y-gap="4">
+    <n-grid
+      cols="1 240:2 480:4 720:6 960:8 1200:10"
+      :x-gap="4"
+      :y-gap="4"
+    >
       <n-grid-item
         v-for="player in list"
         :key="player.uid"
@@ -34,7 +38,9 @@ export default {
           { 'player-highlight': highlight === player.uid },
         ]"
       >
-        <n-ellipsis :tooltip="false">{{ player.name }}</n-ellipsis>
+        <n-ellipsis :tooltip="false">
+          {{ player.name }}
+        </n-ellipsis>
       </n-grid-item>
     </n-grid>
   </section>

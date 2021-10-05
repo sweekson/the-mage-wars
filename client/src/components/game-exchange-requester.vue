@@ -105,12 +105,15 @@ export default {
       select,
     };
   },
-}
+};
 </script>
 
 <template>
   <section>
-    <n-grid cols="4" x-gap="8">
+    <n-grid
+      cols="4"
+      x-gap="8"
+    >
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[1]"
@@ -150,13 +153,27 @@ export default {
 
     <n-divider />
 
-    <n-space vertical class="exchange-responses">
-      <flexbox v-if="!responses.length" class="empty-response">
+    <n-space
+      vertical
+      class="exchange-responses"
+    >
+      <flexbox
+        v-if="!responses.length"
+        class="empty-response"
+      >
         Waiting for others to reply
       </flexbox>
 
-      <n-grid v-else cols="1" y-gap="8" class="">
-        <n-grid-item v-for="response in responses" :key="response.uid">
+      <n-grid
+        v-else
+        cols="1"
+        y-gap="8"
+        class=""
+      >
+        <n-grid-item
+          v-for="response in responses"
+          :key="response.uid"
+        >
           <game-exchange-response
             :data="response"
             :selected="selected === response.uid"

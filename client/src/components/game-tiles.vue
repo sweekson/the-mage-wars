@@ -3,17 +3,20 @@ import Flexbox from '@components/flexbox.vue';
 import GameTile from '@components/game-tile.vue';
 
 export default {
-  inject: ['map'],
   components: {
     Flexbox,
     GameTile,
   },
-}
+  inject: ['map'],
+};
 </script>
 
 <template>
   <section class="map">
-    <flexbox class="tiles" :style="{ width: map.width }">
+    <flexbox
+      class="tiles"
+      :style="{ width: map.width }"
+    >
       <game-tile
         v-for="(tile, index) in map.tiles"
         :key="tile.order"

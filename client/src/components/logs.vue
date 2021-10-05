@@ -1,7 +1,7 @@
 <script>
 export default {
   inject: ['logger'],
-}
+};
 </script>
 
 <template>

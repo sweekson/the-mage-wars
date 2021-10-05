@@ -20,12 +20,15 @@ export default {
       TileTypeColorMap,
     };
   },
-}
+};
 </script>
 
 <template>
   <section>
-    <n-grid cols="4" x-gap="8">
+    <n-grid
+      cols="4"
+      x-gap="8"
+    >
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[1]"
@@ -64,12 +67,19 @@ export default {
     </n-grid>
 
     <n-divider>
-      <n-icon size="26"><arrow-drop-down-outlined /></n-icon>
+      <n-icon size="26">
+        <arrow-drop-down-outlined />
+      </n-icon>
       <span>My Response</span>
-      <n-icon size="26"><arrow-drop-down-outlined /></n-icon>
+      <n-icon size="26">
+        <arrow-drop-down-outlined />
+      </n-icon>
     </n-divider>
 
-    <n-grid cols="4" x-gap="8">
+    <n-grid
+      cols="4"
+      x-gap="8"
+    >
       <n-grid-item>
         <game-element-selector
           :type="TileTypeNameMap[1]"

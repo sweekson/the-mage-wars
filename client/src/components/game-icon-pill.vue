@@ -26,11 +26,12 @@ export default {
       type: Boolean,
     },
   },
-}
+};
 </script>
 
 <template>
-  <div :class="[
+  <div
+    :class="[
       'game-icon-pill flexbox',
       { 'game-icon-pill-bordered': bordered },
       { 'game-icon-pill-rounded': rounded },

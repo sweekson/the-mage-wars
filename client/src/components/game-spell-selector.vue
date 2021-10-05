@@ -23,7 +23,7 @@ export default {
       type: Boolean,
     },
   },
-}
+};
 </script>
 
 <template>
@@ -42,8 +42,15 @@ export default {
     </flexbox>
 
     <div class="spell-costs">
-      <n-grid cols="2" x-gap="4" y-gap="4">
-        <n-grid-item v-for="cost in data.costs" :key="cost.type">
+      <n-grid
+        cols="2"
+        x-gap="4"
+        y-gap="4"
+      >
+        <n-grid-item
+          v-for="cost in data.costs"
+          :key="cost.type"
+        >
           <game-icon-pill
             :name="cost.name"
             :color="'silver'"

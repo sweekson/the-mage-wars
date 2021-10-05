@@ -10,14 +10,17 @@ export default {
       default: '#333',
     },
   },
-}
+};
 </script>
 
 <template>
-  <div class="hexagon" :style="`--height: ${height}px; --color: ${color};`">
+  <div
+    class="hexagon"
+    :style="`--height: ${height}px; --color: ${color};`"
+  >
     <div><slot /></div>
-    <div></div>
-    <div></div>
+    <div />
+    <div />
   </div>
 </template>
 

@@ -7,7 +7,6 @@ import Loader from '@components/loader';
 import GameCountdown from '@components/game-countdown';
 
 export default {
-  inject: ['auth', 'room', 'game'],
   components: {
     NSpace,
     NButton,
@@ -16,7 +15,8 @@ export default {
     Loader,
     GameCountdown,
   },
-}
+  inject: ['auth', 'room', 'game'],
+};
 </script>
 
 <template>
@@ -44,5 +44,10 @@ export default {
     <players :list="room.current.players" />
     <game-countdown />
   </section>
-  <flexbox v-else fullscreen><loader /></flexbox>
+  <flexbox
+    v-else
+    fullscreen
+  >
+    <loader />
+  </flexbox>
 </template>

@@ -9,7 +9,7 @@ export default {
       type: Boolean,
     },
   },
-}
+};
 </script>
 
 <template>
@@ -21,22 +21,40 @@ export default {
       { 'dice-even-roll': !rolling },
     ]"
   >
-    <li class="dice-face" data-face="1">
+    <li
+      class="dice-face"
+      data-face="1"
+    >
       <slot name="front" />
     </li>
-    <li class="dice-face" data-face="2">
+    <li
+      class="dice-face"
+      data-face="2"
+    >
       <slot name="bottom" />
     </li>
-    <li class="dice-face" data-face="3">
+    <li
+      class="dice-face"
+      data-face="3"
+    >
       <slot name="right" />
     </li>
-    <li class="dice-face" data-face="4">
+    <li
+      class="dice-face"
+      data-face="4"
+    >
       <slot name="left" />
     </li>
-    <li class="dice-face" data-face="5">
+    <li
+      class="dice-face"
+      data-face="5"
+    >
       <slot name="top" />
     </li>
-    <li class="dice-face" data-face="6">
+    <li
+      class="dice-face"
+      data-face="6"
+    >
       <slot name="back" />
     </li>
   </ol>

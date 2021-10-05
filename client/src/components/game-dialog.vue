@@ -8,7 +8,6 @@ import GameExchangeResponder from '@components/game-exchange-responder.vue';
 import GameCastSpell from '@components/game-cast-spell.vue';
 
 export default {
-  inject: ['game'],
   components: {
     NDialog,
     Flexbox,
@@ -17,6 +16,7 @@ export default {
     GameExchangeResponder,
     GameCastSpell,
   },
+  inject: ['game'],
   computed: {
     visible() {
       const { isPray, isExchange, isCast, isConfirm } = this.game.status;
@@ -24,11 +24,15 @@ export default {
       return isPray || isExchange || (isCast && isMine) || isConfirm;
     },
   },
-}
+};
 </script>
 
 <template>
-  <flexbox v-if="visible" fullscreen class="dialog">
+  <flexbox
+    v-if="visible"
+    fullscreen
+    class="dialog"
+  >
     <n-dialog
       v-if="game.status.isPray && !game.status.isCollected"
       type="success"

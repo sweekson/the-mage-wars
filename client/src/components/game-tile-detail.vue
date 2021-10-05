@@ -31,23 +31,33 @@ export default {
       collapsible: reactive(useCollapsible({ value: true })),
     };
   },
-}
+};
 </script>
 <template>
   <div
     v-draggable="{ handle: '#tile-detail-title' }"
     :class="['tile-detail', { expanded: collapsible.expanded }]"
   >
-    <h6 id="tile-detail-title" class="tile-detail-title flexbox flexbox-center-y">
+    <h6
+      id="tile-detail-title"
+      class="tile-detail-title flexbox flexbox-center-y"
+    >
       <span class="flex-1">Tile Detail</span>
 
-      <n-icon size="20" color="#ccc" @click="collapsible.toggle">
+      <n-icon
+        size="20"
+        color="#ccc"
+        @click="collapsible.toggle"
+      >
         <keyboard-arrow-up-outlined v-if="collapsible.expanded" />
         <keyboard-arrow-down-outlined v-else />
       </n-icon>
     </h6>
 
-    <flexbox v-if="!data" class="tile-detail-placeholder">
+    <flexbox
+      v-if="!data"
+      class="tile-detail-placeholder"
+    >
       Select a tile to see the detail
     </flexbox>
 

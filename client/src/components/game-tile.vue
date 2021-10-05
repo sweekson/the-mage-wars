@@ -3,11 +3,11 @@ import Flexbox from '@components/flexbox.vue';
 import GameIcon from '@components/game-icon.vue';
 
 export default {
-  inject: ['map'],
   components: {
     Flexbox,
     GameIcon,
   },
+  inject: ['map'],
   props: {
     data: {
       type: Object,
@@ -22,7 +22,7 @@ export default {
       default: false,
     },
   },
-}
+};
 </script>
 
 <template>
@@ -40,9 +40,9 @@ export default {
   >
     <flexbox class="elems">
       <flexbox
-        center
         v-for="(color, index) in data.occupied"
         :key="index"
+        center
         :class="['elem', `elem-${color}`]"
       >
         <game-icon

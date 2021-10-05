@@ -57,7 +57,7 @@ export default {
       select,
     };
   },
-}
+};
 </script>
 
 <template>
@@ -66,8 +66,14 @@ export default {
       <span>Select a spell to see the detail</span>
     </flexbox>
 
-    <n-grid cols="3" x-gap="8">
-      <n-grid-item v-for="spell in spells" :key="spell.type">
+    <n-grid
+      cols="3"
+      x-gap="8"
+    >
+      <n-grid-item
+        v-for="spell in spells"
+        :key="spell.type"
+      >
         <game-spell-selector
           :data="spell"
           :selected="selected === spell.type"

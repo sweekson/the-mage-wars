@@ -52,11 +52,14 @@ export default {
     };
     return { amount, increase, decrease };
   },
-}
+};
 </script>
 
 <template>
-  <n-space vertical :class="[{ 'elem-readonly': readonly }]">
+  <n-space
+    vertical
+    :class="[{ 'elem-readonly': readonly }]"
+  >
     <flexbox class="elem-type">
       <game-icon
         :name="type"
@@ -66,18 +69,31 @@ export default {
     </flexbox>
 
     <div class="elem-footer">
-      <flexbox v-if="readonly" class="elem-amount-readonly">
+      <flexbox
+        v-if="readonly"
+        class="elem-amount-readonly"
+      >
         {{ amount }}
       </flexbox>
 
       <n-input-group v-else>
-        <n-button class="elem-amount-button" @click="increase">
+        <n-button
+          class="elem-amount-button"
+          @click="increase"
+        >
           <n-icon><plus-outlined /></n-icon>
         </n-button>
 
-        <n-input :value="`${amount}/${limit}`" readonly class="elem-amount-input" />
+        <n-input
+          :value="`${amount}/${limit}`"
+          readonly
+          class="elem-amount-input"
+        />
 
-        <n-button class="elem-amount-button" @click="decrease">
+        <n-button
+          class="elem-amount-button"
+          @click="decrease"
+        >
           <n-icon><minus-outlined /></n-icon>
         </n-button>
       </n-input-group>

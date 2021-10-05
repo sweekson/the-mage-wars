@@ -4,14 +4,14 @@ import { NGrid, NGridItem, NButton } from 'naive-ui';
 import Flexbox from '@components/flexbox.vue';
 
 export default {
-  inject: ['room'],
   components: {
     Flexbox,
     NGrid,
     NGridItem,
     NButton,
   },
-}
+  inject: ['room'],
+};
 </script>
 
 <template>
@@ -22,7 +22,9 @@ export default {
       class="room"
     >
       <header class="room-heading">
-        <h4 class="room-title">{{ item.name }}</h4>
+        <h4 class="room-title">
+          {{ item.name }}
+        </h4>
       </header>
 
       <flexbox class="room-toolbar">

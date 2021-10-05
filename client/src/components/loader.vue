@@ -1,7 +1,7 @@
 <template>
   <div class="loadingio-spinner-ripple">
     <div class="spinner-ripple">
-      <div></div><div></div>
+      <div /><div />
     </div>
   </div>
 </template>

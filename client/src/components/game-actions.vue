@@ -2,12 +2,12 @@
 import { NModal, NDialog } from 'naive-ui';
 
 export default {
-  inject: ['room', 'game'],
   components: {
     NModal,
     NDialog,
   },
-}
+  inject: ['room', 'game'],
+};
 </script>
 
 <template>

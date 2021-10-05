@@ -6,13 +6,24 @@ export default {
     NSpace,
     NButton,
   },
-}
+};
 </script>
 
 <template>
-  <n-space align="start" justify="center" class="fullscreen">
-    <n-space vertical align="center" justify="start" class="home">
-      <h1 class="home-title">Welcome</h1>
+  <n-space
+    align="start"
+    justify="center"
+    class="fullscreen"
+  >
+    <n-space
+      vertical
+      align="center"
+      justify="start"
+      class="home"
+    >
+      <h1 class="home-title">
+        Welcome
+      </h1>
       <small class="home-subtitle">
         Let's play the board game online together!
       </small>
