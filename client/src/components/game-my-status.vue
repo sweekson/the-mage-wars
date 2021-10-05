@@ -3,6 +3,7 @@ import { NGrid, NGridItem, NStatistic } from 'naive-ui';
 
 import Hexagon from '@components/hexagon';
 import Flexbox from '@components/flexbox';
+import GameMyElems from '@components/game-my-elems';
 
 export default {
   inject: ['game'],
@@ -12,12 +13,13 @@ export default {
     NStatistic,
     Hexagon,
     Flexbox,
+    GameMyElems,
   },
 }
 </script>
 
 <template>
-  <n-grid cols="7 720:10 960:12 1200:14 1440:16" :x-gap="4">
+  <n-grid cols="10 960:12 1200:16" x-gap="8" item-responsive>
     <n-grid-item>
       <hexagon height="60" color="#eee">
         <flexbox column>
@@ -33,6 +35,10 @@ export default {
 
     <n-grid-item>
       <n-statistic label="Defense">{{ game.me.defense }}</n-statistic>
+    </n-grid-item>
+
+    <n-grid-item offset="3 960:5 1200:9" span="4">
+      <game-my-elems />
     </n-grid-item>
   </n-grid>
 </template>
