@@ -8,6 +8,7 @@ export default {
     GameTile,
   },
   inject: ['map'],
+  emits: ['selected'],
 };
 </script>
 

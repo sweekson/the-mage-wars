@@ -30,14 +30,17 @@ export default {
     },
     value: {
       type: Number,
+      required: true,
     },
     limit: {
       type: Number,
+      default: 0,
     },
     readonly: {
       type: Boolean,
     },
   },
+  emits: ['update'],
   setup(props, { emit }) {
     const amount = ref(String(props.value));
     const increase = () => {

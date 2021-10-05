@@ -34,7 +34,7 @@ export default {
       class="transparent"
     >
       <n-layout-header class="header transparent">
-        <h2 v-html="$t('game.lobby')" />
+        <h2>{{ $t('game.lobby') }}</h2>
       </n-layout-header>
 
       <n-layout

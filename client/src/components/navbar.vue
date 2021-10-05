@@ -28,8 +28,9 @@ export default {
         type="button"
         class="lang"
         @click="() => $i18n.locale = lang.locale"
-        v-html="lang.text"
-      />
+      >
+        {{ lang.text }}
+      </button>
     </template>
 
     <n-button

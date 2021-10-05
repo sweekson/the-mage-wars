@@ -23,6 +23,7 @@ export default {
       type: Boolean,
     },
   },
+  emits: ['select'],
 };
 </script>
 

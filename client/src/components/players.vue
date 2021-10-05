@@ -14,6 +14,7 @@ export default {
     },
     highlight: {
       type: String,
+      default: null,
     },
     colored: {
       type: Boolean,
