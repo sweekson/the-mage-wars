@@ -13,7 +13,7 @@
     "@feathersjs/feathers": "^4.5.11",
     "@feathersjs/socketio-client": "^4.5.11",
     "core-js": "^3.6.5",
-    "naive-ui": "^2.19.1",
+    "naive-ui": "^2.19.3",
     "socket.io-client": "^2.4.0",
     "vue": "^3.2.18",
     "vue-i18n": "^9.1.7",
