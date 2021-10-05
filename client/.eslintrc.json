@@ -1,10 +1,9 @@
 {
+  "root": true,
   "env": {
     "node": true
   },
-  "parserOptions": {
-    "parser": "babel-eslint"
-  },
+  "parser": "vue-eslint-parser",
   "extends": [
     "eslint:recommended",
     "plugin:vue/vue3-recommended"
@@ -30,9 +29,9 @@
       "error",
       "always"
     ],
-    "vetur.validation.script": false,
-    "vetur.validation.template": false,
-    "vetur.validation.style": false,
-    "vue/no-v-for-template-key": false
+    "vetur.validation.script": 0,
+    "vetur.validation.template": 0,
+    "vetur.validation.style": 0,
+    "vue/no-v-for-template-key": 0
   }
 }
