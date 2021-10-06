@@ -62,7 +62,10 @@ const useGameAction = ({ client, auth, current, status, me }) => {
   const onAccept = () => update({ accept: true });
   const onCast = () => update({ cast: true });
   const onCasting = () => update({ casting: true });
-  const onPass = () => update({ rotate: true });
+  const onPass = () => {
+    update({ rotate: true });
+    isPassing.value = false;
+  };
   const onTryPass = () => {
     if (!me.value.actions) return onPass();
     isPassing.value = true;
