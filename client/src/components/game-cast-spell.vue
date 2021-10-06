@@ -4,6 +4,8 @@ import { NSpace, NGrid, NGridItem } from 'naive-ui';
 
 import Flexbox from '@components/flexbox.vue';
 import GameSpellSelector from '@components/game-spell-selector.vue';
+import { resolveTileTypeName, resolveTileTypeColor } from '@composables/use-game-map';
+import { pipe } from '../utils/common';
 
 export default {
   components: {
@@ -19,38 +21,44 @@ export default {
       {
         type: 'basic',
         icon: 'orb-wand',
-        color: 'purple',
         costs: [
-          { type: 1, name: 'drop', amount: 2 },
-          { type: 2, name: 'electric', amount: 4 },
-          { type: 3, name: 'flamer', amount: 3 },
-          { type: 4, name: 'three-leaves', amount: 2 },
+          { type: 1, amount: 2 },
+          { type: 2, amount: 4 },
+          { type: 3, amount: 3 },
+          { type: 4, amount: 2 },
         ],
       },
       {
         type: 'advanced',
         icon: 'gift-of-knowledge',
-        color: 'berry',
         costs: [
-          { type: 1, name: 'drop', amount: 6 },
-          { type: 2, name: 'electric', amount: 4 },
-          { type: 3, name: 'flamer', amount: 5 },
-          { type: 4, name: 'three-leaves', amount: 7 },
+          { type: 1, amount: 6 },
+          { type: 2, amount: 4 },
+          { type: 3, amount: 5 },
+          { type: 4, amount: 7 },
         ],
       },
       {
         type: 'investigation',
         icon: 'cowled',
-        color: 'cyan',
         costs: [
-          { type: 1, name: 'drop', amount: 8 },
-          { type: 2, name: 'electric', amount: 8 },
-          { type: 3, name: 'flamer', amount: 8 },
-          { type: 4, name: 'three-leaves', amount: 8 },
+          { type: 1, amount: 8 },
+          { type: 2, amount: 8 },
+          { type: 3, amount: 8 },
+          { type: 4, amount: 8 },
         ],
       },
     ];
     const select = (type) => (selected.value = type);
+    const resolveElemProps = pipe(
+      resolveTileTypeName,
+      resolveTileTypeColor,
+    );
+
+    spells.forEach(x => {
+      Object.assign(x, { costs: resolveElemProps(x.costs) });
+    });
+
     return {
       selected,
       spells,

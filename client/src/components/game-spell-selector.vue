@@ -37,7 +37,7 @@ export default {
     <flexbox class="spell-type">
       <game-icon
         :name="data.icon"
-        :color="data.color"
+        :color="selected ? 'berry' : 'silver'"
         :size="'4xl'"
       />
     </flexbox>
@@ -54,7 +54,7 @@ export default {
         >
           <game-icon-pill
             :name="cost.name"
-            :color="'silver'"
+            :color="cost.color"
             :amount="cost.amount"
           />
         </n-grid-item>
