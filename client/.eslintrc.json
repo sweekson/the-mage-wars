@@ -29,9 +29,6 @@
       "error",
       "always"
     ],
-    "vetur.validation.script": 0,
-    "vetur.validation.template": 0,
-    "vetur.validation.style": 0,
     "vue/no-v-for-template-key": 0
   }
 }
