@@ -6,7 +6,7 @@ import random from 'lodash/random';
 
 import { Application } from '../../declarations';
 import { RoomJSON } from '../rooms/rooms.class';
-import { Player, GamePlayer, GamePlayers } from '../players/players.class';
+import { Player, GamePlayer, GamePlayers, Elems } from '../players/players.class';
 import { makeResult, makeError, toArray } from '../../utils/common';
 import { halfOf } from '../../utils/math';
 
@@ -445,12 +445,21 @@ export class GamesService {
       color,
       strength,
       defense,
-      elems: [],
+      elems: this.makePlayerElems(),
       cards: [],
       actions: 3,
       attack: 0,
       attacked: 0,
     };
+  }
+
+  makePlayerElems(): Elems {
+    const { initial, range } = this.config.elems;
+    const [min, max] = range;
+    const numbers = [0, 0, 0].map(() => random(min, max));
+    const total = numbers.reduce((v, x) => v + x, 0);
+    const amounts = [...numbers, initial - total].sort(() => Math.random() - .5);
+    return amounts.map((x, i) => ({ type: i + 1, amount: x }));
   }
 
   makeResult(type: string, game?: Game | null, extra?: any) {

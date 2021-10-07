@@ -43,6 +43,10 @@
     "player": {
       "strength": 15,
       "defense": 5
+    },
+    "elems": {
+      "initial": 10,
+      "range": [2, 3]
     }
   }
 }
