@@ -6,10 +6,14 @@ export interface Elem {
   amount: string;
 }
 
+export type Elems = Elem[];
+
 export interface Card {
   id: string;
   name: string;
 }
+
+export type Cards = Card[];
 
 export interface Player {
   index: number;
