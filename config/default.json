@@ -34,6 +34,7 @@
     "maximum": 10,
     "wait": {
       "start": 3100,
+      "pray": 2500,
       "confirm": 5100
     },
     "team": {
