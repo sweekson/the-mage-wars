@@ -6,6 +6,7 @@ import GameDices from '@components/game-dices.vue';
 import GameExchangeRequester from '@components/game-exchange-requester.vue';
 import GameExchangeResponder from '@components/game-exchange-responder.vue';
 import GameCastSpell from '@components/game-cast-spell.vue';
+import GameCampStatus from '@components/game-camp-status.vue';
 
 export default {
   components: {
@@ -15,6 +16,7 @@ export default {
     GameExchangeRequester,
     GameExchangeResponder,
     GameCastSpell,
+    GameCampStatus,
   },
   inject: ['game'],
   computed: {
@@ -90,7 +92,9 @@ export default {
       :closable="false"
       :show-icon="false"
       @positive-click="game.action.onConfirm"
-    />
+    >
+      <game-camp-status />
+    </n-dialog>
   </flexbox>
 </template>
 
