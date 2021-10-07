@@ -4,7 +4,7 @@ import { makeResult } from '../../utils/common';
 export interface Elem {
   id: string;
   type: string;
-  count: string;
+  amount: string;
 }
 
 export interface Card {
