@@ -2,7 +2,6 @@ import { Application } from '../../declarations';
 import { makeResult } from '../../utils/common';
 
 export interface Elem {
-  id: string;
   type: string;
   amount: string;
 }
