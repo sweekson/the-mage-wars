@@ -2,8 +2,8 @@ import { Application } from '../../declarations';
 import { makeResult } from '../../utils/common';
 
 export interface Elem {
-  type: string;
-  amount: string;
+  type: number;
+  amount: number;
 }
 
 export type Elems = Elem[];
