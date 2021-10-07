@@ -2,6 +2,7 @@ import { Params } from '@feathersjs/feathers';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import range from 'lodash/range';
+import random from 'lodash/random';
 
 import { Application } from '../../declarations';
 import { RoomJSON } from '../rooms/rooms.class';
@@ -32,6 +33,7 @@ export enum GameStatus {
   Ready = 'ready',
   Wait = 'wait',
   Pray = 'pray',
+  Collect = 'collect',
   Exchange = 'exchange',
   Cast = 'cast',
   Confirm = 'confirm',
@@ -65,6 +67,8 @@ export interface Game {
   collected: Set<string>;
   confirmed: Set<string>;
   round: number;
+  dice1: number;
+  dice2: number;
   action: Action | null;
 }
 
@@ -217,7 +221,21 @@ export class GamesService {
   }
 
   pray(game: Game) {
-    return this.next(game, GameStatus.Pray);
+    game.dice1 = random(1, 6);
+    game.dice2 = random(1, 6);
+
+    return [
+      this.makeResult('pray', game),
+      this.next(game, GameStatus.Pray),
+    ];
+  }
+
+  prayed(id: string) {
+    const game = this.map.get(id);
+
+    if (!game) return makeError(404, 'Game not found');
+
+    return this.next(game, GameStatus.Collect);
   }
 
   collect(game: Game, params: GamesParams) {
@@ -255,6 +273,8 @@ export class GamesService {
     }
 
     action.step = Steps.Exchange;
+    game.dice1 = 0;
+    game.dice2 = 0;
     game.collected.clear();
 
     return this.next(game, GameStatus.Wait);
@@ -388,6 +408,8 @@ export class GamesService {
       collected: new Set(),
       confirmed: new Set(),
       round: 1,
+      dice1: 0,
+      dice2: 0,
       action: null,
     };
   }

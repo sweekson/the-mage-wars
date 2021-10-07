@@ -21,9 +21,17 @@ export default {
   inject: ['game'],
   computed: {
     visible() {
-      const { isPray, isExchange, isCast, isConfirm } = this.game.status;
+      const {
+        isPray,
+        isCollect,
+        isCollected,
+        isExchange,
+        isCast,
+        isConfirm,
+      } = this.game.status;
       const { isMine } = this.game.action;
-      return isPray || isExchange || (isCast && isMine) || isConfirm;
+      if (isCollect && isCollected) return false;
+      return isPray || isCollect || isExchange || (isCast && isMine) || isConfirm;
     },
   },
 };
@@ -35,17 +43,7 @@ export default {
     fullscreen
     class="dialog"
   >
-    <n-dialog
-      v-if="game.status.isPray && !game.status.isCollected"
-      type="success"
-      title="Roll Dice"
-      positive-text="Collect"
-      :closable="false"
-      :show-icon="false"
-      @positive-click="game.action.onCollect"
-    >
-      <game-dices />
-    </n-dialog>
+    <game-dices v-if="(game.status.isPray || game.status.isCollect) && !game.status.isCollected" />
 
     <n-dialog
       v-if="game.status.isExchange && game.action.isMine"

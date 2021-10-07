@@ -1,13 +1,29 @@
 <script>
+import { ref } from 'vue';
+
 export default {
   props: {
     face: {
       type: Number,
       default: 1,
     },
-    rolling: {
+    animation: {
+      type: String,
+      default: '1',
+    },
+    autoplay: {
       type: Boolean,
     },
+  },
+  setup(props) {
+    const isOddRoll = ref(props.animation === '1');
+    const play = (animation) => {
+      setTimeout(() => isOddRoll.value = animation !== '1', 0);
+    };
+    return { isOddRoll, play };
+  },
+  mounted() {
+    this.autoplay && this.play(this.animation);
   },
 };
 </script>
@@ -17,8 +33,8 @@ export default {
     :data-face="face"
     :class="[
       'dice',
-      { 'dice-odd-roll': rolling },
-      { 'dice-even-roll': !rolling },
+      { 'dice-odd-roll': isOddRoll },
+      { 'dice-even-roll': !isOddRoll },
     ]"
   >
     <li

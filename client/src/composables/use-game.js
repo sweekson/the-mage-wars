@@ -5,12 +5,14 @@ import { Emitter } from '../models/emitter.class';
 const useGameStatus = ({ auth, current }) => {
   const Status = {
     Pray: 'pray',
+    Collect: 'collect',
     Exchange: 'exchange',
     Cast: 'cast',
     Confirm: 'confirm',
   };
   const status = computed(() => current.value.status);
   const isPray = computed(() => status.value === Status.Pray);
+  const isCollect = computed(() => status.value === Status.Collect);
   const isCollected = computed(
     () => current.value.collected.includes(auth.uid),
   );
@@ -22,6 +24,7 @@ const useGameStatus = ({ auth, current }) => {
   );
   return {
     isPray,
+    isCollect,
     isCollected,
     isExchange,
     isCast,
@@ -128,6 +131,7 @@ export const useGame = ({ client, auth, room, logger }) => {
   const onRefreshed = ({ game }) => {
     logger.info('game:refreshed', game.status, game.action?.step);
     current.value = game;
+    console.log(game);
   };
   const onRotated = ({ game }) => {
     logger.info('game:rotated', game.action.uid);

@@ -5,6 +5,8 @@ import { NGrid, NGridItem } from 'naive-ui';
 import Flexbox from '@components/flexbox.vue';
 import BlankDice from '@components/blank-dice.vue';
 import GameIcon from '@components/game-icon.vue';
+import { resolveTileTypeName, resolveTileTypeColor } from '@composables/use-game-map';
+import { pipe } from '../utils/common';
 
 export default {
   components: {
@@ -19,16 +21,26 @@ export default {
       type: Number,
       required: true,
     },
+    animation: {
+      type: String,
+      default: '1',
+    },
   },
   setup() {
     const elems = ref([
-      { type: 1, name: 'drop', color: 'cyan', face: 'front' },
-      { type: 2, name: 'electric', color: 'yellow', face: 'back' },
-      { type: 3, name: 'flamer', color: 'volcano', face: 'right' },
-      { type: 4, name: 'three-leaves', color: 'green', face: 'left' },
+      { type: 1, face: 'front' },
+      { type: 2, face: 'back' },
+      { type: 3, face: 'right' },
+      { type: 4, face: 'left' },
     ]);
-    const rolling = ref(true);
-    return { elems, rolling };
+    const resolveElemProps = pipe(
+      resolveTileTypeName,
+      resolveTileTypeColor,
+    );
+
+    elems.value = resolveElemProps(elems.value);
+
+    return { elems };
   },
 };
 </script>
@@ -36,8 +48,8 @@ export default {
 <template>
   <blank-dice
     :face="type"
-    :rolling="rolling"
-    @click="rolling = !rolling"
+    :animation="animation"
+    autoplay
   >
     <template
       v-for="elem in elems"

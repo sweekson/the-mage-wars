@@ -5,6 +5,7 @@ import { GamesService, Game } from './games.class';
 import { RoomStatus } from '../rooms/rooms.class';
 import hooks from './games.hooks';
 import { filterReceiver } from '../../utils/channel';
+import { transmit } from '../../utils/hooks';
 
 declare module '../../declarations' {
   interface ServiceTypes {
@@ -15,6 +16,7 @@ declare module '../../declarations' {
 export default function (app: Application) {
   app.use('/games', new GamesService(null, app));
 
+  const { wait } = app.get('game');
   const rooms = app.service('rooms');
   const games = app.service('games');
   const toRoomUsers = (data: any) => app.channel(`rooms/${data.game.room}`);
@@ -25,6 +27,12 @@ export default function (app: Application) {
   const onRoomDeleted = async ({ room }: any) => {
     room.status === RoomStatus.Started && games.destroy(room.id);
   };
+  const onPray = ({ game, context }: any) => {
+    setTimeout(() => {
+      context.result = games.prayed(game.id);
+      transmit(context);
+    }, wait.pray);
+  };
 
   games.hooks(hooks);
 
@@ -33,4 +41,6 @@ export default function (app: Application) {
 
   rooms.on('started', onRoomStarted);
   rooms.on('deleted', onRoomDeleted);
+
+  games.on('pray', onPray);
 }
