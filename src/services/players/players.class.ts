@@ -4,6 +4,7 @@ import { makeResult } from '../../utils/common';
 export interface Elem {
   type: number;
   amount: number;
+  selected: number;
 }
 
 export type Elems = Elem[];

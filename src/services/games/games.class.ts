@@ -459,7 +459,7 @@ export class GamesService {
     const numbers = [0, 0, 0].map(() => random(min, max));
     const total = numbers.reduce((v, x) => v + x, 0);
     const amounts = [...numbers, initial - total].sort(() => Math.random() - .5);
-    return amounts.map((x, i) => ({ type: i + 1, amount: x }));
+    return amounts.map((x, i) => ({ type: i + 1, amount: x, selected: 0 }));
   }
 
   makeResult(type: string, game?: Game | null, extra?: any) {

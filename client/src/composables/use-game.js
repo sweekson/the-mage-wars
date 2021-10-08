@@ -99,6 +99,18 @@ const useGameAction = ({ client, auth, current, status, me }) => {
   };
 };
 
+const useGameElemsExchange = ({ me }) => {
+  const onUpdate = (type, selected) => {
+    const elem = me.value.elems.find(x => x.type === type);
+    if (!elem) return;
+    elem.selected = selected;
+    console.log(me.value.elems);
+  };
+  return {
+    onUpdate,
+  };
+};
+
 export const useGame = ({ client, auth, room, logger }) => {
   const emitter = new Emitter();
   const on = emitter.on.bind(emitter);
@@ -107,6 +119,7 @@ export const useGame = ({ client, auth, room, logger }) => {
   const me = ref({});
   const status = reactive(useGameStatus({ auth, current }));
   const action = reactive(useGameAction({ client, auth, current, status, me }));
+  const exchange = useGameElemsExchange({ me });
   const isReady = ref(false);
   const find = (query) => GamesAPI.find({ query });
   const onRoomJoined = ({ detail }) => {
@@ -155,6 +168,7 @@ export const useGame = ({ client, auth, room, logger }) => {
     current,
     status,
     action,
+    exchange,
     me,
     isReady,
     on,

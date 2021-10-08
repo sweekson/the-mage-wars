@@ -14,6 +14,7 @@ export default {
     ArrowDropDownOutlined,
     GameElementSelector,
   },
+  inject: ['game'],
   setup() {
     return {
       TileTypeNameMap,
@@ -80,39 +81,16 @@ export default {
       cols="4"
       x-gap="8"
     >
-      <n-grid-item>
+      <n-grid-item
+        v-for="elem in game.me.elems"
+        :key="elem.type"
+      >
         <game-element-selector
-          :type="TileTypeNameMap[1]"
-          :color="TileTypeColorMap[1]"
-          :value="0"
-          :limit="20"
-        />
-      </n-grid-item>
-
-      <n-grid-item>
-        <game-element-selector
-          :type="TileTypeNameMap[2]"
-          :color="TileTypeColorMap[2]"
-          :value="0"
-          :limit="10"
-        />
-      </n-grid-item>
-
-      <n-grid-item>
-        <game-element-selector
-          :type="TileTypeNameMap[3]"
-          :color="TileTypeColorMap[3]"
-          :value="0"
-          :limit="10"
-        />
-      </n-grid-item>
-
-      <n-grid-item>
-        <game-element-selector
-          :type="TileTypeNameMap[4]"
-          :color="TileTypeColorMap[4]"
-          :value="0"
-          :limit="10"
+          :type="elem.name"
+          :color="elem.color"
+          :value="elem.selected"
+          :limit="elem.amount"
+          @update="e => game.exchange.onUpdate(elem.type, e)"
         />
       </n-grid-item>
     </n-grid>
