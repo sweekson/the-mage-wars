@@ -1,6 +1,7 @@
 import { ref, reactive, computed } from 'vue';
 
 import { Emitter } from '../models/emitter.class';
+import { resolveElemIconProps } from '@composables/use-game-elems';
 
 const useGameStatus = ({ auth, current }) => {
   const Status = {
@@ -122,16 +123,19 @@ export const useGame = ({ client, auth, room, logger }) => {
     current.value = game;
     isReady.value = true;
     emitter.emit('ready');
-    console.log(game);
+    console.log('game', current.value);
   };
   const onAssigned = ({ player }) => {
     logger.info('game:assigned', player.team);
-    Object.assign(me.value, player);
+    Object.assign(me.value, player, {
+      elems: resolveElemIconProps(player.elems),
+    });
+    console.log('me', me.value);
   };
   const onRefreshed = ({ game }) => {
     logger.info('game:refreshed', game.status, game.action?.step);
     current.value = game;
-    console.log(game);
+    console.log('game', current.value);
   };
   const onRotated = ({ game }) => {
     logger.info('game:rotated', game.action.uid);
