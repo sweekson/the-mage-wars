@@ -2,16 +2,16 @@ import { pipe } from '../utils/common';
 
 export const ElemIconNameMap = {
   1: 'drop',
-  2: 'electric',
-  3: 'flamer',
-  4: 'three-leaves',
+  2: 'flamer',
+  3: 'three-leaves',
+  4: 'electric',
 };
 
 export const ElemIconColorMap = {
   1: 'cyan',
-  2: 'yellow',
-  3: 'volcano',
-  4: 'green',
+  2: 'volcano',
+  3: 'green',
+  4: 'yellow',
 };
 
 export const resolveElemIconName = (tiles) => {
