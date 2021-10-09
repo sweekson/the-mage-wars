@@ -1,5 +1,6 @@
 <script>
-import { NDialog } from 'naive-ui';
+import { inject } from 'vue';
+import { NDialog, useMessage } from 'naive-ui';
 
 import Flexbox from '@components/flexbox.vue';
 import GameDices from '@components/game-dices.vue';
@@ -19,6 +20,30 @@ export default {
     GameCampStatus,
   },
   inject: ['game'],
+  setup() {
+    const { status, exchange } = inject('game');
+    const message = useMessage();
+    const onTrySend = () => {
+      if (exchange.isSendable) return exchange.onSend();
+      message.error('The numbers of elements have not been set');
+    };
+    const onTryAccept = () => {
+      if (exchange.isAcceptable) return exchange.onAccept();
+      message.error('No player is selected');
+    };
+    const onExchangeConfirm = () => {
+      !status.isExchange ? onTrySend() : onTryAccept();
+    };
+    const onExchangeReply = () => {
+      if (exchange.isSendable) return exchange.onReply();
+      message.error('The numbers of elements have not been set');
+    };
+
+    return {
+      onExchangeConfirm,
+      onExchangeReply,
+    };
+  },
   computed: {
     visible() {
       const {
@@ -30,8 +55,12 @@ export default {
         isConfirm,
       } = this.game.status;
       const { isMine } = this.game.action;
+      const { isOpen } = this.game.exchange;
       if (isCollect && isCollected) return false;
-      return isPray || isCollect || isExchange || (isCast && isMine) || isConfirm;
+      return (
+        isPray || isCollect || (isOpen && isMine) ||
+        isExchange || (isCast && isMine) || isConfirm
+      );
     },
   },
 };
@@ -46,25 +75,27 @@ export default {
     <game-dices v-if="(game.status.isPray || game.status.isCollect) && !game.status.isCollected" />
 
     <n-dialog
-      v-if="game.status.isExchange && game.action.isMine"
+      v-if="game.exchange.isOpen && game.action.isMine"
       title="Exchange"
-      positive-text="Confirm"
-      negative-text="Cancel"
+      :positive-text="game.status.isExchange ? 'Confirm' : 'Send Request'"
+      :negative-text="'Cancel'"
       :closable="false"
       :show-icon="false"
-      @positive-click="game.action.onAccept"
-      @negative-click="game.action.onCancel"
+      @positive-click="onExchangeConfirm"
+      @negative-click="game.exchange.onReject"
     >
       <game-exchange-requester />
     </n-dialog>
 
     <n-dialog
       v-if="game.status.isExchange && !game.action.isMine"
-      title="Ask For Exchange"
-      positive-text="Confirm"
-      negative-text="Cancel"
+      :title="`${game.exchange.requester.name}'s Exchange Request`"
+      :positive-text="game.exchange.isReplied ? null : 'Confirm'"
+      :negative-text="game.exchange.isReplied ? 'Cancel' : null"
       :closable="false"
       :show-icon="false"
+      @positive-click="onExchangeReply"
+      @negative-click="game.exchange.onRegret"
     >
       <game-exchange-responder />
     </n-dialog>

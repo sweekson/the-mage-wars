@@ -30,38 +30,14 @@ export default {
       cols="4"
       x-gap="8"
     >
-      <n-grid-item>
+      <n-grid-item
+        v-for="elem in game.exchange.requester.elems"
+        :key="elem.type"
+      >
         <game-element-selector
-          :type="TileTypeNameMap[1]"
-          :color="TileTypeColorMap[1]"
-          :value="50"
-          readonly
-        />
-      </n-grid-item>
-
-      <n-grid-item>
-        <game-element-selector
-          :type="TileTypeNameMap[2]"
-          :color="TileTypeColorMap[2]"
-          :value="0"
-          readonly
-        />
-      </n-grid-item>
-
-      <n-grid-item>
-        <game-element-selector
-          :type="TileTypeNameMap[3]"
-          :color="TileTypeColorMap[3]"
-          :value="10"
-          readonly
-        />
-      </n-grid-item>
-
-      <n-grid-item>
-        <game-element-selector
-          :type="TileTypeNameMap[4]"
-          :color="TileTypeColorMap[4]"
-          :value="0"
+          :type="elem.name"
+          :color="elem.color"
+          :value="elem.amount"
           readonly
         />
       </n-grid-item>
@@ -90,6 +66,7 @@ export default {
           :color="elem.color"
           :value="elem.selected"
           :limit="elem.amount"
+          :readonly="game.exchange.isReplied"
           @update="e => game.exchange.onUpdate(elem.type, e)"
         />
       </n-grid-item>

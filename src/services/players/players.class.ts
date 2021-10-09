@@ -9,6 +9,13 @@ export interface Elem {
 
 export type Elems = Elem[];
 
+export interface ExchangingElem {
+  type: number;
+  amount: number;
+}
+
+export type ExchangingElems = ExchangingElem[];
+
 export interface Card {
   id: string;
   name: string;
@@ -38,6 +45,12 @@ export interface GamePlayer extends Player {
 }
 
 export type GamePlayers = GamePlayer[];
+
+export interface ExchangingPlayer {
+  uid: string;
+  name: string;
+  elems: ExchangingElems;
+}
 
 export class PlayersService {
   app: Application;

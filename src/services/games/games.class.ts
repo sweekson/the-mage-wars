@@ -6,18 +6,24 @@ import random from 'lodash/random';
 
 import { Application } from '../../declarations';
 import { RoomJSON } from '../rooms/rooms.class';
-import { Player, GamePlayer, GamePlayers, Elems } from '../players/players.class';
+import {
+  Player, GamePlayer, GamePlayers,
+  ExchangingPlayer, Elems, ExchangingElems,
+} from '../players/players.class';
 import { makeResult, makeError, toArray } from '../../utils/common';
 import { halfOf } from '../../utils/math';
 
 export type GamesQuery = {
   target?: string;
   spell?: string;
+  elems?: ExchangingElems;
   assigned?: boolean;
   rotate?: boolean;
   pray?: boolean;
   collect?: boolean;
   exchange?: boolean;
+  reply?: boolean;
+  regret?: boolean;
   accept?: boolean;
   cast?: boolean;
   casting?: boolean;
@@ -56,6 +62,11 @@ export interface Action {
   step: Steps;
 }
 
+export interface Exchange {
+  requester: ExchangingPlayer;
+  responses: ExchangingPlayer[];
+}
+
 export interface Game {
   id: string;
   room: string;
@@ -70,6 +81,7 @@ export interface Game {
   dice1: number;
   dice2: number;
   action: Action | null;
+  exchange: Exchange | null;
 }
 
 export const GameActions = [
@@ -77,6 +89,8 @@ export const GameActions = [
   'pray',
   'collect',
   'exchange',
+  'reply',
+  'regret',
   'accept',
   'cast',
   'casting',
@@ -280,20 +294,130 @@ export class GamesService {
     return this.next(game, GameStatus.Wait);
   }
 
-  exchange(game: Game) {
+  exchange(game: Game, params: GamesParams) {
+    const { connection } = params;
+
+    if (!connection) {
+      return makeError(401, 'Empty connection instance');
+    }
+
+    const { _id, name } = connection.user;
+    const player = game.players.get(_id);
+
+    if (!player) return makeError(404, 'Player not found');
+
+    const { elems } = params.query;
+
+    if (!elems) return makeError(400, 'Bad action');
+
+    const valid = player.elems.every(
+      (x, i) => elems[i].type === x.type === elems[i].amount <= x.amount,
+    );
+
+    if (!valid) return makeError(400, 'Element amount invalid');
+
+    player.elems.forEach((x, i) => x.selected = elems[i].amount);
+    game.exchange = { requester: { uid: _id, name, elems }, responses: [] };
+
     return this.next(game, GameStatus.Exchange);
   }
 
-  accept(game: Game, params: GamesParams) {
-    const { action } = game;
+  reply(game: Game, params: GamesParams) {
+    if (!game.exchange) return makeError(400, 'Bad action');
 
-    if (!action) {
-      return makeError(400, 'Bad action');
+    const { connection } = params;
+
+    if (!connection) {
+      return makeError(401, 'Empty connection instance');
     }
+
+    const { _id, name } = connection.user;
+    const player = game.players.get(_id);
+
+    if (!player) return makeError(404, 'Player not found');
+
+    const { elems } = params.query;
+
+    if (!elems) return makeError(400, 'Bad action');
+
+    const valid = player.elems.every(
+      (x, i) => elems[i].type === x.type === elems[i].amount <= x.amount,
+    );
+
+    if (!valid) return makeError(400, 'Element amount invalid');
+
+    player.elems.forEach((x, i) => x.selected = elems[i].amount);
+    game.exchange.responses.push({ uid: _id, name, elems });
+
+    return this.makeResult('refreshed', game);
+  }
+
+  regret(game: Game, params: GamesParams) {
+    if (!game.exchange) return makeError(400, 'Bad action');
+
+    const { connection } = params;
+
+    if (!connection) {
+      return makeError(401, 'Empty connection instance');
+    }
+
+    const { _id } = connection.user;
+    const player = game.players.get(_id);
+
+    if (!player) return makeError(404, 'Player not found');
+
+    const index = game.exchange.responses.findIndex(x => x.uid === _id);
+
+    if (index === -1) return makeError(400, 'Bad action');
+
+    player.elems.forEach(x => x.selected = 0);
+    game.exchange.responses.splice(index, 1);
+
+    return this.makeResult('refreshed', game);
+  }
+
+  accept(game: Game, params: GamesParams) {
+    const { action, exchange } = game;
+    const { target } = params.query;
+
+    if (!action || !exchange || !target) return makeError(400, 'Bad action');
+
+    const { connection } = params;
+
+    if (!connection) {
+      return makeError(401, 'Empty connection instance');
+    }
+
+    const { _id } = connection.user;
+    const requester = game.players.get(_id);
+    const responder = game.players.get(target);
+
+    if (!requester || !responder) return makeError(404, 'Player not found');
+
+    requester.elems.forEach((x, i) => {
+      x.amount += responder.elems[i].selected;
+      x.amount -= requester.elems[i].selected;
+    });
+
+    responder.elems.forEach((x, i) => {
+      x.amount += requester.elems[i].selected;
+      x.amount -= responder.elems[i].selected;
+    });
+
+    requester.elems.forEach(x => x.selected = 0);
+    responder.elems.forEach(x => x.selected = 0);
 
     action.step = Steps.Cast;
 
-    return this.next(game, GameStatus.Wait);
+    return [
+      this.makeResult('assigned', game, {
+        receiver: requester.uid, player: requester,
+      }),
+      this.makeResult('assigned', game, {
+        receiver: responder.uid, player: responder,
+      }),
+      this.next(game, GameStatus.Wait),
+    ];
   }
 
   cast(game: Game) {
@@ -411,6 +535,7 @@ export class GamesService {
       dice1: 0,
       dice2: 0,
       action: null,
+      exchange: null,
     };
   }
 

@@ -1,17 +1,9 @@
 <script>
-import { ref } from 'vue';
-import { NGrid, NGridItem, NSpace, NDivider } from 'naive-ui';
+import { NGrid, NGridItem, NSpace, NDivider, NText } from 'naive-ui';
 
 import Flexbox from '@components/flexbox.vue';
 import GameElementSelector from '@components/game-element-selector.vue';
 import GameExchangeResponse from '@components/game-exchange-response.vue';
-import {
-  TileTypeNameMap,
-  TileTypeColorMap,
-  resolveTileTypeName,
-  resolveTileTypeColor,
-} from '@composables/use-game-map';
-import { pipe } from '../utils/common';
 
 export default {
   components: {
@@ -19,93 +11,12 @@ export default {
     NGridItem,
     NSpace,
     NDivider,
+    NText,
     Flexbox,
     GameElementSelector,
     GameExchangeResponse,
   },
   inject: ['game'],
-  setup() {
-    const responses = ref([
-      {
-        uid: 1,
-        name: 'Tom',
-        body: [
-          { type: 1, amount: 4 },
-          { type: 2, amount: 1 },
-          { type: 3, amount: 0 },
-          { type: 4, amount: 2 },
-        ],
-      },
-      {
-        uid: 2,
-        name: 'Zack',
-        body: [
-          { type: 1, amount: 3 },
-          { type: 2, amount: 2 },
-          { type: 3, amount: 1 },
-          { type: 4, amount: 0 },
-        ],
-      },
-      {
-        uid: 3,
-        name: 'Ivan',
-        body: [
-          { type: 1, amount: 4 },
-          { type: 2, amount: 1 },
-          { type: 3, amount: 0 },
-          { type: 4, amount: 2 },
-        ],
-      },
-      {
-        uid: 4,
-        name: 'Bruce',
-        body: [
-          { type: 1, amount: 3 },
-          { type: 2, amount: 2 },
-          { type: 3, amount: 1 },
-          { type: 4, amount: 0 },
-        ],
-      },
-      {
-        uid: 5,
-        name: 'Nico',
-        body: [
-          { type: 1, amount: 4 },
-          { type: 2, amount: 1 },
-          { type: 3, amount: 0 },
-          { type: 4, amount: 2 },
-        ],
-      },
-      {
-        uid: 6,
-        name: 'Sherry',
-        body: [
-          { type: 1, amount: 3 },
-          { type: 2, amount: 2 },
-          { type: 3, amount: 1 },
-          { type: 4, amount: 0 },
-        ],
-      },
-    ]);
-    const selected = ref(null);
-    const select = (uid) => (selected.value = uid);
-    const resolveElemProps = pipe(
-      resolveTileTypeName,
-      resolveTileTypeColor,
-    );
-
-    responses.value.forEach(x => {
-      Object.assign(x, { body: resolveElemProps(x.body) });
-    });
-
-    return {
-      TileTypeNameMap,
-      TileTypeColorMap,
-      responses,
-      selected,
-      select,
-    };
-  },
 };
 </script>
 
@@ -124,6 +35,7 @@ export default {
           :color="elem.color"
           :value="elem.selected"
           :limit="elem.amount"
+          :readonly="game.status.isExchange"
           @update="e => game.exchange.onUpdate(elem.type, e)"
         />
       </n-grid-item>
@@ -131,13 +43,25 @@ export default {
 
     <n-divider />
 
+    <flexbox
+      v-if="!game.status.isExchange"
+      class="help-message"
+    >
+      Click the&nbsp;
+      <n-text type="success">
+        Send Request
+      </n-text>
+      &nbsp;button after determining the numbers of elements
+    </flexbox>
+
     <n-space
+      v-else
       vertical
       class="exchange-responses"
     >
       <flexbox
-        v-if="!responses.length"
-        class="empty-response"
+        v-if="!game.exchange.responses.length"
+        class="help-message"
       >
         Waiting for others to reply
       </flexbox>
@@ -149,13 +73,13 @@ export default {
         class=""
       >
         <n-grid-item
-          v-for="response in responses"
+          v-for="response in game.exchange.responses"
           :key="response.uid"
         >
           <game-exchange-response
             :data="response"
-            :selected="selected === response.uid"
-            @select="select"
+            :selected="game.exchange.selected === response.uid"
+            @select="game.exchange.onSelect"
           />
         </n-grid-item>
       </n-grid>
@@ -168,7 +92,7 @@ export default {
   max-height: 200px;
   overflow: auto;
 }
-.empty-response {
+.help-message {
   background-color: $color-dusk-100;
   border: 1px solid $color-dusk-200;
   border-radius: 4px;

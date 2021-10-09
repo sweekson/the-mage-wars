@@ -1,4 +1,4 @@
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, watch } from 'vue';
 
 import { Emitter } from '../models/emitter.class';
 import { resolveElemIconProps } from '@composables/use-game-elems';
@@ -11,7 +11,7 @@ const useGameStatus = ({ auth, current }) => {
     Cast: 'cast',
     Confirm: 'confirm',
   };
-  const status = computed(() => current.value.status);
+  const status = computed(() => current.value?.status);
   const isPray = computed(() => status.value === Status.Pray);
   const isCollect = computed(() => status.value === Status.Collect);
   const isCollected = computed(
@@ -47,13 +47,13 @@ const useGameAction = ({ client, auth, current, status, me }) => {
   const isExchange = computed(() => action.value.step === Steps.Exchange);
   const isCast = computed(() => action.value.step === Steps.Cast);
   const isPrayable = computed(
-    () => isMine.value && isPray.value && !status.isPray,
+    () => isMine.value && isPray.value && !status.isPray.value,
   );
   const isExchangeable = computed(
-    () => isMine.value && isExchange.value && !status.isExchange,
+    () => isMine.value && isExchange.value && !status.isExchange.value,
   );
   const isCastable = computed(
-    () => isMine.value && isCast.value && !status.isCast,
+    () => isMine.value && isCast.value && !status.isCast.value,
   );
   const isPassable = computed(
     () => isMine.value && !isPray.value
@@ -62,8 +62,6 @@ const useGameAction = ({ client, auth, current, status, me }) => {
   const update = (query) => GamesAPI.update(current.value.id, {}, { query });
   const onPray = () => update({ pray: true });
   const onCollect = () => update({ collect: true });
-  const onExchange = () => update({ exchange: true });
-  const onAccept = () => update({ accept: true });
   const onCast = () => update({ cast: true });
   const onCasting = () => update({ casting: true });
   const onPass = () => {
@@ -87,8 +85,6 @@ const useGameAction = ({ client, auth, current, status, me }) => {
     isPassing,
     onPray,
     onCollect,
-    onExchange,
-    onAccept,
     onCast,
     onCasting,
     onPass,
@@ -99,15 +95,75 @@ const useGameAction = ({ client, auth, current, status, me }) => {
   };
 };
 
-const useGameElemsExchange = ({ me }) => {
+const useGameElemsExchange = ({ client, current, status, me }) => {
+  const { GamesAPI } = client;
+  const requester = computed(() => {
+    if (!current.value || !current.value.exchange) return null;
+    const { requester } = current.value.exchange;
+    if (!requester) return null;
+    requester.elems = resolveElemIconProps(requester.elems);
+    return requester;
+  });
+  const responses = computed(() => {
+    if (!current.value || !current.value.exchange) return [];
+    const { responses } = current.value.exchange;
+    if (!responses) return [];
+    responses.forEach(x => (x.elems = resolveElemIconProps(x.elems)));
+    return responses;
+  });
+  const selected = ref(null);
+  const isOpen = ref(status.isExchange.value);
+  const isSendable = computed(() => me.value.elems.some(x => x.selected > 0));
+  const isAcceptable = computed(() => selected.value !== null);
+  const isReplied = computed(
+    () => !!responses.value.find(x => x.uid === me.value.uid),
+  );
+  const update = (query) => GamesAPI.update(current.value.id, {}, { query });
+  const onOpen = () => isOpen.value = true;
+  const onClose = () => isOpen.value = false;
   const onUpdate = (type, selected) => {
     const elem = me.value.elems.find(x => x.type === type);
     if (!elem) return;
     elem.selected = selected;
-    console.log(me.value.elems);
   };
+  const onSend = () => update({
+    exchange: true,
+    elems: me.value.elems.map(x => ({ type: x.type, amount: x.selected })),
+  });
+  const onReply = () => update({
+    reply: true,
+    elems: me.value.elems.map(x => ({ type: x.type, amount: x.selected })),
+  });
+  const onRegret = () => update({ regret: true });
+  const onSelect = uid => (selected.value = uid);
+  const onAccept = () => {
+    update({accept: true, target: selected.value }).then(() => onClose());
+  };
+  const onCancel = () => update({ cancel: true });
+  const onReject = () => status.isExchange.value ? onCancel() : onClose();
+
+  watch(status.isExchange, x => x && (isOpen.value = x));
+  watch(responses, () => {
+    if (responses.value.find(x => x.uid === selected.value)) return;
+    selected.value = null;
+  });
+
   return {
+    requester,
+    responses,
+    selected,
+    isOpen,
+    isSendable,
+    isAcceptable,
+    isReplied,
+    onOpen,
     onUpdate,
+    onSend,
+    onReply,
+    onRegret,
+    onSelect,
+    onAccept,
+    onReject,
   };
 };
 
@@ -117,9 +173,9 @@ export const useGame = ({ client, auth, room, logger }) => {
   const { GamesAPI } = client;
   const current = ref(null);
   const me = ref({});
-  const status = reactive(useGameStatus({ auth, current }));
+  const status = useGameStatus({ auth, current });
   const action = reactive(useGameAction({ client, auth, current, status, me }));
-  const exchange = useGameElemsExchange({ me });
+  const exchange = useGameElemsExchange({ client, current, status, me });
   const isReady = ref(false);
   const find = (query) => GamesAPI.find({ query });
   const onRoomJoined = ({ detail }) => {

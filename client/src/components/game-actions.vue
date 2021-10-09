@@ -25,7 +25,7 @@ export default {
       class="btn btn-lg btn-block btn-skew btn-mist"
       type="button"
       data-text="Exchange"
-      @click="game.action.onExchange"
+      @click="game.exchange.onOpen"
     />
 
     <button
