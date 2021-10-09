@@ -208,6 +208,7 @@ export const useGame = ({ client, auth, room, logger }) => {
   };
   const onRotated = ({ game }) => {
     logger.info('game:rotated', game.action.uid);
+    emitter.emit('rotated');
   };
 
   room.on('joined', onRoomJoined);

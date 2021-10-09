@@ -1,5 +1,6 @@
 <script>
-import { NModal, NDialog } from 'naive-ui';
+import { inject } from 'vue';
+import { NModal, NDialog, useMessage } from 'naive-ui';
 
 export default {
   components: {
@@ -7,6 +8,12 @@ export default {
     NDialog,
   },
   inject: ['room', 'game'],
+  setup() {
+    const game = inject('game');
+    const message = useMessage();
+
+    game.on('rotated', () => message.info('Your turn'));
+  },
 };
 </script>
 
