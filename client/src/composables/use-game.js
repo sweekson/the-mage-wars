@@ -142,7 +142,7 @@ const useGameElemsExchange = ({ client, current, status, me }) => {
   const onCancel = () => update({ cancel: true });
   const onReject = () => status.isExchange.value ? onCancel() : onClose();
 
-  watch(status.isExchange, x => x && (isOpen.value = x));
+  watch(status.isExchange, x => (isOpen.value = x));
   watch(responses, () => {
     if (responses.value.find(x => x.uid === selected.value)) return;
     selected.value = null;
