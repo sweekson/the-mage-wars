@@ -408,6 +408,7 @@ export class GamesService {
     responder.elems.forEach(x => x.selected = 0);
 
     action.step = Steps.Cast;
+    game.exchange = null;
 
     return [
       this.makeResult('assigned', game, {
