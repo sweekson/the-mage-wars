@@ -18,7 +18,7 @@ export default {
   setup(props) {
     const isOddRoll = ref(props.animation === '1');
     const play = (animation) => {
-      setTimeout(() => isOddRoll.value = animation !== '1', 0);
+      setTimeout(() => isOddRoll.value = animation !== '1', 10);
     };
     return { isOddRoll, play };
   },
@@ -53,13 +53,13 @@ export default {
       class="dice-face"
       data-face="3"
     >
-      <slot name="right" />
+      <slot name="left" />
     </li>
     <li
       class="dice-face"
       data-face="4"
     >
-      <slot name="left" />
+      <slot name="right" />
     </li>
     <li
       class="dice-face"
