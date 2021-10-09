@@ -20,7 +20,7 @@ export default {
 <template>
   <section>
     <button
-      :disabled="!game.action.isPrayable"
+      :disabled="!game.action.isPrayable || game.status.isCollect"
       class="btn btn-lg btn-block btn-skew btn-mist"
       type="button"
       data-text="Roll Dice"
