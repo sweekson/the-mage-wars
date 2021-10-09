@@ -27,6 +27,7 @@ export type GamesQuery = {
   accept?: boolean;
   cast?: boolean;
   casting?: boolean;
+  move?: boolean;
   confirm?: boolean;
   cancel?: boolean;
   leave?: boolean;
@@ -43,6 +44,7 @@ export enum GameStatus {
   Collect = 'collect',
   Exchange = 'exchange',
   Cast = 'cast',
+  Move = 'move',
   Confirm = 'confirm',
 }
 
@@ -55,12 +57,15 @@ export enum Steps {
   Pray = 1,
   Exchange = 2,
   Cast = 3,
-  Pass = 4,
+  Move = 4,
+  Pass = 5,
 }
 
 export interface Action {
   uid: string;
   step: Steps;
+  moves: number;
+  moved: boolean;
 }
 
 export interface Exchange {
@@ -95,6 +100,7 @@ export const GameActions = [
   'accept',
   'cast',
   'casting',
+  'move',
   'confirm',
   'cancel',
   'leave',
@@ -116,6 +122,7 @@ export class GamesService {
       'rotated',
       'collected',
       'accepted',
+      'move',
       'confirmed',
       'removed',
       'destroyed',
@@ -224,7 +231,7 @@ export class GamesService {
     if (!next) return makeError(404, 'Player not found');
 
     game.status = GameStatus.Wait;
-    game.action = { uid, step: Steps.Pray };
+    game.action = { uid, step: Steps.Pray, moves: 0, moved: false };
     next.actions = 3;
 
     const player = omit(next, ['attack', 'attacked']);
@@ -453,6 +460,48 @@ export class GamesService {
       this.next(game, GameStatus.Wait),
       this.makeResult('assigned', game, { receiver: _id, player }),
     ];
+  }
+
+  move(game: Game, params: GamesParams) {
+    const { action } = game;
+
+    if (!action) return makeError(400, 'Bad action');
+
+    const { connection } = params;
+
+    if (!connection) {
+      return makeError(401, 'Empty connection instance');
+    }
+
+    const { _id } = connection.user;
+
+    if (action.uid !== _id) return makeError(400, 'Bad action');
+
+    const player = game.players.get(_id);
+
+    if (!player) return makeError(404, 'Player not found');
+
+    action.moves = random(1, 6);
+    action.moved = true;
+
+    return [
+      this.makeResult('move', game),
+      this.next(game, GameStatus.Move),
+    ];
+  }
+
+  moved(id: string) {
+    const game = this.map.get(id);
+
+    if (!game) return makeError(404, 'Game not found');
+
+    const { action } = game;
+
+    if (!action) return makeError(400, 'Bad action');
+
+    action.moves = 0;
+
+    return this.next(game, GameStatus.Wait);
   }
 
   confirming(game: Game) {

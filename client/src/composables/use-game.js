@@ -9,6 +9,7 @@ const useGameStatus = ({ auth, current }) => {
     Collect: 'collect',
     Exchange: 'exchange',
     Cast: 'cast',
+    Move: 'move',
     Confirm: 'confirm',
   };
   const status = computed(() => current.value?.status);
@@ -19,6 +20,7 @@ const useGameStatus = ({ auth, current }) => {
   );
   const isExchange = computed(() => status.value === Status.Exchange);
   const isCast = computed(() => status.value === Status.Cast);
+  const isMove = computed(() => status.value === Status.Move);
   const isConfirm = computed(() => status.value === Status.Confirm);
   const isConfirmed = computed(
     () => current.value.confirmed.includes(auth.uid),
@@ -29,6 +31,7 @@ const useGameStatus = ({ auth, current }) => {
     isCollected,
     isExchange,
     isCast,
+    isMove,
     isConfirm,
     isConfirmed,
   };
@@ -40,6 +43,7 @@ const useGameAction = ({ client, auth, current, status, me }) => {
     Pray: 1,
     Exchange: 2,
     Cast: 3,
+    Move: 4,
   };
   const action = computed(() => current.value.action || {});
   const isMine = computed(() => action.value.uid === auth.uid);
@@ -55,6 +59,9 @@ const useGameAction = ({ client, auth, current, status, me }) => {
   const isCastable = computed(
     () => isMine.value && isCast.value && !status.isCast.value,
   );
+  const isMoveable = computed(
+    () => isMine.value && !isPray.value && !action.value.moved
+  );
   const isPassable = computed(
     () => isMine.value && !isPray.value
   );
@@ -64,6 +71,7 @@ const useGameAction = ({ client, auth, current, status, me }) => {
   const onCollect = () => update({ collect: true });
   const onCast = () => update({ cast: true });
   const onCasting = () => update({ casting: true });
+  const onMove = () => update({ move: true });
   const onPass = () => {
     update({ rotate: true });
     isPassing.value = false;
@@ -86,12 +94,14 @@ const useGameAction = ({ client, auth, current, status, me }) => {
     isPrayable,
     isExchangeable,
     isCastable,
+    isMoveable,
     isPassable,
     isPassing,
     onPray,
     onCollect,
     onCast,
     onCasting,
+    onMove,
     onPass,
     onTryPass,
     onConfirm,

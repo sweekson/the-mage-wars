@@ -3,6 +3,7 @@ import { inject } from 'vue';
 import { NDialog, useMessage } from 'naive-ui';
 
 import Flexbox from '@components/flexbox.vue';
+import NumberDice from '@components/number-dice.vue';
 import GameDices from '@components/game-dices.vue';
 import GameExchangeRequester from '@components/game-exchange-requester.vue';
 import GameExchangeResponder from '@components/game-exchange-responder.vue';
@@ -13,6 +14,7 @@ export default {
   components: {
     NDialog,
     Flexbox,
+    NumberDice,
     GameDices,
     GameExchangeRequester,
     GameExchangeResponder,
@@ -52,6 +54,7 @@ export default {
         isCollected,
         isExchange,
         isCast,
+        isMove,
         isConfirm,
       } = this.game.status;
       const { isMine } = this.game.action;
@@ -59,7 +62,7 @@ export default {
       if (isCollect && isCollected) return false;
       return (
         isPray || isCollect || (isOpen && isMine) ||
-        isExchange || (isCast && isMine) || isConfirm
+        isExchange || (isCast && isMine) || isMove || isConfirm
       );
     },
   },
@@ -73,6 +76,11 @@ export default {
     class="dialog"
   >
     <game-dices v-if="(game.status.isPray || game.status.isCollect) && !game.status.isCollected" />
+
+    <number-dice
+      v-if="game.status.isMove"
+      :value="game.current.action.moves"
+    />
 
     <n-dialog
       v-if="game.exchange.isOpen && game.action.isMine"

@@ -33,6 +33,12 @@ export default function (app: Application) {
       transmit(context);
     }, wait.pray);
   };
+  const onMove = ({ game, context }: any) => {
+    setTimeout(() => {
+      context.result = games.moved(game.id);
+      transmit(context);
+    }, wait.move);
+  };
 
   games.hooks(hooks);
 
@@ -43,4 +49,5 @@ export default function (app: Application) {
   rooms.on('deleted', onRoomDeleted);
 
   games.on('pray', onPray);
+  games.on('move', onMove);
 }

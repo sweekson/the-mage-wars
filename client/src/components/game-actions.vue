@@ -44,6 +44,14 @@ export default {
     />
 
     <button
+      :disabled="!game.action.isMoveable"
+      class="btn btn-lg btn-block btn-skew btn-mist"
+      type="button"
+      data-text="Move"
+      @click="game.action.onMove"
+    />
+
+    <button
       :disabled="!game.action.isPassable"
       class="btn btn-lg btn-block btn-skew btn-mist"
       type="button"
