@@ -61,7 +61,7 @@ const useGameAction = ({ client, auth, current, status, me }) => {
     () => isMine.value && !isPray.value && !action.value.moved
   );
   const isPassable = computed(
-    () => isMine.value && !isPray.value
+    () => isMine.value && !isPray.value && action.value.moved
   );
   const isPassing = ref(false);
   const update = (query) => GamesAPI.update(current.value.id, {}, { query });
