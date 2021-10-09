@@ -32,7 +32,7 @@ export default {
           :show-indicator="false"
           type="line"
           color="#fa4"
-          height="12"
+          :height="12"
           class="camp-spirit"
         />
       </n-grid-item>
@@ -55,7 +55,7 @@ export default {
           :show-indicator="false"
           type="line"
           color="#fa4"
-          height="12"
+          :height="12"
           class="camp-spirit"
         />
       </n-grid-item>
