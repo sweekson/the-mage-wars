@@ -55,7 +55,7 @@ const useGameAction = ({ client, auth, current, status, me }) => {
     () => isMine.value && !isPray.value && me.value.exchanges > 0,
   );
   const isCastable = computed(
-    () => isMine.value && !isPray.value && !status.isCast.value,
+    () => isMine.value && !isPray.value && me.value.actions > 0,
   );
   const isMoveable = computed(
     () => isMine.value && !isPray.value && !action.value.moved
