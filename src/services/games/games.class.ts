@@ -29,6 +29,7 @@ export type GamesQuery = {
   casting?: boolean;
   confirm?: boolean;
   cancel?: boolean;
+  leave?: boolean;
 }
 
 export type GamesParams = Params & {
@@ -96,6 +97,7 @@ export const GameActions = [
   'casting',
   'confirm',
   'cancel',
+  'leave',
 ];
 
 export class GamesService {
@@ -500,6 +502,36 @@ export class GamesService {
     return this.makeResult('refreshed', game);
   }
 
+  leave(game: Game, params: GamesParams) {
+    const { connection } = params;
+
+    if (!connection) {
+      return makeError(401, 'Empty connection instance');
+    }
+
+    const { _id: uid } = connection.user;
+    const { team1, team2, sequence, players, action, exchange } = game;
+
+    if (!players.has(uid)) makeError(400, 'Bad action');
+
+    const index1 = team1.players.findIndex(x => x.uid === uid);
+    const index2 = team2.players.findIndex(x => x.uid === uid);
+    const index3 = sequence.indexOf(uid);
+    const index4 = exchange?.responses.findIndex(x => x.uid === uid);
+
+    index1 > -1 && team1.players.splice(index1, 1);
+    index2 > -1 && team2.players.splice(index2, 1);
+    index4 && index4 > -1 && exchange?.responses.splice(index2, 1);
+    sequence.splice(index3, 1);
+    players.delete(uid);
+
+    if (action && action.uid === uid) {
+      return this.rotate(game);
+    }
+
+    return this.makeResult('refreshed', game);
+  }
+
   destroy(room: string) {
     if (!room) {
       return makeError(400, 'Bad request');
@@ -610,7 +642,7 @@ export class GamesService {
     };
   }
 
-  get list() {
+  get list(): Game[] {
     return toArray(this.map);
   }
 

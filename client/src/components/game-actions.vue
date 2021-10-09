@@ -80,7 +80,7 @@ export default {
         positive-text="Leave"
         negative-text="Stay"
         :show-icon="false"
-        @positive-click="room.onLeave"
+        @positive-click="room.onLeave(), game.action.onLeave()"
         @negative-click="room.isLeaving = false"
         @close="room.isLeaving = false"
       />

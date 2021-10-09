@@ -75,6 +75,7 @@ const useGameAction = ({ client, auth, current, status, me }) => {
   const onConfirm = () => update({ confirm: true });
   const onCancel = () => update({ cancel: true });
   const onRemove = () => GamesAPI.remove(current.value.id);
+  const onLeave = () => update({ leave: true });
 
   return {
     isMine,
@@ -92,6 +93,7 @@ const useGameAction = ({ client, auth, current, status, me }) => {
     onConfirm,
     onCancel,
     onRemove,
+    onLeave,
   };
 };
 
