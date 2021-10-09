@@ -6,113 +6,56 @@ export default {
 
 <template>
   <div
-    v-if="room.counts"
+    v-if="room.counts > 0"
     class="counter"
   >
-    <div class="counter-colored-blocks">
-      <div class="counter-colored-blocks-rotater">
-        <div class="counter-colored-block" />
-        <div class="counter-colored-block" />
-        <div class="counter-colored-block" />
-        <div class="counter-colored-block" />
-      </div>
-      <div class="counter-text">
-        {{ room.counts }}
-      </div>
+    <div class="counter-text">
+      {{ room.counts }}
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-
-$color: #236;
-
-$color1: #f36;
-$color2: #fd2;
-$color3: #2c6;
-$color4: #2bf;
-
-$colors: (
-  1: $color1,
-  2: $color2,
-  3: $color3,
-  4: $color4,
-);
-
-$blocks: 4;
-$degree: 360deg / $blocks;
-
-$height: 160px;
-$width: 160px;
-$padding: 6px;
-$border-radius: 80px;
+@keyframes scale-down {
+  0% {
+    font-size: calc(var(--text-size) * 1.2);
+    transform: scale(1.4);
+  }
+  100% {
+    font-size: var(--text-size);
+    transform: scale(1);
+  }
+}
 
 .counter {
-  border-radius: $border-radius;
-  width: $width;
-  height: $height;
+  --color: #{$color-mist-100};
+  --border-color: #fff;
+  --size: 120px;
+  --text-size: 72px;
+  --text-color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--size) * 1.4);
+  height: calc(var(--size) * 1.4);
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 
-  &-colored-blocks {
-    border-radius: $border-radius;
-    overflow: hidden;
-    width: $width;
-    height: 100%;
-    padding: $padding;
-    position: absolute;
-    top: 0;
-
-    &-rotater {
-      border-radius: inherit;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      left: 0;
-      top: 0;
-      animation: rotation 1s linear infinite;
-    }
-  }
-
-  &-colored-block {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 100%;
-    height: 100%;
-    transform-origin: 0 0;
-
-    @each $index, $color in $colors {
-      &:nth-child(#{$index}) {
-        $rotate: $degree * ($index - 1);
-        $skew: 90deg - $degree;
-        background-color: $color;
-        transform: rotate($rotate) skewX($skew);
-      }
-    }
-  }
-
   &-text {
-    background-color: $color;
-    border-radius: inherit;
-    font-size: 100px;
+    background-color: var(--color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--size);
     font-weight: 200;
-    color: #fff;
+    color: var(--text-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
+    width: var(--size);
+    height: var(--size);
+    animation: 1s scale-down infinite;
   }
 }
-
-@keyframes rotation {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 </style>
