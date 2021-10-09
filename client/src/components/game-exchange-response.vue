@@ -70,7 +70,7 @@ export default {
   }
 
   &-player {
-    padding: 3px 8px;
+    padding: 2px 8px;
   }
 }
 </style>
