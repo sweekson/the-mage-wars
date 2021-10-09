@@ -84,11 +84,11 @@ export default {
   z-index: 400;
 
   @include media-breakpoint-down(lg) {
-    transform: translate(calc(100vw - 208px), 310px);
+    transform: translate(calc(100vw - 208px), 360px);
   }
 
   @include media-breakpoint-up(lg) {
-    transform: translate(calc(100vw - 530px), 118px);
+    transform: translate(calc(100vw - 500px), 118px);
   }
 
   &.expanded {
