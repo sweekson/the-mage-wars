@@ -34,6 +34,7 @@ export default {
   --text-size: 72px;
   --text-color: #fff;
 
+  user-select: none;
   display: flex;
   align-items: center;
   justify-content: center;

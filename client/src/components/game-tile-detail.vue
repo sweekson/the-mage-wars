@@ -47,6 +47,7 @@ export default {
       <n-icon
         size="20"
         color="#ccc"
+        class="tile-detail-collapse-icon"
         @click="collapsible.toggle"
       >
         <keyboard-arrow-up-outlined v-if="collapsible.expanded" />
@@ -109,6 +110,10 @@ export default {
   &.expanded &-title {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
+  }
+
+  &-collapse-icon {
+    cursor: default;
   }
 
   &-placeholder {

@@ -100,6 +100,7 @@ export default {
 .round {
   font-size: 24px;
   color: $text-color-reverse;
+  user-select: none;
   display: flex;
   align-items: center;
   height: 32px;
