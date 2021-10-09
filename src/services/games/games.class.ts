@@ -232,6 +232,7 @@ export class GamesService {
 
     game.status = GameStatus.Wait;
     game.action = { uid, step: Steps.Pray, moves: 0, moved: false };
+    next.exchanges = 3;
     next.actions = 3;
 
     const player = omit(next, ['attack', 'attacked']);
@@ -416,6 +417,7 @@ export class GamesService {
     requester.elems.forEach(x => x.selected = 0);
     responder.elems.forEach(x => x.selected = 0);
 
+    requester.exchanges -= 1;
     action.step = Steps.Cast;
     game.exchange = null;
 
@@ -654,6 +656,7 @@ export class GamesService {
       defense,
       elems: this.makePlayerElems(),
       cards: [],
+      exchanges: 3,
       actions: 3,
       attack: 0,
       attacked: 0,

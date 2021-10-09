@@ -48,12 +48,11 @@ const useGameAction = ({ client, auth, current, status, me }) => {
   const action = computed(() => current.value.action || {});
   const isMine = computed(() => action.value.uid === auth.uid);
   const isPray = computed(() => action.value.step === Steps.Pray);
-  const isExchange = computed(() => action.value.step === Steps.Exchange);
   const isPrayable = computed(
     () => isMine.value && isPray.value && !status.isPray.value,
   );
   const isExchangeable = computed(
-    () => isMine.value && isExchange.value && !status.isExchange.value,
+    () => isMine.value && !isPray.value && me.value.exchanges > 0,
   );
   const isCastable = computed(
     () => isMine.value && !isPray.value && !status.isCast.value,

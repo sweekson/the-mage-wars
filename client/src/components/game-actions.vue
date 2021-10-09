@@ -31,7 +31,7 @@ export default {
       :disabled="!game.action.isExchangeable"
       class="btn btn-lg btn-block btn-skew btn-mist"
       type="button"
-      data-text="Exchange"
+      :data-text="`Exchange (${game.me.exchanges})`"
       @click="game.exchange.onOpen"
     />
 
