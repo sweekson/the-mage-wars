@@ -99,7 +99,7 @@ main {
   }
 
   &.room {
-    background-image: url('~@/assets/backgrounds/bridge-and-mountain.jpeg');
+    background-image: url('~@/assets/backgrounds/tree-house.jpeg');
   }
 
   &.game {
