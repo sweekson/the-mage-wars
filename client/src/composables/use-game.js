@@ -75,7 +75,11 @@ const useGameAction = ({ client, auth, current, status, me }) => {
   const onConfirm = () => update({ confirm: true });
   const onCancel = () => update({ cancel: true });
   const onRemove = () => GamesAPI.remove(current.value.id);
-  const onLeave = () => update({ leave: true });
+  const onLeave = () => {
+    // A game will be deleted automatically when the last player left
+    // So leaving from a deleted game will return 400 error
+    update({ leave: true }).catch(e => e.code !== 400 && console.warn(e));
+  };
 
   return {
     isMine,
