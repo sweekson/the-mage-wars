@@ -137,7 +137,7 @@ const useGameElemsExchange = ({ client, current, status, me }) => {
   const onRegret = () => update({ regret: true });
   const onSelect = uid => (selected.value = uid);
   const onAccept = () => {
-    update({accept: true, target: selected.value }).then(() => onClose());
+    update({ accept: true, target: selected.value }).then(() => onClose());
   };
   const onCancel = () => update({ cancel: true });
   const onReject = () => status.isExchange.value ? onCancel() : onClose();
