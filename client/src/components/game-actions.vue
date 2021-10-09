@@ -40,7 +40,7 @@ export default {
       class="btn btn-lg btn-block btn-skew btn-mist"
       type="button"
       :data-text="`Cast Spells (${game.me.actions})`"
-      @click="game.action.onCast"
+      @click="game.cast.onOpen"
     />
 
     <button

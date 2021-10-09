@@ -67,8 +67,6 @@ const useGameAction = ({ client, auth, current, status, me }) => {
   const update = (query) => GamesAPI.update(current.value.id, {}, { query });
   const onPray = () => update({ pray: true });
   const onCollect = () => update({ collect: true });
-  const onCast = () => update({ cast: true });
-  const onCasting = () => update({ casting: true });
   const onMove = () => update({ move: true });
   const onPass = () => {
     update({ rotate: true });
@@ -97,8 +95,6 @@ const useGameAction = ({ client, auth, current, status, me }) => {
     isPassing,
     onPray,
     onCollect,
-    onCast,
-    onCasting,
     onMove,
     onPass,
     onTryPass,
@@ -181,6 +177,74 @@ const useGameElemsExchange = ({ client, current, status, me }) => {
   };
 };
 
+const useGameCastSpell = ({ client, current }) => {
+  const { GamesAPI } = client;
+  const spells = [
+    {
+      type: 'basic',
+      icon: 'orb-wand',
+      description: `
+        Randomly cast a common spell.
+        You will get a card that you can use later.
+      `,
+      costs: [
+        { type: 1, amount: 2 },
+        { type: 2, amount: 4 },
+        { type: 3, amount: 3 },
+        { type: 4, amount: 2 },
+      ],
+    },
+    {
+      type: 'advanced',
+      icon: 'gift-of-knowledge',
+      description: `
+        Randomly cast a advanced spell.
+        You will get a card that you can use later.
+      `,
+      costs: [
+        { type: 1, amount: 6 },
+        { type: 2, amount: 3 },
+        { type: 3, amount: 5 },
+        { type: 4, amount: 7 },
+      ],
+    },
+    {
+      type: 'investigation',
+      icon: 'cowled',
+      description: 'Randomly check the camp of a player.',
+      costs: [
+        { type: 1, amount: 10 },
+        { type: 2, amount: 10 },
+        { type: 3, amount: 10 },
+        { type: 4, amount: 10 },
+      ],
+    },
+  ];
+  const selected = ref(null);
+  const isOpen = ref(false);
+  const isSendable = computed(() => selected.value !== null);
+  const update = (query) => GamesAPI.update(current.value.id, {}, { query });
+  const onOpen = () => isOpen.value = true;
+  const onCancel = () => isOpen.value = false;
+  const onSelect = (type) => (selected.value = type);
+  const onSend = () => {
+    update({ cast: true, spell: selected.value }).then(() => onCancel());
+  };
+
+  spells.forEach(x => (x.costs = resolveElemIconProps(x.costs)));
+
+  return {
+    spells,
+    selected,
+    isOpen,
+    isSendable,
+    onOpen,
+    onCancel,
+    onSelect,
+    onSend,
+  };
+};
+
 export const useGame = ({ client, auth, room, logger }) => {
   const emitter = new Emitter();
   const on = emitter.on.bind(emitter);
@@ -190,6 +254,7 @@ export const useGame = ({ client, auth, room, logger }) => {
   const status = useGameStatus({ auth, current });
   const action = reactive(useGameAction({ client, auth, current, status, me }));
   const exchange = useGameElemsExchange({ client, current, status, me });
+  const cast = useGameCastSpell({ client, current, status, me });
   const isReady = ref(false);
   const find = (query) => GamesAPI.find({ query });
   const onRoomJoined = ({ detail }) => {
@@ -240,6 +305,7 @@ export const useGame = ({ client, auth, room, logger }) => {
     status,
     action,
     exchange,
+    cast,
     me,
     isReady,
     on,

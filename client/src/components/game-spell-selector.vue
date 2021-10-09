@@ -32,7 +32,7 @@ export default {
     vertical
     size="small"
     :class="{ 'spell-selected': selected }"
-    @click="$emit('select', data.type)"
+    @click="$emit('select', data)"
   >
     <flexbox class="spell-type">
       <game-icon

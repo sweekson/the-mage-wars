@@ -23,7 +23,7 @@ export default {
   },
   inject: ['game'],
   setup() {
-    const { status, exchange } = inject('game');
+    const { status, exchange, cast } = inject('game');
     const message = useMessage();
     const onTrySend = () => {
       if (exchange.isSendable) return exchange.onSend();
@@ -40,10 +40,15 @@ export default {
       if (exchange.isSendable) return exchange.onReply();
       message.error('The numbers of elements have not been set');
     };
+    const onSpellCast = () => {
+      if (cast.isSendable) return cast.onSend();
+      message.error('No spell is selected');
+    };
 
     return {
       onExchangeConfirm,
       onExchangeReply,
+      onSpellCast,
     };
   },
   computed: {
@@ -53,16 +58,19 @@ export default {
         isCollect,
         isCollected,
         isExchange,
-        isCast,
         isMove,
         isConfirm,
       } = this.game.status;
       const { isMine } = this.game.action;
-      const { isOpen } = this.game.exchange;
+      const { exchange, cast } = this.game;
+
       if (isCollect && isCollected) return false;
+
       return (
-        isPray || isCollect || (isOpen && isMine) ||
-        isExchange || (isCast && isMine) || isMove || isConfirm
+        isPray || isCollect ||
+        (exchange.isOpen && isMine) || isExchange ||
+        (cast.isOpen && isMine) ||
+        isMove || isConfirm
       );
     },
   },
@@ -109,14 +117,14 @@ export default {
     </n-dialog>
 
     <n-dialog
-      v-if="game.status.isCast && game.action.isMine"
+      v-if="game.cast.isOpen && game.action.isMine"
       title="Cast Spells"
       positive-text="Cast"
       negative-text="Cancel"
       :closable="false"
       :show-icon="false"
-      @positive-click="game.action.onCasting"
-      @negative-click="game.action.onCancel"
+      @positive-click="onSpellCast"
+      @negative-click="game.cast.onCancel"
     >
       <game-cast-spell />
     </n-dialog>

@@ -26,7 +26,6 @@ export type GamesQuery = {
   regret?: boolean;
   accept?: boolean;
   cast?: boolean;
-  casting?: boolean;
   move?: boolean;
   confirm?: boolean;
   cancel?: boolean;
@@ -99,7 +98,6 @@ export const GameActions = [
   'regret',
   'accept',
   'cast',
-  'casting',
   'move',
   'confirm',
   'cancel',
@@ -432,11 +430,7 @@ export class GamesService {
     ];
   }
 
-  cast(game: Game) {
-    return this.next(game, GameStatus.Cast);
-  }
-
-  casting(game: Game, params: GamesParams) {
+  cast(game: Game, params: GamesParams) {
     const { connection } = params;
 
     if (!connection) return makeError(401, 'Empty connection instance');
@@ -458,10 +452,7 @@ export class GamesService {
 
     const player = omit(me, ['attack', 'attacked']);
 
-    return [
-      this.next(game, GameStatus.Wait),
-      this.makeResult('assigned', game, { receiver: _id, player }),
-    ];
+    return this.makeResult('assigned', game, { receiver: _id, player });
   }
 
   move(game: Game, params: GamesParams) {
