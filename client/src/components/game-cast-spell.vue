@@ -33,6 +33,7 @@ export default {
       >
         <game-spell-selector
           :data="spell"
+          :elems="game.me.elems"
           :selected="game.cast.selected?.type === spell.type"
           @select="game.cast.onSelect"
         />

@@ -19,6 +19,10 @@ export default {
       type: Object,
       required: true,
     },
+    elems: {
+      type: Array,
+      required: true,
+    },
     selected: {
       type: Boolean,
     },
@@ -49,13 +53,14 @@ export default {
         y-gap="4"
       >
         <n-grid-item
-          v-for="cost in data.costs"
+          v-for="(cost, index) in data.costs"
           :key="cost.type"
         >
           <game-icon-pill
             :name="cost.name"
             :color="cost.color"
             :amount="cost.amount"
+            :warning="elems[index].amount < cost.amount"
           />
         </n-grid-item>
       </n-grid>

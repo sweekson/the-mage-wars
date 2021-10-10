@@ -18,6 +18,9 @@ export default {
       type: Number,
       required: true,
     },
+    warning: {
+      type: Boolean,
+    },
     bordered: {
       type: Boolean,
       default: true,
@@ -33,6 +36,7 @@ export default {
   <div
     :class="[
       'game-icon-pill flexbox',
+      { 'game-icon-pill-warning': warning },
       { 'game-icon-pill-bordered': bordered },
       { 'game-icon-pill-rounded': rounded },
     ]"
@@ -65,5 +69,9 @@ export default {
   user-select: none;
   flex: 1;
   padding: 0 4px;
+
+  @at-root .game-icon-pill-warning & {
+    color: #f36;
+  }
 }
 </style>
