@@ -179,7 +179,7 @@ const useGameElemsExchange = ({ client, current, status, me }) => {
   };
 };
 
-const useGameCastSpell = ({ client, current }) => {
+const useGameCastSpell = ({ client, current, me }) => {
   const { GamesAPI } = client;
   const spells = [
     {
@@ -211,7 +211,7 @@ const useGameCastSpell = ({ client, current }) => {
       ],
     },
     {
-      type: 'investigation',
+      type: 'peek',
       icon: 'cowled',
       description: 'Randomly check the camp of a player.',
       costs: [
@@ -223,27 +223,53 @@ const useGameCastSpell = ({ client, current }) => {
     },
   ];
   const selected = ref(null);
+  const casted = ref(null);
+  const peeked = ref(null);
   const isOpen = ref(false);
+  const isCasted = computed(() => !!casted.value);
+  const isPeeked = computed(() => !!peeked.value);
   const isSendable = computed(() => selected.value !== null);
   const update = (query) => GamesAPI.update(current.value.id, {}, { query });
   const onOpen = () => isOpen.value = true;
   const onCancel = () => isOpen.value = false;
-  const onSelect = (type) => (selected.value = type);
+  const onSelect = (spell) => (selected.value = spell);
   const onSend = () => {
-    update({ cast: true, spell: selected.value }).then(() => onCancel());
+    update({ cast: true, spell: selected.value.type }).then(() => onCancel());
+  };
+  const onCasted = ({ card }) => {
+    resolveCardIconProps([card]);
+    casted.value = card;
+  };
+  const onPeeked = ({ target }) => (peeked.value = target);
+  const onCastedConfirm = () => {
+    me.value.cards.push(casted.value);
+    resolveCardIconProps(me.value.cards);
+    casted.value = null;
+  };
+  const onPeekedConfirm = () => {
+    peeked.value = null;
   };
 
   spells.forEach(x => (x.costs = resolveElemIconProps(x.costs)));
 
+  GamesAPI.on('casted', onCasted);
+  GamesAPI.on('peeked', onPeeked);
+
   return {
     spells,
     selected,
+    casted,
+    peeked,
     isOpen,
+    isCasted,
+    isPeeked,
     isSendable,
     onOpen,
     onCancel,
     onSelect,
     onSend,
+    onCastedConfirm,
+    onPeekedConfirm,
   };
 };
 

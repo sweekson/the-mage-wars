@@ -122,6 +122,8 @@ export class GamesService {
       'rotated',
       'collected',
       'accepted',
+      'casted',
+      'peeked',
       'move',
       'confirmed',
       'removed',
@@ -441,20 +443,60 @@ export class GamesService {
     const me = game.players.get(_id);
 
     if (!me) return makeError(404, 'Player not found');
+    if (!me.actions) return makeError(400, 'No action points');
 
     const { action } = game;
 
     if (!action) return makeError(400, 'Action not assigned');
 
-    me.actions -= 1;
+    const { spell } = params.query;
 
-    if (!me.actions) {
-      action.step = Steps.Pass;
+    if (!spell) return makeError(400, 'Spell type is empty');
+
+    if (spell !== 'common' && spell !== 'advanced' && spell !== 'peek') {
+      return makeError(400, 'Invalid spell type');
     }
 
+    const { costs } = CardDeck.type[spell];
+
+    if (costs.some(({ amount }, index) => me.elems[index].amount < amount)) {
+      return makeError(400, 'Insufficient number of elements');
+    }
+
+    costs.forEach(({ amount }, index) => me.elems[index].amount -= amount);
+    me.actions -= 1;
+
+    if (spell === 'peek') {
+      return this.peek(game, me);
+    }
+
+    const { weight } = this.config.cards;
+    const [card] = CardDeck.draw(1, weight[spell]);
     const player = omit(me, ['attack', 'attacked']);
 
-    return this.makeResult('assigned', game, { receiver: _id, player });
+    // Delay the update of cards
+    setTimeout(() => me.cards.push(card), 0);
+
+    return [
+      this.makeResult('casted', game, { receiver: _id, card }),
+      this.makeResult('assigned', game, { receiver: _id, player })
+    ];
+  }
+
+  peek(game: Game, requester: GamePlayer) {
+    const others = toArray(game.players).filter(x => x.uid !== requester.uid);
+    const index = random(0, others.length - 1);
+    const target = others[index];
+    return [
+      this.makeResult('peeked', game, {
+        receiver: requester.uid,
+        target: pick(target, ['uid', 'name', 'team']),
+      }),
+      this.makeResult('assigned', game, {
+        receiver: requester.uid,
+        player: requester,
+      }),
+    ];
   }
 
   move(game: Game, params: GamesParams) {

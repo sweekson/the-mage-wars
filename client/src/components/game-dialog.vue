@@ -9,6 +9,7 @@ import GameExchangeRequester from '@components/game-exchange-requester.vue';
 import GameExchangeResponder from '@components/game-exchange-responder.vue';
 import GameCastSpell from '@components/game-cast-spell.vue';
 import GameCampStatus from '@components/game-camp-status.vue';
+import GameMyNewCard from '@components/game-my-new-card.vue';
 
 export default {
   components: {
@@ -20,6 +21,7 @@ export default {
     GameExchangeResponder,
     GameCastSpell,
     GameCampStatus,
+    GameMyNewCard,
   },
   inject: ['game'],
   setup() {
@@ -69,7 +71,7 @@ export default {
       return (
         isPray || isCollect ||
         (exchange.isOpen && isMine) || isExchange ||
-        (cast.isOpen && isMine) ||
+        (cast.isOpen && isMine) || cast.isCasted ||
         isMove || isConfirm
       );
     },
@@ -84,6 +86,7 @@ export default {
     class="dialog"
   >
     <game-dices v-if="(game.status.isPray || game.status.isCollect) && !game.status.isCollected" />
+    <game-my-new-card v-if="game.cast.isCasted" />
 
     <number-dice
       v-if="game.status.isMove"
