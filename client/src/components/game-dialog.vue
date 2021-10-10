@@ -150,6 +150,6 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 500;
+  z-index: 700;
 }
 </style>
