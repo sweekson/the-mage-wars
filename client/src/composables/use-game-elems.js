@@ -14,21 +14,17 @@ export const ElemIconColorMap = {
   4: 'yellow',
 };
 
-export const resolveElemIconName = (tiles) => {
-  return tiles.map(tile => {
-    const name = ElemIconNameMap[tile.type];
-    return Object.assign(tile, { name });
-  });
+export const resolveElemIconName = (elem) => {
+  return Object.assign(elem, { name: ElemIconNameMap[elem.type] });
 };
 
-export const resolveElemIconColor = (tiles) => {
-  return tiles.map(tile => {
-    const color = ElemIconColorMap[tile.type];
-    return Object.assign(tile, { color });
-  });
+export const resolveElemIconColor = (elem) => {
+  return Object.assign(elem, { color: ElemIconColorMap[elem.type] });
 };
 
 export const resolveElemIconProps = pipe(
   resolveElemIconName,
   resolveElemIconColor,
 );
+
+export const resolveElemsProps = (elems) => elems.map(resolveElemIconProps);

@@ -15,22 +15,17 @@ export const CardIconColorMap = {
   'middle-arrow': 'magenta',
 };
 
-export const resolveCardIconColor = (cards) => {
-  return cards.map(card => {
-    const color = CardIconColorMap[card.icon];
-    return Object.assign(card, { color });
-  });
+export const resolveCardIconColor = (card) => {
+  return Object.assign(card, { color: CardIconColorMap[card.icon] });
 };
 
-export const resolveCardDescription = (cards) => {
-  return cards.map(card => {
-    const compiled = template(card.description);
-    const description = compiled(card.attributes);
-    return Object.assign(card, { description });
-  });
+export const resolveCardDescription = (card) => {
+  const compiled = template(card.description);
+  const description = compiled(card.attributes);
+  return Object.assign(card, { description });
 };
 
-export const resolveCardPosition = (cards) => {
+export const resolveCardsPosition = (cards) => {
   const length = cards.length;
   const half1 = Math.floor(length * .5);
   const half2 = Math.ceil(length * .5);
@@ -46,11 +41,12 @@ export const resolveCardPosition = (cards) => {
   });
 };
 
-export const resolveCardIconProps = pipe(
+export const resolveCardProps = pipe(
   resolveCardIconColor,
   resolveCardDescription,
-  resolveCardPosition,
 );
+
+export const resolveCardsProps = (cards) => cards.map(resolveCardProps);
 
 export const useGameCards = ({ action, me }) => {
   const list = computed(() => me.value.cards || []);

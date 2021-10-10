@@ -1,8 +1,11 @@
 import { ref, computed, watch } from 'vue';
 
 import { Emitter } from '../models/emitter.class';
-import { resolveElemIconProps } from '@composables/use-game-elems';
-import { useGameCards, resolveCardIconProps } from '@composables/use-game-cards';
+import { resolveElemsProps } from '@composables/use-game-elems';
+import {
+  useGameCards,
+  resolveCardProps, resolveCardsProps, resolveCardsPosition,
+} from '@composables/use-game-cards';
 
 const useGameStatus = ({ auth, current }) => {
   const Status = {
@@ -113,14 +116,14 @@ const useGameElemsExchange = ({ client, current, status, me }) => {
     if (!current.value || !current.value.exchange) return null;
     const { requester } = current.value.exchange;
     if (!requester) return null;
-    requester.elems = resolveElemIconProps(requester.elems);
+    resolveElemsProps(requester.elems);
     return requester;
   });
   const responses = computed(() => {
     if (!current.value || !current.value.exchange) return [];
     const { responses } = current.value.exchange;
     if (!responses) return [];
-    responses.forEach(x => (x.elems = resolveElemIconProps(x.elems)));
+    responses.forEach(x => resolveElemsProps(x.elems));
     return responses;
   });
   const selected = ref(null);
@@ -242,20 +245,20 @@ const useGameCastSpell = ({ client, current, me }) => {
     update({ cast: true, spell: selected.value.type }).then(() => onCancel());
   };
   const onCasted = ({ card }) => {
-    resolveCardIconProps([card]);
-    casted.value = card;
+    casted.value = resolveCardProps(card);
   };
   const onPeeked = ({ target }) => (peeked.value = target);
   const onCastedConfirm = () => {
     me.value.cards.push(casted.value);
-    resolveCardIconProps(me.value.cards);
+    resolveCardsProps(me.value.cards);
+    resolveCardsPosition(me.value.cards);
     casted.value = null;
   };
   const onPeekedConfirm = () => {
     peeked.value = null;
   };
 
-  spells.forEach(x => (x.costs = resolveElemIconProps(x.costs)));
+  spells.forEach(x => resolveElemsProps(x.costs));
 
   GamesAPI.on('casted', onCasted);
   GamesAPI.on('peeked', onPeeked);
@@ -309,10 +312,10 @@ export const useGame = ({ client, auth, room, logger }) => {
   };
   const onAssigned = ({ player }) => {
     logger.info('game:assigned', player.team);
-    Object.assign(me.value, player, {
-      elems: resolveElemIconProps(player.elems),
-      cards: resolveCardIconProps(player.cards),
-    });
+    Object.assign(me.value, player);
+    resolveElemsProps(me.value.elems);
+    resolveCardsProps(me.value.cards);
+    resolveCardsPosition(me.value.cards);
     console.log('me', me.value);
   };
   const onRefreshed = ({ game }) => {
