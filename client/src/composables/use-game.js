@@ -181,11 +181,11 @@ const useGameCastSpell = ({ client, current }) => {
   const { GamesAPI } = client;
   const spells = [
     {
-      type: 'basic',
+      type: 'common',
       icon: 'orb-wand',
       description: `
-        Randomly cast a common spell.
-        You will get a card that you can use later.
+        Randomly cast a spell. You'll get a card that you can use later.
+        There is a lower chance to get an advanced card.
       `,
       costs: [
         { type: 1, amount: 2 },
@@ -199,11 +199,11 @@ const useGameCastSpell = ({ client, current }) => {
       icon: 'gift-of-knowledge',
       description: `
         Randomly cast a advanced spell.
-        You will get a card that you can use later.
+        You will definitely get an advanced card that you can use later.
       `,
       costs: [
         { type: 1, amount: 6 },
-        { type: 2, amount: 3 },
+        { type: 2, amount: 5 },
         { type: 3, amount: 5 },
         { type: 4, amount: 7 },
       ],
