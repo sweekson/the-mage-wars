@@ -20,8 +20,9 @@ export default {
       <n-button
         type="primary"
         size="large"
+        @click="game.cards.onEnchant"
       >
-        Cast
+        Enchant
       </n-button>
     </flexbox>
 

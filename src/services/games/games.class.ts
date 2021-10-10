@@ -18,6 +18,7 @@ import { halfOf } from '../../utils/math';
 export type GamesQuery = {
   target?: string;
   spell?: string;
+  card?: string;
   elems?: ExchangingElems;
   assigned?: boolean;
   rotate?: boolean;
@@ -28,6 +29,7 @@ export type GamesQuery = {
   regret?: boolean;
   accept?: boolean;
   cast?: boolean;
+  enchant?: boolean;
   move?: boolean;
   confirm?: boolean;
   cancel?: boolean;
@@ -100,6 +102,7 @@ export const GameActions = [
   'regret',
   'accept',
   'cast',
+  'enchant',
   'move',
   'confirm',
   'cancel',
@@ -497,6 +500,59 @@ export class GamesService {
         player: requester,
       }),
     ];
+  }
+
+  enchant(game: Game, params: GamesParams) {
+    const { connection } = params;
+
+    if (!connection) return makeError(401, 'Empty connection instance');
+
+    const { _id } = connection.user;
+    const me = game.players.get(_id);
+
+    if (!me) return makeError(404, 'Player not found');
+
+    const { card, target } = params.query;
+
+    if (!card) return makeError(400, 'Card ID is not assigned');
+    if (!CardDeck.map[card]) return makeError(400, 'Incorrect card ID');
+    if (!me.cards.find(x => x.id === card)) return makeError(404, 'Card not found');
+
+    const isEnhance = /^E/.test(card);
+    const isAttack = /^A/.test(card);
+
+    if (isEnhance) return this.enhance(game, me, card);
+
+    if (!target) return makeError(400, 'Target is not assigned');
+
+    const opponent = game.players.get(target);
+
+    if (!opponent) return makeError(404, 'Target player not found');
+
+    if (isAttack) return this.attack(game, me, card, target);
+
+    // TODO: Add buff to target
+  }
+
+  enhance(game: Game, player: GamePlayer, card: string) {
+    const { attributes } = CardDeck.map[card];
+
+    if (!attributes) return;
+
+    const { strength, defense } = attributes;
+
+    strength && (player.strength += strength as number);
+    defense && (player.defense += defense as number);
+
+    CardDeck.remove(player.cards, card);
+
+    return this.makeResult('assigned', game, { receiver: player.uid, player });
+  }
+
+  attack(game: Game, player: GamePlayer, card: string, target: string) {
+    const { attributes } = CardDeck.map[card];
+
+    // TODO: Make attack
   }
 
   move(game: Game, params: GamesParams) {

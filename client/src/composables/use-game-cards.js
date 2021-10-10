@@ -52,20 +52,38 @@ export const resolveCardProps = pipe(
 
 export const resolveCardsProps = (cards) => cards.map(resolveCardProps);
 
-export const useGameCards = ({ action, me }) => {
+export const useGameCards = ({ client, current, action, me }) => {
+  const { GamesAPI } = client;
   const list = computed(() => me.value.cards || []);
   const selected = ref(null);
+  const isPlayerSelectionOpen = ref(false);
   const isCastable = computed(
     () => action.isMine.value && !action.isPray.value && !!selected.value,
   );
+  const update = (query) => GamesAPI.update(current.value.id, {}, { query });
   const onSelect = card => {
     selected.value = selected.value === card ? null : card;
   };
+  const onEnchant = () => {
+    const { id } = selected.value;
+    const isEnhance = /^E/.test(id);
+    selected.value = null;
+    if (isEnhance) return update({ enchant: true, card: id });
+    isPlayerSelectionOpen.value = true;
+  };
+  const onPlayerSelectConfirm = (target) => {
+    isPlayerSelectionOpen.value = false;
+    return update({ enchant: true, card: selected.value.id, target });
+  };
+  const onPlayerSelectCancel = () => (isPlayerSelectionOpen.value = false);
 
   return {
     list,
     selected,
     isCastable,
     onSelect,
+    onEnchant,
+    onPlayerSelectConfirm,
+    onPlayerSelectCancel,
   };
 };
