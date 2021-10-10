@@ -48,6 +48,13 @@
     "elems": {
       "initial": 10,
       "range": [2, 3]
+    },
+    "cards": {
+      "initial": 3,
+      "weight": {
+        "common": 3000,
+        "advanced": 500
+      }
     }
   }
 }

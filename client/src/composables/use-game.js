@@ -1,7 +1,8 @@
-import { ref, reactive, computed, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 
 import { Emitter } from '../models/emitter.class';
 import { resolveElemIconProps } from '@composables/use-game-elems';
+import { useGameCards, resolveCardIconProps } from '@composables/use-game-cards';
 
 const useGameStatus = ({ auth, current }) => {
   const Status = {
@@ -87,6 +88,7 @@ const useGameAction = ({ client, auth, current, status, me }) => {
 
   return {
     isMine,
+    isPray,
     isPrayable,
     isExchangeable,
     isCastable,
@@ -252,9 +254,10 @@ export const useGame = ({ client, auth, room, logger }) => {
   const current = ref(null);
   const me = ref({});
   const status = useGameStatus({ auth, current });
-  const action = reactive(useGameAction({ client, auth, current, status, me }));
+  const action = useGameAction({ client, auth, current, status, me });
   const exchange = useGameElemsExchange({ client, current, status, me });
   const cast = useGameCastSpell({ client, current, status, me });
+  const cards = useGameCards({ client, current, status, action, me });
   const isReady = ref(false);
   const find = (query) => GamesAPI.find({ query });
   const onRoomJoined = ({ detail }) => {
@@ -277,6 +280,7 @@ export const useGame = ({ client, auth, room, logger }) => {
     logger.info('game:assigned', player.team);
     Object.assign(me.value, player, {
       elems: resolveElemIconProps(player.elems),
+      cards: resolveCardIconProps(player.cards),
     });
     console.log('me', me.value);
   };
@@ -306,6 +310,7 @@ export const useGame = ({ client, auth, room, logger }) => {
     action,
     exchange,
     cast,
+    cards,
     me,
     isReady,
     on,

@@ -1,4 +1,5 @@
 import { Application } from '../../declarations';
+import { Cards } from '../cards/cards.class';
 import { makeResult } from '../../utils/common';
 
 export interface Elem {
@@ -16,13 +17,6 @@ export interface ExchangingElem {
 
 export type ExchangingElems = ExchangingElem[];
 
-export interface Card {
-  id: string;
-  name: string;
-}
-
-export type Cards = Card[];
-
 export interface Player {
   index: number;
   uid: string;
@@ -38,7 +32,7 @@ export interface GamePlayer extends Player {
   strength: number;
   defense: number;
   elems: Elem[];
-  cards: Card[];
+  cards: Cards;
   exchanges: number;
   actions: number;
   attack: number;

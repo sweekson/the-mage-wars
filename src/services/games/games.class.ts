@@ -10,6 +10,8 @@ import {
   Player, GamePlayer, GamePlayers,
   ExchangingPlayer, Elems, ExchangingElems,
 } from '../players/players.class';
+import { Cards } from '../cards/cards.class';
+import { CardDeck } from '../cards/cards.util';
 import { makeResult, makeError, toArray } from '../../utils/common';
 import { halfOf } from '../../utils/math';
 
@@ -646,7 +648,7 @@ export class GamesService {
       strength,
       defense,
       elems: this.makePlayerElems(),
-      cards: [],
+      cards: this.makePlayerCards(),
       exchanges: 3,
       actions: 3,
       attack: 0,
@@ -661,6 +663,10 @@ export class GamesService {
     const total = numbers.reduce((v, x) => v + x, 0);
     const amounts = [...numbers, initial - total].sort(() => Math.random() - .5);
     return amounts.map((x, i) => ({ type: i + 1, amount: x, selected: 0 }));
+  }
+
+  makePlayerCards(): Cards {
+    return CardDeck.draw(this.config.cards.initial);
   }
 
   makeResult(type: string, game?: Game | null, extra?: any) {

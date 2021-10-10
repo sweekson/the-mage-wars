@@ -3,6 +3,7 @@ import { NSpace, NLayout, NLayoutHeader, NLayoutContent, NGrid, NGridItem } from
 
 import Players from '@components/players.vue';
 import GameMyStatus from '@components/game-my-status.vue';
+import GameMyCards from '@components/game-my-cards.vue';
 import GameTiles from '@components/game-tiles.vue';
 import GameDialog from '@components/game-dialog.vue';
 import GameActions from '@components/game-actions.vue';
@@ -20,6 +21,7 @@ export default {
     NGridItem,
     Players,
     GameMyStatus,
+    GameMyCards,
     GameTiles,
     GameDialog,
     GameActions,
@@ -76,6 +78,7 @@ export default {
           </n-grid>
 
           <game-tile-detail :data="map.selected" />
+          <game-my-cards />
           <game-dialog />
         </n-layout-content>
       </n-layout>
