@@ -228,7 +228,12 @@ const useGameCastSpell = ({ client, current, me }) => {
   const isOpen = ref(false);
   const isCasted = computed(() => !!casted.value);
   const isPeeked = computed(() => !!peeked.value);
-  const isSendable = computed(() => selected.value !== null);
+  const isSendable = computed(() => {
+    if (!selected.value) return false;
+    const { costs } = selected.value;
+    const { elems } = me.value;
+    return elems.every((x, i) => x.amount >= costs[i].amount);
+  });
   const update = (query) => GamesAPI.update(current.value.id, {}, { query });
   const onOpen = () => isOpen.value = true;
   const onCancel = () => isOpen.value = false;

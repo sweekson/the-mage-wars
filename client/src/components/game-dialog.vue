@@ -44,7 +44,8 @@ export default {
     };
     const onSpellCast = () => {
       if (cast.isSendable) return cast.onSend();
-      message.error('No spell is selected');
+      if (!cast.selected) return message.error('No spell is selected');
+      message.error('Insufficient number of elements');
     };
 
     return {
