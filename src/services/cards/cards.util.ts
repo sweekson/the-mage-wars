@@ -21,9 +21,17 @@ export const draw = (amount: number, weight = 9999): Cards => {
   return new Array(amount).fill(0).map(() => random());
 };
 
+export const remove = (cards: Cards, target: string): boolean => {
+  const index = cards.findIndex(x => x.id === target);
+  if (index === -1) return false;
+  cards.splice(index, 1);
+  return true;
+};
+
 export const CardDeck = {
   list: GameCards,
   map: GameCardMap,
   type: CardTypeMap,
   draw,
+  remove,
 };
