@@ -44,7 +44,7 @@ export default {
         :disabled="!game.status.isCollect"
         @click="game.action.onCollect"
       >
-        Collect
+        Confirm
       </n-button>
     </flexbox>
   </div>

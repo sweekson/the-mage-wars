@@ -61,16 +61,12 @@ export default {
       const {
         isPray,
         isCollect,
-        isCollected,
         isExchange,
         isMove,
         isConfirm,
       } = this.game.status;
       const { isMine } = this.game.action;
       const { exchange, cast } = this.game;
-
-      if (isCollect && isCollected) return false;
-
       return (
         isPray || isCollect ||
         (exchange.isOpen && isMine) || isExchange ||
@@ -89,8 +85,15 @@ export default {
     class="dialog"
   >
     <game-dices v-if="(game.status.isPray || game.status.isCollect) && !game.status.isCollected" />
+    <div
+      v-if="game.status.isCollect && game.status.isCollected"
+      class="message-block"
+    >
+      Waiting for other players to confirm
+    </div>
     <game-my-new-card v-if="game.cast.isCasted" />
     <game-peeked-result v-if="game.cast.isPeeked" />
+
 
     <number-dice
       v-if="game.status.isMove"
@@ -147,6 +150,13 @@ export default {
     >
       <game-camp-status />
     </n-dialog>
+
+    <div
+      v-if="game.status.isConfirm && game.status.isConfirmed"
+      class="message-block"
+    >
+      Waiting for other players to confirm
+    </div>
   </flexbox>
 </template>
 
@@ -158,5 +168,13 @@ export default {
   top: 0;
   left: 0;
   z-index: 700;
+}
+.message-block {
+  background-color: $color-dusk-300;
+  border: 1px solid $color-dusk-400;
+  border-radius: 4px;
+  color: #fff;
+  padding: 24px;
+  transform: translateY(-200%);
 }
 </style>
