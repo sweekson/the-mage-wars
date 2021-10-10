@@ -9,6 +9,10 @@ export default {
       type: String,
       default: 'gray',
     },
+    depth: {
+      type: Number,
+      default: 1,
+    },
     size: {
       type: String,
       default: 'md',
@@ -35,6 +39,7 @@ export default {
         'game-icon-' + name,
         'game-icon-' + size,
         'game-icon-color-' + color,
+        'game-icon-depth-' + depth,
       ]"
     />
   </span>

@@ -26,6 +26,7 @@ export default {
         <game-icon
           :name="data.icon"
           :color="data.color"
+          :depth="data.level"
           :size="'5xl'"
         />
       </flexbox>

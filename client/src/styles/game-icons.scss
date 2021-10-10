@@ -32,6 +32,14 @@
   }
 }
 
+@mixin generate-icon-depths($depths) {
+  @each $depth, $opacity in $depths {
+    .game-icon-depth-#{$depth} {
+      opacity: $opacity;
+    }
+  }
+}
+
 @mixin generate-icons-spacing($name, $size) {
   .game-icons-#{$name} {
     padding: $size * 1px;
@@ -119,6 +127,13 @@ $rarities: (
   #f54: 7,
 );
 
+$depths: (
+  1: 1,
+  2: 0.8,
+  3: 0.6,
+  4: 0.4,
+);
+
 .game-icon-item {
   display: inline-block;
   position: relative;
@@ -172,6 +187,7 @@ $rarities: (
 @include generate-icons($names);
 @include generate-icon-colors($colors);
 @include generate-icon-rarities($rarities);
+@include generate-icon-depths($depths);
 @include generate-icons-spacing(compact, 2);
 @include generate-icons-spacing(loose, 4);
 
