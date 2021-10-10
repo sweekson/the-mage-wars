@@ -51,6 +51,7 @@ export default {
   width: 180px;
   padding: 16px;
 
+  &-selected,
   &:not(.game-card-selected):hover {
     border-color: $color-mist-300;
   }
