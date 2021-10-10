@@ -41,6 +41,10 @@ export const resolveCardsPosition = (cards) => {
   });
 };
 
+export const resolveCardsSorting = (cards) => {
+  return cards.sort((a, b) => a.id.localeCompare(b.id));
+};
+
 export const resolveCardProps = pipe(
   resolveCardIconColor,
   resolveCardDescription,

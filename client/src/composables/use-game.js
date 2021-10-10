@@ -4,7 +4,8 @@ import { Emitter } from '../models/emitter.class';
 import { resolveElemsProps } from '@composables/use-game-elems';
 import {
   useGameCards,
-  resolveCardProps, resolveCardsProps, resolveCardsPosition,
+  resolveCardProps, resolveCardsProps,
+  resolveCardsPosition, resolveCardsSorting,
 } from '@composables/use-game-cards';
 
 const useGameStatus = ({ auth, current }) => {
@@ -251,6 +252,7 @@ const useGameCastSpell = ({ client, current, me }) => {
   const onCastedConfirm = () => {
     me.value.cards.push(casted.value);
     resolveCardsProps(me.value.cards);
+    resolveCardsSorting(me.value.cards);
     resolveCardsPosition(me.value.cards);
     casted.value = null;
   };
@@ -315,6 +317,7 @@ export const useGame = ({ client, auth, room, logger }) => {
     Object.assign(me.value, player);
     resolveElemsProps(me.value.elems);
     resolveCardsProps(me.value.cards);
+    resolveCardsSorting(me.value.cards);
     resolveCardsPosition(me.value.cards);
     console.log('me', me.value);
   };
