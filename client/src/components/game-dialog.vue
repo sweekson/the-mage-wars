@@ -10,6 +10,7 @@ import GameExchangeResponder from '@components/game-exchange-responder.vue';
 import GameCastSpell from '@components/game-cast-spell.vue';
 import GameCampStatus from '@components/game-camp-status.vue';
 import GameMyNewCard from '@components/game-my-new-card.vue';
+import GamePeekedResult from '@components/game-peeked-result.vue';
 
 export default {
   components: {
@@ -22,6 +23,7 @@ export default {
     GameCastSpell,
     GameCampStatus,
     GameMyNewCard,
+    GamePeekedResult,
   },
   inject: ['game'],
   setup() {
@@ -72,7 +74,7 @@ export default {
       return (
         isPray || isCollect ||
         (exchange.isOpen && isMine) || isExchange ||
-        (cast.isOpen && isMine) || cast.isCasted ||
+        (cast.isOpen && isMine) || cast.isCasted || cast.isPeeked ||
         isMove || isConfirm
       );
     },
@@ -88,6 +90,7 @@ export default {
   >
     <game-dices v-if="(game.status.isPray || game.status.isCollect) && !game.status.isCollected" />
     <game-my-new-card v-if="game.cast.isCasted" />
+    <game-peeked-result v-if="game.cast.isPeeked" />
 
     <number-dice
       v-if="game.status.isMove"
