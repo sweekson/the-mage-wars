@@ -37,7 +37,7 @@ export default {
       </n-grid-item>
     </n-grid>
 
-    <flexbox style="margin-top: 64px;">
+    <flexbox style="margin-top: 40px;">
       <n-button
         type="primary"
         size="large"
