@@ -82,7 +82,6 @@ const useGameAction = ({ client, auth, current, status, me }) => {
     isPassing.value = true;
   };
   const onConfirm = () => update({ confirm: true });
-  const onCancel = () => update({ cancel: true });
   const onRemove = () => GamesAPI.remove(current.value.id);
   const onLeave = () => {
     // A game will be deleted automatically when the last player left
@@ -105,7 +104,6 @@ const useGameAction = ({ client, auth, current, status, me }) => {
     onPass,
     onTryPass,
     onConfirm,
-    onCancel,
     onRemove,
     onLeave,
   };
