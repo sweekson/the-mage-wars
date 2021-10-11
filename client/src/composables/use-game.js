@@ -136,7 +136,10 @@ const useGameElemsExchange = ({ client, current, status, me }) => {
   );
   const update = (query) => GamesAPI.update(current.value.id, {}, { query });
   const onOpen = () => isOpen.value = true;
-  const onClose = () => isOpen.value = false;
+  const onClose = () => {
+    me.value.elems.forEach(x => (x.selected = 0));
+    isOpen.value = false;
+  };
   const onUpdate = (type, selected) => {
     const elem = me.value.elems.find(x => x.type === type);
     if (!elem) return;
