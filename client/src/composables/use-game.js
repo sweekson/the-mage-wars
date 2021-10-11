@@ -165,6 +165,8 @@ const useGameElemsExchange = ({ client, current, status, me }) => {
     selected.value = null;
   });
 
+  GamesAPI.on('rotated', () => (isOpen.value = false));
+
   return {
     requester,
     responses,
