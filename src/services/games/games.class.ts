@@ -127,6 +127,7 @@ export class GamesService {
       'accepted',
       'casted',
       'peeked',
+      'attacked',
       'move',
       'confirmed',
       'removed',
@@ -529,7 +530,7 @@ export class GamesService {
 
     if (!opponent) return makeError(404, 'Target player not found');
 
-    if (isAttack) return this.attack(game, me, card, target);
+    if (isAttack) return this.attack(game, me, opponent, card);
 
     // TODO: Add buff to target
   }
@@ -549,10 +550,26 @@ export class GamesService {
     return this.makeResult('assigned', game, { receiver: player.uid, player });
   }
 
-  attack(game: Game, player: GamePlayer, card: string, target: string) {
-    const { attributes } = CardDeck.map[card];
+  attack(game: Game, player: GamePlayer, target: GamePlayer, card: string) {
+    const { attributes = {} } = CardDeck.map[card];
+    const { multiples = 1 } = attributes;
+    const { team1, team2 } = game;
+    const team = target.team === 1 ? team1 : team2;
 
-    // TODO: Make attack
+    const strength = Math.floor(player.strength * multiples);
+    const defense = target.defense;
+    const attacked = strength > defense ? strength - defense : 0;
+
+    player.attack += attacked;
+    target.attacked += attacked;
+    team.energy -= attacked;
+
+    CardDeck.remove(player.cards, card);
+
+    return [
+      this.makeResult('attacked', game, { receiver: player.uid, attacked }),
+      this.makeResult('assigned', game, { receiver: player.uid, player })
+    ];
   }
 
   move(game: Game, params: GamesParams) {

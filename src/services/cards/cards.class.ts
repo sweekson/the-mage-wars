@@ -8,7 +8,11 @@ export interface Card {
 export type Cards = Card[];
 
 export interface CardAttributes {
-  [key: string]: string | number;
+  strength?: number;
+  defense?: number;
+  increment?: number;
+  decrement?: number;
+  multiples?: number;
 }
 
 export interface CardDefinition extends Card {

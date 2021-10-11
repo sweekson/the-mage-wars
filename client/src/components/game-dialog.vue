@@ -11,6 +11,7 @@ import GameCastSpell from '@components/game-cast-spell.vue';
 import GameCampStatus from '@components/game-camp-status.vue';
 import GameMyNewCard from '@components/game-my-new-card.vue';
 import GamePeekedResult from '@components/game-peeked-result.vue';
+import GamePlayerSelector from '@components/game-player-selector.vue';
 
 export default {
   components: {
@@ -24,10 +25,11 @@ export default {
     GameCampStatus,
     GameMyNewCard,
     GamePeekedResult,
+    GamePlayerSelector,
   },
   inject: ['game'],
   setup() {
-    const { status, exchange, cast } = inject('game');
+    const { status, exchange, cast, cards } = inject('game');
     const message = useMessage();
     const onTrySend = () => {
       if (exchange.isSendable) return exchange.onSend();
@@ -49,11 +51,16 @@ export default {
       if (!cast.selected) return message.error('No spell is selected');
       message.error('Insufficient number of elements');
     };
+    const onPlayerSelectConfirm = () => {
+      if (cards.isEnchantable) return cards.onPlayerSelectConfirm();
+      message.error('No target is selected');
+    };
 
     return {
       onExchangeConfirm,
       onExchangeReply,
       onSpellCast,
+      onPlayerSelectConfirm,
     };
   },
   computed: {
@@ -66,11 +73,12 @@ export default {
         isConfirm,
       } = this.game.status;
       const { isMine } = this.game.action;
-      const { exchange, cast } = this.game;
+      const { exchange, cast, cards } = this.game;
       return (
         isPray || isCollect ||
         (exchange.isOpen && isMine) || isExchange ||
         (cast.isOpen && isMine) || cast.isCasted || cast.isPeeked ||
+        cards.isPlayerSelectionOpen ||
         isMove || isConfirm
       );
     },
@@ -137,6 +145,24 @@ export default {
       @negative-click="game.cast.onCancel"
     >
       <game-cast-spell />
+    </n-dialog>
+
+    <n-dialog
+      v-if="game.cards.isPlayerSelectionOpen"
+      type="success"
+      title="Select Target"
+      positive-text="Confirm"
+      negative-text="Cancel"
+      :closable="false"
+      :show-icon="false"
+      @positive-click="onPlayerSelectConfirm"
+      @negative-click="game.cards.onPlayerSelectCancel"
+    >
+      <game-player-selector
+        :target="game.cards.target"
+        :is-self-visible="!game.cards.isAttackCardSelected"
+        @select="game.cards.onPlayerSelect"
+      />
     </n-dialog>
 
     <n-dialog

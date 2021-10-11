@@ -330,6 +330,9 @@ export const useGame = ({ client, auth, room, logger }) => {
     logger.info('game:rotated', game.action.uid);
     emitter.emit('rotated');
   };
+  const onAttacked = ({ attacked }) => {
+    emitter.emit('attacked', { attacked });
+  };
 
   room.on('joined', onRoomJoined);
   room.on('left', onRoomLeft);
@@ -339,6 +342,7 @@ export const useGame = ({ client, auth, room, logger }) => {
   GamesAPI.on('assigned', onAssigned);
   GamesAPI.on('refreshed', onRefreshed);
   GamesAPI.on('rotated', onRotated);
+  GamesAPI.on('attacked', onAttacked);
   GamesAPI.on('error', console.warn);
 
   return {

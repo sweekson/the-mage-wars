@@ -56,9 +56,16 @@ export const useGameCards = ({ client, current, action, me }) => {
   const { GamesAPI } = client;
   const list = computed(() => me.value.cards || []);
   const selected = ref(null);
-  const isPlayerSelectionOpen = ref(false);
+  const target = ref('');
   const isCastable = computed(
     () => action.isMine.value && !action.isPray.value && !!selected.value,
+  );
+  const isEnchantable = computed(
+    () => !!selected.value && !!target.value,
+  );
+  const isPlayerSelectionOpen = ref(false);
+  const isAttackCardSelected = computed(
+    () => selected.value && /^A/.test(selected.value.id),
   );
   const update = (query) => GamesAPI.update(current.value.id, {}, { query });
   const onSelect = card => {
@@ -67,22 +74,37 @@ export const useGameCards = ({ client, current, action, me }) => {
   const onEnchant = () => {
     const { id } = selected.value;
     const isEnhance = /^E/.test(id);
-    selected.value = null;
     if (isEnhance) return update({ enchant: true, card: id });
     isPlayerSelectionOpen.value = true;
   };
-  const onPlayerSelectConfirm = (target) => {
+  const onPlayerSelect = (uid) => (target.value = uid);
+  const onPlayerSelectConfirm = () => {
     isPlayerSelectionOpen.value = false;
-    return update({ enchant: true, card: selected.value.id, target });
+    return update({
+      enchant: true,
+      card: selected.value.id,
+      target: target.value,
+    });
   };
-  const onPlayerSelectCancel = () => (isPlayerSelectionOpen.value = false);
+  const onPlayerSelectCancel = () => {
+    target.value = '';
+    isPlayerSelectionOpen.value = false;
+  };
+
+  GamesAPI.on('assigned', () => (selected.value = null));
+  GamesAPI.on('attacked', () => (target.value = ''));
 
   return {
     list,
     selected,
+    target,
     isCastable,
+    isEnchantable,
+    isPlayerSelectionOpen,
+    isAttackCardSelected,
     onSelect,
     onEnchant,
+    onPlayerSelect,
     onPlayerSelectConfirm,
     onPlayerSelectCancel,
   };

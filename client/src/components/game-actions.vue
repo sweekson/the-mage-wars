@@ -13,6 +13,9 @@ export default {
     const message = useMessage();
 
     game.on('rotated', () => message.info('Your turn'));
+    game.on('attacked', ({ detail }) => {
+      message.info(`Your attack caused ${detail.attacked} damage to the target`);
+    });
   },
 };
 </script>
