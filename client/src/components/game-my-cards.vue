@@ -15,7 +15,12 @@ export default {
 </script>
 
 <template>
-  <div class="my-card-table">
+  <div
+    :class="[
+      'my-card-table',
+      { 'my-card-table-focus' : !!game.cards.selected },
+    ]"
+  >
     <flexbox
       v-if="game.cards.isCastable"
       class="my-card-action"
@@ -56,6 +61,21 @@ export default {
   }
 }
 
+.my-card-table {
+  transition: background-color .3s;
+
+  &-focus {
+    background-color: $color-dusk-200;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 500;
+  }
+}
 .my-cards {
   height: 257px;
   position: fixed;
