@@ -240,7 +240,10 @@ const useGameCastSpell = ({ client, current, me }) => {
   });
   const update = (query) => GamesAPI.update(current.value.id, {}, { query });
   const onOpen = () => isOpen.value = true;
-  const onCancel = () => isOpen.value = false;
+  const onCancel = () => {
+    selected.value = null;
+    isOpen.value = false;
+  };
   const onSelect = (spell) => (selected.value = spell);
   const onSend = () => {
     update({ cast: true, spell: selected.value.type }).then(() => onCancel());
