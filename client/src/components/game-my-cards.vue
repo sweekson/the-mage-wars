@@ -16,7 +16,10 @@ export default {
 
 <template>
   <div class="my-card-table">
-    <flexbox v-if="game.cards.isCastable">
+    <flexbox
+      v-if="game.cards.isCastable"
+      class="my-card-action"
+    >
       <n-button
         type="primary"
         size="large"
@@ -60,6 +63,12 @@ export default {
   bottom: 16px;
   transform: translateX(-50%);
   z-index: 600;
+}
+.my-card-action {
+  position: fixed;
+  right: 0;
+  bottom: 310px;
+  left: 0;
 }
 .my-card {
   position: absolute;

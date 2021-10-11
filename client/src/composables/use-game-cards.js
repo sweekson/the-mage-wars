@@ -33,7 +33,7 @@ export const resolveCardsPosition = (cards) => {
     const shiftX1 = 70 * index;
     const shiftX2 = 70 * length * .5 - 35;
     const shiftY1 = -4 * (index < half2 ? index : length - index - 1);
-    const shiftY2 = shiftY1 - 380;
+    const shiftY2 = shiftY1 - 350;
     const degree = -2 * (half1 - index);
     const position1 = `translate(${shiftX1}px, ${shiftY1}px) rotateZ(${degree}deg)`;
     const position2 = `translate(${shiftX2}px, ${shiftY2}px)`;
