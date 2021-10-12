@@ -28,40 +28,48 @@ export default {
 </script>
 
 <template>
-  <section v-if="auth.isLoggedIn && room.isLoaded && !room.isJoined">
+  <section
+    v-if="auth.isLoggedIn && room.isLoaded && !room.isJoined"
+    class="centered-container stretched-container backdrop-bluish"
+  >
     <n-layout
-      content-style="padding: 8px;"
-      class="transparent"
+      has-sider
+      sider-placement="right"
+      content-style="padding: 16px;"
+      class="stretched-container n-layout-transparent"
     >
-      <n-layout-header class="header transparent">
-        <h2>{{ $t('game.lobby') }}</h2>
-      </n-layout-header>
-
       <n-layout
-        has-sider
-        sider-placement="right"
-        class="transparent"
+        class="n-layout-transparent"
       >
+        <n-layout-header class="n-layout-transparent">
+          <h2>{{ $t('game.lobby') }}</h2>
+        </n-layout-header>
+
         <n-layout-content
           content-style="padding-right: 8px;"
-          class="transparent"
+          class="n-layout-transparent"
         >
           <h3>Rooms</h3>
+
           <flexbox
             v-if="!room.rooms.length"
-            class="panel panel-empty empty-rooms"
+            class="empty-rooms panel panel-ghost"
           >
             No rooms have been created
           </flexbox>
+
           <rooms />
-
-          <h3>Online Players</h3>
-          <players :list="room.players" />
         </n-layout-content>
+      </n-layout>
 
-        <n-layout-sider
-          :width="240"
-          class="transparent"
+      <n-layout-sider
+        :width="200"
+        class="n-layout-transparent"
+      >
+        <flexbox
+          column
+          full
+          style="align-items: stretch;"
         >
           <form class="flexbox panel panel-ghost">
             <n-space
@@ -87,8 +95,15 @@ export default {
               </n-button>
             </n-space>
           </form>
-        </n-layout-sider>
-      </n-layout>
+
+          <h3>Online Players</h3>
+          <players
+            :list="room.players"
+            class="flex-1"
+            style="overflow: auto;"
+          />
+        </flexbox>
+      </n-layout-sider>
     </n-layout>
   </section>
   <flexbox
@@ -100,11 +115,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.transparent {
-  --color: transparent !important;
-}
 .empty-rooms {
-  width: 300px;
-  height: 100px;
+  width: 50%;
+  padding: 24px 8px;
 }
 </style>

@@ -30,3 +30,35 @@ html, body {
   width: 100vw;
   height: 100vh;
 }
+
+.stretched-container {
+  width: 100%;
+  height: 100%;
+}
+
+.centered-container {
+  margin: 0 auto;
+
+  @include media-breakpoint-between(lg, xl) {
+    flex: 0 0 960px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    flex: 0 0 1080px;
+  }
+
+  @media (min-width: map-get($screen-breakpoints, lg)) and (min-height: 600px) {
+    border-radius: 2px;
+    height: 80%;
+    transform: translateY(80px);
+  }
+}
+
+.backdrop-bluish {
+  background-color: rgba(0, 0, 84, .25);
+  box-shadow: 0 0 8px #000;
+}
+
+.n-layout-transparent {
+  --color: transparent !important;
+}

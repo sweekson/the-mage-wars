@@ -5,13 +5,7 @@
 }
 
 .panel-ghost {
-  background-color: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: $color-dusk-100;
+  border: 1px solid $color-dusk-200;
   color: #fff;
-}
-
-.panel-empty {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #ccc;
 }
