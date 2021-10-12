@@ -10,6 +10,10 @@ export default {
     fullscreen: {
       type: Boolean,
     },
+    gap: {
+      type: String,
+      default: '0',
+    },
   },
 };
 </script>
@@ -22,6 +26,7 @@ export default {
       { 'fullscreen': fullscreen },
       { 'flexbox-column': column },
     ]"
+    :style="{ gap }"
   >
     <slot />
   </div>

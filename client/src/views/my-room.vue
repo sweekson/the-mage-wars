@@ -1,5 +1,5 @@
 <script>
-import { NSpace, NButton } from 'naive-ui';
+import { NButton } from 'naive-ui';
 
 import Players from '@components/players.vue';
 import Flexbox from '@components/flexbox';
@@ -8,7 +8,6 @@ import GameCountdown from '@components/game-countdown';
 
 export default {
   components: {
-    NSpace,
     NButton,
     Players,
     Flexbox,
@@ -20,13 +19,23 @@ export default {
 </script>
 
 <template>
-  <section v-if="auth.isLoggedIn && room.isJoined && !game.isReady">
-    <h2>{{ room.current.name }}</h2>
-    <n-space>
+  <section
+    v-if="auth.isLoggedIn && room.isJoined && !game.isReady"
+    class="centered-container-small backdrop-bluish"
+    style="padding: 16px;"
+  >
+    <h2 class="game-room-title">
+      {{ room.current.name }}
+    </h2>
+
+    <flexbox gap="4px">
       <n-button
         v-if="room.isAdmin"
         type="primary"
+        size="large"
+        ghost
         :disabled="!room.status.isReady || room.status.isStarting"
+        class="flex-3"
         @click="room.onStart"
       >
         {{ $t('common.start') }}
@@ -34,14 +43,19 @@ export default {
 
       <n-button
         type="warning"
+        size="large"
+        ghost
         :disabled="room.status.isStarting"
+        class="flex-1"
         @click="room.onLeave"
       >
         {{ $t('common.leave') }}
       </n-button>
-    </n-space>
+    </flexbox>
+
     <h3>Players</h3>
     <players :list="room.current.players" />
+
     <game-countdown />
   </section>
   <flexbox
@@ -51,3 +65,13 @@ export default {
     <loader />
   </flexbox>
 </template>
+
+<style lang="scss" scoped>
+.game-room-title {
+  font-size: 48px;
+  font-weight: 200;
+  line-height: 1;
+  text-align: center;
+  margin-bottom: 16px;
+}
+</style>
