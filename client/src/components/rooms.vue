@@ -15,7 +15,11 @@ export default {
 </script>
 
 <template>
-  <n-grid cols="1 480:2 720:3 960:4 1200:5 1440:6">
+  <n-grid
+    cols="1 480:2 720:3 960:4 1200:5 1440:6"
+    x-gap="8"
+    y-gap="8"
+  >
     <n-grid-item
       v-for="item in room.rooms"
       :key="item.id"
