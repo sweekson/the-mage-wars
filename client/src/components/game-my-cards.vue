@@ -93,6 +93,7 @@ export default {
 .my-card {
   position: absolute;
   transition: transform;
+  will-change: transform;
 
   &-selected {
     animation: selected .3s ease-in-out forwards;
