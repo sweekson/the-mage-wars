@@ -13,9 +13,11 @@ export default {
 </script>
 
 <template>
-  <section class="map">
+  <section style="margin: 0 4px;">
     <flexbox
       class="tiles"
+      gap="5px"
+      wrap
       :style="{ width: map.width }"
     >
       <game-tile
@@ -28,13 +30,3 @@ export default {
     </flexbox>
   </section>
 </template>
-
-<style lang="scss" scoped>
-.map {
-  margin: 0 4px;
-}
-.tiles {
-  flex-wrap: wrap;
-  gap: 5px;
-}
-</style>

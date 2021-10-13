@@ -10,6 +10,9 @@ export default {
     fullscreen: {
       type: Boolean,
     },
+    wrap: {
+      type: Boolean,
+    },
     gap: {
       type: String,
       default: '0',
@@ -25,6 +28,7 @@ export default {
       { 'full': full },
       { 'fullscreen': fullscreen },
       { 'flexbox-column': column },
+      { 'flexbox-wrap': wrap },
     ]"
     :style="{ gap }"
   >

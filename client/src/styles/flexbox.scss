@@ -19,6 +19,10 @@
   &-center-y {
     align-items: center;
   }
+
+  &-wrap {
+    flex-wrap: wrap;
+  }
 }
 
 .align-items-start {
