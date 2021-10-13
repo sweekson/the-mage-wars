@@ -4,6 +4,7 @@ import { NGrid, NGridItem, NStatistic } from 'naive-ui';
 import Hexagon from '@components/hexagon';
 import Flexbox from '@components/flexbox';
 import TweenedNumber from '@components/tweened-number';
+import GameMyBuffs from '@components/game-my-buffs';
 import GameMyElems from '@components/game-my-elems';
 
 export default {
@@ -14,6 +15,7 @@ export default {
     Hexagon,
     Flexbox,
     TweenedNumber,
+    GameMyBuffs,
     GameMyElems,
   },
   inject: ['game'],
@@ -57,6 +59,7 @@ export default {
       span="4"
     >
       <game-my-elems />
+      <game-my-buffs />
     </n-grid-item>
   </n-grid>
 </template>
