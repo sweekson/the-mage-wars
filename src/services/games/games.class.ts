@@ -128,6 +128,7 @@ export class GamesService {
       'casted',
       'peeked',
       'attacked',
+      'healed',
       'move',
       'confirmed',
       'removed',
@@ -521,8 +522,10 @@ export class GamesService {
 
     const isEnhance = /^E/.test(card);
     const isAttack = /^A/.test(card);
+    const isHeal = /^H/.test(card);
 
     if (isEnhance) return this.enhance(game, me, card);
+    if (isHeal) return this.heal(game, me, card);
 
     if (!target) return makeError(400, 'Target is not assigned');
 
@@ -548,6 +551,22 @@ export class GamesService {
     CardDeck.remove(player.cards, card);
 
     return this.makeResult('assigned', game, { receiver: player.uid, player });
+  }
+
+  heal(game: Game, player: GamePlayer, card: string) {
+    const { attributes = {} } = CardDeck.map[card];
+    const { energy = 0 } = attributes;
+    const { team1, team2 } = game;
+    const team = player.team === 1 ? team1 : team2;
+
+    team.energy += energy;
+
+    CardDeck.remove(player.cards, card);
+
+    return [
+      this.makeResult('healed', game, { receiver: player.uid, energy }),
+      this.makeResult('assigned', game, { receiver: player.uid, player })
+    ];
   }
 
   attack(game: Game, player: GamePlayer, target: GamePlayer, card: string) {

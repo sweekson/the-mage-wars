@@ -16,6 +16,9 @@ export default {
     game.on('attacked', ({ detail }) => {
       message.info(`Your attack caused ${detail.attacked} damage to the target`);
     });
+    game.on('healed', ({ detail }) => {
+      message.info(`The energy of my camp has recovered by ${detail.energy}`);
+    });
   },
 };
 </script>

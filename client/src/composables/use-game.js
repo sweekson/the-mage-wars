@@ -339,6 +339,9 @@ export const useGame = ({ client, auth, room, logger }) => {
   const onAttacked = ({ attacked }) => {
     emitter.emit('attacked', { attacked });
   };
+  const onHealed = ({ energy }) => {
+    emitter.emit('healed', { energy });
+  };
 
   room.on('joined', onRoomJoined);
   room.on('left', onRoomLeft);
@@ -349,6 +352,7 @@ export const useGame = ({ client, auth, room, logger }) => {
   GamesAPI.on('refreshed', onRefreshed);
   GamesAPI.on('rotated', onRotated);
   GamesAPI.on('attacked', onAttacked);
+  GamesAPI.on('healed', onHealed);
   GamesAPI.on('error', console.warn);
 
   return {

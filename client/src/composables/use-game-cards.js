@@ -77,7 +77,8 @@ export const useGameCards = ({ client, current, action, me }) => {
   const onEnchant = () => {
     const { id } = selected.value;
     const isEnhance = /^E/.test(id);
-    if (isEnhance) return update({ enchant: true, card: id });
+    const isHeal = /^H/.test(id);
+    if (isEnhance || isHeal) return update({ enchant: true, card: id });
     isPlayerSelectionOpen.value = true;
   };
   const onPlayerSelect = (uid) => (target.value = uid);
