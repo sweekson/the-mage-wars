@@ -26,6 +26,7 @@ export default {
       <n-button
         type="primary"
         size="large"
+        class="confirm-button"
         @click="game.cast.onCastedConfirm"
       >
         Confirm
@@ -35,6 +36,14 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 @keyframes rotate {
   0% {
     transform: rotateY(0deg);
@@ -45,6 +54,9 @@ export default {
 }
 
 .my-new-card {
-  animation: rotate .3s linear 3;
+  animation: fadein .1s linear, rotate .3s linear 3;
+}
+.confirm-button {
+  animation: fadein .3s linear;
 }
 </style>
