@@ -70,7 +70,7 @@ export default {
         <game-icon
           :name="'broken-skull'"
           :color="'silver'"
-          :size="'xl'"
+          :size="'3xl'"
         />
       </flexbox>
     </template>
