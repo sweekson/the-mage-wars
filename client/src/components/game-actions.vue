@@ -19,6 +19,9 @@ export default {
     game.on('healed', ({ detail }) => {
       message.info(`The energy of my camp has recovered by ${detail.energy}`);
     });
+    game.on('affected', () => {
+      message.info('You have got an unknown buff');
+    });
   },
 };
 </script>

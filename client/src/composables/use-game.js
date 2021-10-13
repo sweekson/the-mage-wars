@@ -342,6 +342,11 @@ export const useGame = ({ client, auth, room, logger }) => {
   const onHealed = ({ energy }) => {
     emitter.emit('healed', { energy });
   };
+  const onAffected = ({ spellcaster }) => {
+    if (spellcaster.uid === me.value.uid) return;
+    me.value.buffs.push(1);
+    emitter.emit('affected', { spellcaster });
+  };
 
   room.on('joined', onRoomJoined);
   room.on('left', onRoomLeft);
@@ -353,6 +358,7 @@ export const useGame = ({ client, auth, room, logger }) => {
   GamesAPI.on('rotated', onRotated);
   GamesAPI.on('attacked', onAttacked);
   GamesAPI.on('healed', onHealed);
+  GamesAPI.on('affected', onAffected);
   GamesAPI.on('error', console.warn);
 
   return {

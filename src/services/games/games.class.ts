@@ -10,6 +10,7 @@ import {
   Player, GamePlayer, GamePlayers,
   ExchangingPlayer, Elems, ExchangingElems,
 } from '../players/players.class';
+import { toPlayerJSON } from '../players/players.util';
 import { Cards } from '../cards/cards.class';
 import { CardDeck } from '../cards/cards.util';
 import { makeResult, makeError, toArray } from '../../utils/common';
@@ -129,6 +130,7 @@ export class GamesService {
       'peeked',
       'attacked',
       'healed',
+      'affected',
       'move',
       'confirmed',
       'removed',
@@ -523,6 +525,7 @@ export class GamesService {
     const isEnhance = /^E/.test(card);
     const isAttack = /^A/.test(card);
     const isHeal = /^H/.test(card);
+    const isBuff = /^B/.test(card);
 
     if (isEnhance) return this.enhance(game, me, card);
     if (isHeal) return this.heal(game, me, card);
@@ -534,8 +537,9 @@ export class GamesService {
     if (!opponent) return makeError(404, 'Target player not found');
 
     if (isAttack) return this.attack(game, me, opponent, card);
+    if (isBuff) return this.affect(game, me, opponent, card);
 
-    // TODO: Add buff to target
+    return makeError(400, 'Card type not defined');
   }
 
   enhance(game: Game, player: GamePlayer, card: string) {
@@ -587,6 +591,16 @@ export class GamesService {
 
     return [
       this.makeResult('attacked', game, { receiver: player.uid, attacked }),
+      this.makeResult('assigned', game, { receiver: player.uid, player })
+    ];
+  }
+
+  affect(game: Game, player: GamePlayer, target: GamePlayer, card: string) {
+    target.buffs.push(card);
+    CardDeck.remove(player.cards, card);
+
+    return [
+      this.makeResult('affected', game, { receiver: target.uid, spellcaster: player }),
       this.makeResult('assigned', game, { receiver: player.uid, player })
     ];
   }
@@ -783,6 +797,7 @@ export class GamesService {
       defense,
       elems: this.makePlayerElems(),
       cards: this.makePlayerCards(),
+      buffs: [],
       exchanges: 3,
       actions: 3,
       attack: 0,
@@ -819,7 +834,7 @@ export class GamesService {
       ...omit(game, ['players', 'team1', 'team2']),
       team1: pick(team1, ['energy']),
       team2: pick(team2, ['energy']),
-      players: toArray(players).map(x => pick(x, ['uid', 'name', 'color'])),
+      players: toArray(players).map(toPlayerJSON),
       collected: Array.from(collected),
       confirmed: Array.from(confirmed),
     };

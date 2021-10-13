@@ -31,8 +31,9 @@ export interface GamePlayer extends Player {
   color: number;
   strength: number;
   defense: number;
-  elems: Elem[];
+  elems: Elems;
   cards: Cards;
+  buffs: string[];
   exchanges: number;
   actions: number;
   attack: number;
