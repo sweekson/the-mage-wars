@@ -320,11 +320,11 @@ export const useGame = ({ client, auth, room, logger }) => {
   };
   const onAssigned = ({ player }) => {
     logger.info('game:assigned', player.team);
+    resolveElemsProps(player.elems);
+    resolveCardsProps(player.cards);
+    resolveCardsSorting(player.cards);
+    resolveCardsPosition(player.cards);
     Object.assign(me.value, player);
-    resolveElemsProps(me.value.elems);
-    resolveCardsProps(me.value.cards);
-    resolveCardsSorting(me.value.cards);
-    resolveCardsPosition(me.value.cards);
     console.log('me', me.value);
   };
   const onRefreshed = ({ game }) => {

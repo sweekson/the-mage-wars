@@ -1,8 +1,10 @@
 <script>
+import TweenedNumber from '@components/tweened-number';
 import GameIcon from '@components/game-icon.vue';
 
 export default {
   components: {
+    TweenedNumber,
     GameIcon,
   },
   props: {
@@ -46,7 +48,10 @@ export default {
       :color="color"
       :size="'sm'"
     />
-    <span class="game-icon-pill-amount">{{ amount }}</span>
+    <tweened-number
+      :value="amount"
+      class="game-icon-pill-amount"
+    />
   </div>
 </template>
 

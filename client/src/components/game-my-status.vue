@@ -3,6 +3,7 @@ import { NGrid, NGridItem, NStatistic } from 'naive-ui';
 
 import Hexagon from '@components/hexagon';
 import Flexbox from '@components/flexbox';
+import TweenedNumber from '@components/tweened-number';
 import GameMyElems from '@components/game-my-elems';
 
 export default {
@@ -12,6 +13,7 @@ export default {
     NStatistic,
     Hexagon,
     Flexbox,
+    TweenedNumber,
     GameMyElems,
   },
   inject: ['game'],
@@ -40,13 +42,13 @@ export default {
 
     <n-grid-item>
       <n-statistic label="Strength">
-        {{ game.me.strength }}
+        <tweened-number :value="game.me.strength" />
       </n-statistic>
     </n-grid-item>
 
     <n-grid-item>
       <n-statistic label="Defense">
-        {{ game.me.defense }}
+        <tweened-number :value="game.me.defense" />
       </n-statistic>
     </n-grid-item>
 
