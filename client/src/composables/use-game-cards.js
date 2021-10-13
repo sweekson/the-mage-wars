@@ -7,12 +7,15 @@ export const CardIconColorMap = {
   'vile-fluid': 'cyan',
   'thunderball': 'yellow',
   'thrown-charcoal': 'red',
-  'muscle-up': 'volcano',
+  'fire-silhouette': 'volcano',
   'eye-shield': 'green',
   'icicles-aura': 'white',
   'vortex': 'silver',
   'death-note': 'purple',
   'middle-arrow': 'magenta',
+  'cactus': 'green',
+  'big-wave': 'navy',
+  'caduceus': 'yellow',
 };
 
 export const resolveCardIconColor = (card) => {

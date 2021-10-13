@@ -12,7 +12,8 @@ export interface CardAttributes {
   defense?: number;
   increment?: number;
   decrement?: number;
-  multiples?: number;
+  percent?: number;
+  energy?: number;
 }
 
 export interface CardDefinition extends Card {

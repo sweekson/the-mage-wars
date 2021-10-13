@@ -30,7 +30,8 @@ export const CardTypeMap = {
 };
 
 // A = Attack
-// A0: Attack
+// A0: Nornal Attack
+// A1: Direct Attack (Ignore Defense)
 
 // E = Enhance
 // E1: Strength (self)
@@ -39,70 +40,98 @@ export const CardTypeMap = {
 // B = Buff
 // B0: Immunity
 // B1: Weaken
-// B2: Strengthen
+// B2: Enhance
+
+// H = Heal
+// H0: Heal
 
 export const GameCards: CardDefinitions = [
   {
     id: 'A001',
-    name: 'Waterball',
-    description: 'Attack a specified target once',
-    icon: 'vile-fluid',
+    name: 'Cactus',
+    description: 'Throw a cactus and cause ${percent}% damage',
+    icon: 'cactus',
     level: 3,
     weight: 1200,
+    attributes: {
+      percent: 100,
+    },
   },
   {
     id: 'A002',
-    name: 'Thunderball',
-    description: 'Attack a specified target with ${multiples} times the strength',
-    icon: 'thunderball',
-    level: 2,
-    weight: 400,
+    name: 'Waterball',
+    description: 'Throw a waterball and cause ${percent}% damage',
+    icon: 'vile-fluid',
+    level: 3,
+    weight: 1000,
     attributes: {
-      multiples: 1.5,
+      percent: 120,
     },
   },
   {
     id: 'A003',
-    name: 'Meteor',
-    description: 'Attack a specified target with ${multiples} times the strength',
+    name: 'Thunderball',
+    description: 'Summon a thunderball and cause ${percent}% damage',
+    icon: 'thunderball',
+    level: 2,
+    weight: 400,
+    attributes: {
+      percent: 150,
+    },
+  },
+  {
+    id: 'A004',
+    name: 'Billow',
+    description: 'Summon a billow and cause ${percent}% damage',
+    icon: 'big-wave',
+    level: 1,
+    weight: 350,
+    attributes: {
+      percent: 160,
+    },
+  },
+  {
+    id: 'A005',
+    name: 'Bolide',
+    description: 'Summon bolide and cause ${percent}% damage',
     icon: 'thrown-charcoal',
     level: 1,
     weight: 150,
     attributes: {
-      multiples: 2,
+      percent: 200,
     },
   },
   {
     id: 'E101',
-    name: 'Strengthen I',
+    name: 'Rage I',
     description: 'Increase strength by ${strength}',
-    icon: 'muscle-up',
+    icon: 'fire-silhouette',
     level: 3,
     weight: 1200,
-    attributes: {
-      strength: 2,
-    },
-  },
-  {
-    id: 'E102',
-    name: 'Strengthen II',
-    description: 'Increase strength by ${strength}',
-    icon: 'muscle-up',
-    level: 2,
-    weight: 500,
     attributes: {
       strength: 5,
     },
   },
   {
-    id: 'E103',
-    name: 'Strengthen III',
+    id: 'E102',
+    name: 'Rage II',
     description: 'Increase strength by ${strength}',
-    icon: 'muscle-up',
+    icon: 'fire-silhouette',
+    level: 2,
+    weight: 500,
+    attributes: {
+      strength: 10,
+    },
+  },
+  {
+    id: 'E103',
+    name: 'Rage III',
+    description: 'Increase strength by ${strength}',
+    icon: 'fire-silhouette',
     level: 1,
     weight: 200,
     attributes: {
-      strength: 10,
+      strength: 15,
     },
   },
   {
@@ -113,7 +142,7 @@ export const GameCards: CardDefinitions = [
     level: 3,
     weight: 1200,
     attributes: {
-      defense: 2,
+      defense: 5,
     },
   },
   {
@@ -124,7 +153,7 @@ export const GameCards: CardDefinitions = [
     level: 2,
     weight: 500,
     attributes: {
-      defense: 5,
+      defense: 10,
     },
   },
   {
@@ -135,7 +164,7 @@ export const GameCards: CardDefinitions = [
     level: 1,
     weight: 200,
     attributes: {
-      defense: 10,
+      defense: 15,
     },
   },
   {
@@ -157,7 +186,7 @@ export const GameCards: CardDefinitions = [
   {
     id: 'B101',
     name: 'Curse I',
-    description: 'Reduce a target\'s next attack power by ${decrement}%',
+    description: 'Reduce a target\'s next attack by ${decrement}%',
     icon: 'death-note',
     level: 3,
     weight: 800,
@@ -168,7 +197,7 @@ export const GameCards: CardDefinitions = [
   {
     id: 'B102',
     name: 'Curse II',
-    description: 'Reduce a target\'s next attack power by ${decrement}%',
+    description: 'Reduce a target\'s next attack by ${decrement}%',
     icon: 'death-note',
     level: 2,
     weight: 400,
@@ -179,7 +208,7 @@ export const GameCards: CardDefinitions = [
   {
     id: 'B103',
     name: 'Curse III',
-    description: 'Reduce a target\'s next attack power by ${decrement}%',
+    description: 'Reduce a target\'s next attack by ${decrement}%',
     icon: 'death-note',
     level: 1,
     weight: 150,
@@ -190,7 +219,7 @@ export const GameCards: CardDefinitions = [
   {
     id: 'B201',
     name: 'Critical Hit I',
-    description: 'Increase a target\'s next attack power by ${increment}%',
+    description: 'Increase a target\'s next attack by ${increment}%',
     icon: 'middle-arrow',
     level: 3,
     weight: 800,
@@ -201,7 +230,7 @@ export const GameCards: CardDefinitions = [
   {
     id: 'B202',
     name: 'Critical Hit II',
-    description: 'Increase a target\'s next attack power by ${increment}%',
+    description: 'Increase a target\'s next attack by ${increment}%',
     icon: 'middle-arrow',
     level: 2,
     weight: 400,
@@ -212,12 +241,45 @@ export const GameCards: CardDefinitions = [
   {
     id: 'B203',
     name: 'Critical Hit III',
-    description: 'Increase a target\'s next attack power by ${increment}%',
+    description: 'Increase a target\'s next attack by ${increment}%',
     icon: 'middle-arrow',
     level: 1,
     weight: 150,
     attributes: {
       increment: 60,
+    },
+  },
+  {
+    id: 'H001',
+    name: 'Heal I',
+    description: 'Summon healing to recover the energy of my camp by ${energy}',
+    icon: 'caduceus',
+    level: 3,
+    weight: 800,
+    attributes: {
+      energy: 30,
+    },
+  },
+  {
+    id: 'H002',
+    name: 'Heal II',
+    description: 'Summon healing to recover the energy of my camp by ${energy}',
+    icon: 'caduceus',
+    level: 2,
+    weight: 350,
+    attributes: {
+      energy: 80,
+    },
+  },
+  {
+    id: 'H003',
+    name: 'Heal II',
+    description: 'Summon healing to recover the energy of my camp by ${energy}',
+    icon: 'caduceus',
+    level: 1,
+    weight: 200,
+    attributes: {
+      energy: 120,
     },
   },
 ];

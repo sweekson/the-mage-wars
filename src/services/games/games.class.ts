@@ -552,11 +552,11 @@ export class GamesService {
 
   attack(game: Game, player: GamePlayer, target: GamePlayer, card: string) {
     const { attributes = {} } = CardDeck.map[card];
-    const { multiples = 1 } = attributes;
+    const { percent = 100 } = attributes;
     const { team1, team2 } = game;
     const team = target.team === 1 ? team1 : team2;
 
-    const strength = Math.floor(player.strength * multiples);
+    const strength = Math.floor(player.strength * percent * .01 );
     const defense = target.defense;
     const attacked = strength > defense ? strength - defense : 0;
 
