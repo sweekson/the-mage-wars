@@ -157,6 +157,6 @@ export default {
   transform: rotate3d(1, 0, 0, 90deg) translateZ(calc(var(--size) * .5));
 }
 .dice-face[data-face='6'] {
-  transform: rotate3d(1, 0, 0, 180deg) translateZ(calc(var(--size) * .5));
+  transform: rotate3d(0, 1, 0, 180deg) translateZ(calc(var(--size) * .5));
 }
 </style>
