@@ -10,8 +10,6 @@ export type Cards = Card[];
 export interface CardAttributes {
   strength?: number;
   defense?: number;
-  increment?: number;
-  decrement?: number;
   percent?: number;
   energy?: number;
 }
