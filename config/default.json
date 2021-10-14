@@ -49,6 +49,35 @@
       "initial": 10,
       "range": [2, 3]
     },
+    "spells": [
+      {
+        "type": "common",
+        "costs": [
+          { "type": 1, "amount": 2 },
+          { "type": 2, "amount": 4 },
+          { "type": 3, "amount": 3 },
+          { "type": 4, "amount": 2 }
+        ]
+      },
+      {
+        "type": "advanced",
+        "costs": [
+          { "type": 1, "amount": 6 },
+          { "type": 2, "amount": 5 },
+          { "type": 3, "amount": 5 },
+          { "type": 4, "amount": 7 }
+        ]
+      },
+      {
+        "type": "peek",
+        "costs": [
+          { "type": 1, "amount": 10 },
+          { "type": 2, "amount": 10 },
+          { "type": 3, "amount": 10 },
+          { "type": 4, "amount": 10 }
+        ]
+      }
+    ],
     "cards": {
       "initial": 3,
       "weight": {
