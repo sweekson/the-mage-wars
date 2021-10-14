@@ -15,7 +15,7 @@ export default {
       v-for="(buff, index) in game.me.buffs"
       :key="index"
       name="gold-shell"
-      color="white"
+      :color="buff === '1' ? 'orange' : 'turquoise'"
       shape="circle"
       size="sm"
       class="my-buff-icon"
