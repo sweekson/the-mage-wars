@@ -5,8 +5,7 @@ import { NGrid, NGridItem } from 'naive-ui';
 import Flexbox from '@components/flexbox.vue';
 import BlankDice from '@components/blank-dice.vue';
 import GameIcon from '@components/game-icon.vue';
-import { resolveTileTypeName, resolveTileTypeColor } from '@composables/use-game-map';
-import { pipe } from '../utils/common';
+import { resolveElemsProps } from '@composables/use-game-elems';
 
 export default {
   components: {
@@ -33,12 +32,8 @@ export default {
       { type: 3, face: 'right' },
       { type: 4, face: 'left' },
     ]);
-    const resolveElemProps = pipe(
-      resolveTileTypeName,
-      resolveTileTypeColor,
-    );
 
-    elems.value = resolveElemProps(elems.value);
+    elems.value = resolveElemsProps(elems.value);
 
     return { elems };
   },
