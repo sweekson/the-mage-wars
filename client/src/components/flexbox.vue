@@ -15,7 +15,7 @@ export default {
     },
     gap: {
       type: String,
-      default: '0',
+      default: '',
     },
   },
 };
