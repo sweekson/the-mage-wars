@@ -5,7 +5,7 @@ import range from 'lodash/range';
 import random from 'lodash/random';
 
 import { Application } from '../../declarations';
-import { resolveAttack, useBuffHelper, useSpellHelper } from './games.util';
+import { resolveAttack, useBuffHelper, useSpellHelper, useGameMapHelper } from './games.util';
 import { RoomJSON } from '../rooms/rooms.class';
 import {
   Player, GamePlayer, GamePlayers,
@@ -78,10 +78,26 @@ export interface Exchange {
   responses: ExchangingPlayer[];
 }
 
+export interface Tile {
+  index: number;
+  type: number;
+  order: number;
+  occupied: Array<number>;
+  players: Array<number>;
+}
+
+export type Tiles = Tile[];
+
+export interface GameMap {
+  size: number;
+  tiles: Tiles;
+}
+
 export interface Game {
   id: string;
   room: string;
   status: GameStatus;
+  map: GameMap;
   team1: Team;
   team2: Team;
   sequence: string[];
@@ -782,6 +798,7 @@ export class GamesService {
       id,
       room: room.id,
       status: GameStatus.Ready,
+      map: useGameMapHelper(players.length).make(),
       team1,
       team2,
       sequence,
