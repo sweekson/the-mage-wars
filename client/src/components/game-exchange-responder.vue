@@ -3,7 +3,6 @@ import { NGrid, NGridItem, NDivider, NIcon } from 'naive-ui';
 import ArrowDropDownOutlined from '@vicons/material/ArrowDropDownOutlined';
 
 import GameElementSelector from '@components/game-element-selector.vue';
-import { TileTypeNameMap, TileTypeColorMap } from '@composables/use-game-map';
 
 export default {
   components: {
@@ -15,12 +14,6 @@ export default {
     GameElementSelector,
   },
   inject: ['game'],
-  setup() {
-    return {
-      TileTypeNameMap,
-      TileTypeColorMap,
-    };
-  },
 };
 </script>
 
