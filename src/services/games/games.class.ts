@@ -5,6 +5,7 @@ import range from 'lodash/range';
 import random from 'lodash/random';
 
 import { Application } from '../../declarations';
+import { resolveAttack, useBuffHelper } from './games.util';
 import { RoomJSON } from '../rooms/rooms.class';
 import {
   Player, GamePlayer, GamePlayers,
@@ -574,14 +575,22 @@ export class GamesService {
   }
 
   attack(game: Game, player: GamePlayer, target: GamePlayer, card: string) {
-    const { attributes = {} } = CardDeck.map[card];
-    const { percent = 100 } = attributes;
+    const buffs1 = useBuffHelper({ buffs: player.buffs });
+    const buffs2 = useBuffHelper({ buffs: target.buffs });
+
+    if (buffs1.has('B001') || buffs2.has('B002')) {
+      buffs1.remove('B001');
+      buffs2.remove('B002');
+      CardDeck.remove(player.cards, card);
+      return this.attacked(game, player, 0);
+    }
+
     const { team1, team2 } = game;
     const team = target.team === 1 ? team1 : team2;
 
-    const strength = Math.floor(player.strength * percent * .01 );
+    const attack = resolveAttack(player, card);
     const defense = target.defense;
-    const attacked = strength > defense ? strength - defense : 0;
+    const attacked = attack > defense ? attack - defense : 0;
 
     player.attack += attacked;
     target.attacked += attacked;
@@ -589,6 +598,10 @@ export class GamesService {
 
     CardDeck.remove(player.cards, card);
 
+    return this.attacked(game, player, attacked);
+  }
+
+  attacked(game: Game, player: GamePlayer, attacked: number) {
     return [
       this.makeResult('attacked', game, { receiver: player.uid, attacked }),
       this.makeResult('assigned', game, { receiver: player.uid, player })

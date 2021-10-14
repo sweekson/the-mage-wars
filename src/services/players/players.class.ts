@@ -42,6 +42,8 @@ export interface GamePlayer extends Player {
 
 export type GamePlayers = GamePlayer[];
 
+export type Buffs = Pick<GamePlayer, 'buffs'>;
+
 export interface ExchangingPlayer {
   uid: string;
   name: string;
