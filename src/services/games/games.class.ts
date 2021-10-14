@@ -11,7 +11,7 @@ import {
   Player, GamePlayer, GamePlayers,
   ExchangingPlayer, Elems, ExchangingElems,
 } from '../players/players.class';
-import { toPlayerJSON } from '../players/players.util';
+import { toPlayerJSON, toMyPlayerJSON } from '../players/players.util';
 import { Cards } from '../cards/cards.class';
 import { CardDeck } from '../cards/cards.util';
 import { makeResult, makeError, toArray } from '../../utils/common';
@@ -221,9 +221,10 @@ export class GamesService {
 
     if (!me) return makeError(404, 'Player not found');
 
-    const player = omit(me, ['attack', 'attacked']);
-
-    return this.makeResult('assigned', game, { receiver: _id, player });
+    return this.makeResult('assigned', game, {
+      receiver: me.uid,
+      player: toMyPlayerJSON(me),
+    });
   }
 
   rotate(game: Game) {
@@ -245,11 +246,12 @@ export class GamesService {
     next.exchanges = 3;
     next.actions = 3;
 
-    const player = omit(next, ['attack', 'attacked']);
-
     return [
       this.makeResult('rotated', game, { receiver: uid }),
-      this.makeResult('assigned', game, { receiver: uid, player }),
+      this.makeResult('assigned', game, {
+        receiver: next.uid,
+        player: toMyPlayerJSON(next),
+      }),
       this.makeResult('refreshed', game),
     ];
   }
@@ -433,10 +435,10 @@ export class GamesService {
 
     return [
       this.makeResult('assigned', game, {
-        receiver: requester.uid, player: requester,
+        receiver: requester.uid, player: toMyPlayerJSON(requester),
       }),
       this.makeResult('assigned', game, {
-        receiver: responder.uid, player: responder,
+        receiver: responder.uid, player: toMyPlayerJSON(responder),
       }),
       this.next(game, GameStatus.Wait),
     ];
@@ -480,14 +482,16 @@ export class GamesService {
 
     const { weight } = this.config.cards;
     const [card] = CardDeck.draw(1, weight[type]);
-    const player = omit(me, ['attack', 'attacked']);
 
     // Delay the update of cards
     setTimeout(() => me.cards.push(card), 0);
 
     return [
       this.makeResult('casted', game, { receiver: _id, card }),
-      this.makeResult('assigned', game, { receiver: _id, player })
+      this.makeResult('assigned', game, {
+        receiver: me.uid,
+        player: toMyPlayerJSON(me),
+      }),
     ];
   }
 
@@ -502,7 +506,7 @@ export class GamesService {
       }),
       this.makeResult('assigned', game, {
         receiver: requester.uid,
-        player: requester,
+        player: toMyPlayerJSON(requester),
       }),
     ];
   }
@@ -555,7 +559,10 @@ export class GamesService {
 
     CardDeck.remove(player.cards, card);
 
-    return this.makeResult('assigned', game, { receiver: player.uid, player });
+    return this.makeResult('assigned', game, {
+      receiver: player.uid,
+      player: toMyPlayerJSON(player),
+    });
   }
 
   heal(game: Game, player: GamePlayer, card: string) {
@@ -570,7 +577,10 @@ export class GamesService {
 
     return [
       this.makeResult('healed', game, { receiver: player.uid, energy }),
-      this.makeResult('assigned', game, { receiver: player.uid, player })
+      this.makeResult('assigned', game, {
+        receiver: player.uid,
+        player: toMyPlayerJSON(player),
+      }),
     ];
   }
 
@@ -604,7 +614,10 @@ export class GamesService {
   attacked(game: Game, player: GamePlayer, attacked: number) {
     return [
       this.makeResult('attacked', game, { receiver: player.uid, attacked }),
-      this.makeResult('assigned', game, { receiver: player.uid, player })
+      this.makeResult('assigned', game, {
+        receiver: player.uid,
+        player: toMyPlayerJSON(player),
+      }),
     ];
   }
 
@@ -613,8 +626,14 @@ export class GamesService {
     CardDeck.remove(player.cards, card);
 
     return [
-      this.makeResult('affected', game, { receiver: target.uid, spellcaster: player }),
-      this.makeResult('assigned', game, { receiver: player.uid, player })
+      this.makeResult('affected', game, {
+        receiver: target.uid,
+        spellcaster: toPlayerJSON(player),
+      }),
+      this.makeResult('assigned', game, {
+        receiver: player.uid,
+        player: toMyPlayerJSON(player),
+      }),
     ];
   }
 
