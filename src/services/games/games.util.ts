@@ -1,11 +1,10 @@
 import keyBy from 'lodash/keyBy';
-import random from 'lodash/random';
 import Chance from 'chance';
 
 import { GameMapSet } from './games.constants';
 import { GameMap, Tiles } from './games.class';
 import { CardDeck } from '../cards/cards.util';
-import { GamePlayer, Buffs, Elems, Spells } from '../players/players.class';
+import { GamePlayer, GamePlayers, Buffs, Elems, Spells } from '../players/players.class';
 
 export interface BuffHelper {
   match(card: RegExp): string;
@@ -60,9 +59,10 @@ export const useSpellHelper = ({ type, elems, spells }: SpellHelperOptions): Spe
   return { valid, sufficient, cast };
 };
 
-export const useGameMapHelper = (players: number): GameMapHelper => {
+export const useGameMapHelper = (players: GamePlayers): GameMapHelper => {
   const chance = new Chance();
-  const size = players < 5 ? 'S4X4' : (players > 7 ? 'S5X5' : 'S5X4');
+  const length = players.length;
+  const size = length < 5 ? 'S4X4' : (length > 7 ? 'S5X5' : 'S5X4');
   const types = chance.shuffle(
     GameMapSet.elems[size].flatMap((x, i) => Array(x).fill(i + 1)),
   );
@@ -74,13 +74,13 @@ export const useGameMapHelper = (players: number): GameMapHelper => {
     const vacant = () => tiles.filter(x => x.occupied.every(x => !x));
     const nobody = () => tiles.filter(x => !x.players.length);
 
-    Array(players).fill(0).forEach((x, i) => {
+    players.forEach(({ color }) => {
       // Find 3 tiles that nobody has occupied
       const vacancies = chance.pickset(vacant(), 3);
       // Find a tile that nobody is there
       const position = chance.pickone(nobody());
-      vacancies.forEach(x => (tiles[x.index].occupied[0] = i + 1));
-      tiles[position.index].players[0] = i + 1;
+      vacancies.forEach(x => (tiles[x.index].occupied[0] = color));
+      tiles[position.index].players[0] = color;
     });
 
     return { size: Number(size[1]), tiles };

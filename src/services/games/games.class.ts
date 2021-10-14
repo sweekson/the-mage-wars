@@ -798,7 +798,7 @@ export class GamesService {
       id,
       room: room.id,
       status: GameStatus.Ready,
-      map: useGameMapHelper(players.length).make(),
+      map: useGameMapHelper(players).make(),
       team1,
       team2,
       sequence,
