@@ -2,33 +2,6 @@ import keyBy from 'lodash/keyBy';
 
 import { CardDefinitions } from './cards.class';
 
-export const CardTypeMap = {
-  common: {
-    costs: [
-      { type: 1, amount: 2 },
-      { type: 2, amount: 4 },
-      { type: 3, amount: 3 },
-      { type: 4, amount: 2 },
-    ],
-  },
-  advanced: {
-    costs: [
-      { type: 1, amount: 6 },
-      { type: 2, amount: 5 },
-      { type: 3, amount: 5 },
-      { type: 4, amount: 7 },
-    ],
-  },
-  peek: {
-    costs: [
-      { type: 1, amount: 10 },
-      { type: 2, amount: 10 },
-      { type: 3, amount: 10 },
-      { type: 4, amount: 10 },
-    ],
-  },
-};
-
 // A = Attack
 // A0: Nornal Attack
 // A1: Direct Attack (Ignore Defense)

@@ -1,7 +1,7 @@
 import Chance from 'chance';
 import pick from 'lodash/pick';
 
-import { GameCards, GameCardMap, CardTypeMap } from './cards.constants';
+import { GameCards, GameCardMap } from './cards.constants';
 import { Cards } from './cards.class';
 
 export const draw = (amount: number, weight = 9999): Cards => {
@@ -31,7 +31,6 @@ export const remove = (cards: Cards, target: string): boolean => {
 export const CardDeck = {
   list: GameCards,
   map: GameCardMap,
-  type: CardTypeMap,
   draw,
   remove,
 };

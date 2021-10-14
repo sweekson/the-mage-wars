@@ -1,10 +1,24 @@
+import keyBy from 'lodash/keyBy';
+
 import { CardDeck } from '../cards/cards.util';
-import { GamePlayer, Buffs } from '../players/players.class';
+import { GamePlayer, Buffs, Elems, Spells } from '../players/players.class';
 
 export interface BuffHelper {
   match(card: RegExp): string;
   remove(card: string): boolean;
   has(card: string | RegExp): boolean;
+}
+
+export interface SpellHelperOptions {
+  type: string;
+  elems: Elems;
+  spells: Spells;
+}
+
+export interface SpellHelper {
+  valid(): boolean;
+  sufficient(): boolean;
+  cast(): void;
 }
 
 export const useBuffHelper = ({ buffs }: Buffs): BuffHelper => {
@@ -23,6 +37,19 @@ export const useBuffHelper = ({ buffs }: Buffs): BuffHelper => {
   };
 
   return { match, remove, has };
+};
+
+export const useSpellHelper = ({ type, elems, spells }: SpellHelperOptions): SpellHelper => {
+  const map = keyBy(spells, 'type');
+  const { costs } = map[type];
+  const valid = () => !!map[type];
+  const sufficient = () => {
+    return costs.every(({ amount }, i) => elems[i].amount >= amount);
+  };
+  const cast = () => {
+    costs.forEach(({ amount }, index) => elems[index].amount -= amount);
+  };
+  return { valid, sufficient, cast };
 };
 
 export const resolveAttack = (player: GamePlayer, card: string): number => {

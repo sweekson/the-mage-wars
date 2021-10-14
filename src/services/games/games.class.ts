@@ -5,7 +5,7 @@ import range from 'lodash/range';
 import random from 'lodash/random';
 
 import { Application } from '../../declarations';
-import { resolveAttack, useBuffHelper } from './games.util';
+import { resolveAttack, useBuffHelper, useSpellHelper } from './games.util';
 import { RoomJSON } from '../rooms/rooms.class';
 import {
   Player, GamePlayer, GamePlayers,
@@ -457,29 +457,29 @@ export class GamesService {
 
     if (!action) return makeError(400, 'Action not assigned');
 
-    const { spell } = params.query;
+    const { spell: type } = params.query;
 
-    if (!spell) return makeError(400, 'Spell type is empty');
+    if (!type) return makeError(400, 'Spell type is empty');
 
-    if (spell !== 'common' && spell !== 'advanced' && spell !== 'peek') {
-      return makeError(400, 'Invalid spell type');
-    }
+    const spell = useSpellHelper({
+      type,
+      elems: me.elems,
+      spells: this.config.spells,
+    });
 
-    const { costs } = CardDeck.type[spell];
+    if (!spell.valid()) return makeError(400, 'Invalid spell type');
 
-    if (costs.some(({ amount }, index) => me.elems[index].amount < amount)) {
+    if (!spell.sufficient()) {
       return makeError(400, 'Insufficient number of elements');
     }
 
-    costs.forEach(({ amount }, index) => me.elems[index].amount -= amount);
+    spell.cast();
     me.actions -= 1;
 
-    if (spell === 'peek') {
-      return this.peek(game, me);
-    }
+    if (type === 'peek') return this.peek(game, me);
 
     const { weight } = this.config.cards;
-    const [card] = CardDeck.draw(1, weight[spell]);
+    const [card] = CardDeck.draw(1, weight[type]);
     const player = omit(me, ['attack', 'attacked']);
 
     // Delay the update of cards

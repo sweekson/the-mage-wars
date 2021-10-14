@@ -17,6 +17,13 @@ export interface ExchangingElem {
 
 export type ExchangingElems = ExchangingElem[];
 
+export interface Spell {
+  type: string;
+  costs: Elems;
+}
+
+export type Spells = Spell[];
+
 export interface Player {
   index: number;
   uid: string;
