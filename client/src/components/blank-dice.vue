@@ -91,10 +91,10 @@ export default {
   transform-style: preserve-3d;
 }
 .dice-even-roll {
-  transition: transform 2.4s ease-out;
+  transition: transform 2s ease-out;
 }
 .dice-odd-roll {
-  transition: transform 2s ease-out;
+  transition: transform 1.7s ease-out;
 }
 .dice-even-roll[data-face='1'] {
   transform: rotateX(360deg) rotateY(720deg) rotateZ(360deg);
