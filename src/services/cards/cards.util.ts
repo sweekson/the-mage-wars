@@ -28,9 +28,26 @@ export const remove = (cards: Cards, target: string): boolean => {
   return true;
 };
 
+export const isEnhance = (card: string): boolean => /^E/.test(card);
+export const isAttack = (card: string): boolean => /^A/.test(card);
+export const isHeal = (card: string): boolean => /^H/.test(card);
+export const isBuff = (card: string): boolean => /^B/.test(card);
+export const isPositvieBuff = (card: string): boolean => {
+  return /^(B2|B002)/.test(card);
+};
+export const isNegativeBuff = (card: string): boolean => {
+  return /^(B1|B001)/.test(card);
+};
+
 export const CardDeck = {
   list: GameCards,
   map: GameCardMap,
   draw,
   remove,
+  isEnhance,
+  isAttack,
+  isHeal,
+  isBuff,
+  isPositvieBuff,
+  isNegativeBuff,
 };

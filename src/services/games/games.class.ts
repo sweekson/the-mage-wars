@@ -523,10 +523,10 @@ export class GamesService {
     if (!CardDeck.map[card]) return makeError(400, 'Incorrect card ID');
     if (!me.cards.find(x => x.id === card)) return makeError(404, 'Card not found');
 
-    const isEnhance = /^E/.test(card);
-    const isAttack = /^A/.test(card);
-    const isHeal = /^H/.test(card);
-    const isBuff = /^B/.test(card);
+    const isEnhance = CardDeck.isEnhance(card);
+    const isAttack = CardDeck.isAttack(card);
+    const isHeal = CardDeck.isHeal(card);
+    const isBuff = CardDeck.isBuff(card);
 
     if (isEnhance) return this.enhance(game, me, card);
     if (isHeal) return this.heal(game, me, card);
