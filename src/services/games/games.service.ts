@@ -37,7 +37,7 @@ export default function (app: Application) {
     setTimeout(() => {
       context.result = games.moved(game.id);
       transmit(context);
-    }, wait.move);
+    }, wait.move + 300 * game.action.moves);
   };
 
   games.hooks(hooks);

@@ -73,13 +73,13 @@ export default {
         isConfirm,
       } = this.game.status;
       const { isMine } = this.game.action;
-      const { exchange, cast, cards } = this.game;
+      const { isDiceStop, exchange, cast, cards } = this.game;
       return (
         isPray || isCollect ||
         (exchange.isOpen && isMine) || isExchange ||
         (cast.isOpen && isMine) || cast.isCasted || cast.isPeeked ||
         cards.isPlayerSelectionOpen ||
-        isMove || isConfirm
+        (isMove && !isDiceStop) || isConfirm
       );
     },
   },
@@ -102,10 +102,10 @@ export default {
     <game-my-new-card v-if="game.cast.isCasted" />
     <game-peeked-result v-if="game.cast.isPeeked" />
 
-
     <number-dice
-      v-if="game.status.isMove"
+      v-if="game.status.isMove && !game.isDiceStop"
       :value="game.current.action.moves"
+      @transitionend="game.onDiceStop"
     />
 
     <n-dialog

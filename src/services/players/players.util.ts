@@ -4,7 +4,7 @@ import { isPositvieBuff } from '../cards/cards.util';
 import { GamePlayer } from './players.class';
 
 export const toPlayerJSON = (player: GamePlayer): Partial<GamePlayer> => {
-  return pick(player, ['uid', 'name', 'color']);
+  return pick(player, ['uid', 'name', 'color', 'position']);
 };
 
 export const toMyPlayerJSON = (player: GamePlayer): Partial<GamePlayer> => {

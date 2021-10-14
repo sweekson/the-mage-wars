@@ -55,7 +55,8 @@ export const resolveTileShape = (tiles, size) => {
   return tiles;
 };
 
-export const useGameMap = ({ current }) => {
+export const useGameMap = ({ client, current }) => {
+  const { GamesAPI } = client;
   const size = computed(() => current.value.map.size);
   const tiles = computed(() => {
     const shaped = resolveTileShape(current.value.map.tiles, size.value);
@@ -65,22 +66,26 @@ export const useGameMap = ({ current }) => {
   const last = computed(() => tiles.value.length - 1);
   const width = computed(() => `${size.value * (72 + 5) - 5}px`);
   const selected = ref(null);
-  const update = ({ uid, position }) => {
+  const update = ({ color, position }) => {
     const previous = tiles.value[position ? position - 1 : last.value];
     const current = tiles.value[position];
-    previous.players.splice(previous.players.indexOf(uid), 1);
-    current.players.push(uid);
+    previous.players.splice(previous.players.indexOf(color), 1);
+    current.players.push(color);
   };
-  const move = (player) => {
+  const move = (player, moves) => {
     setTimeout(() => {
-      player.value.position += 1;
-      player.value.moves -= 1;
-      player.value.position > last.value && (player.value.position = 0);
-      update(player.value);
-      player.value.moves && move(player);
+      moves -= 1;
+      player.position += 1;
+      player.position > last.value && (player.position = 0);
+      update(player);
+      moves > 0 && move(player, moves);
     }, 300);
   };
   const onSelect = (tile) => (selected.value = tile);
+
+  GamesAPI.on('move', ({ player }) => {
+    setTimeout(() => move(player, current.value.action.moves), 2100);
+  });
 
   return {
     tiles,

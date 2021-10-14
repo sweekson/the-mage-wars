@@ -74,13 +74,15 @@ export const useGameMapHelper = (players: GamePlayers): GameMapHelper => {
     const vacant = () => tiles.filter(x => x.occupied.every(x => !x));
     const nobody = () => tiles.filter(x => !x.players.length);
 
-    players.forEach(({ color }) => {
+    players.forEach(player => {
+      const { color } = player;
       // Find 3 tiles that nobody has occupied
       const vacancies = chance.pickset(vacant(), 3);
       // Find a tile that nobody is there
       const position = chance.pickone(nobody());
       vacancies.forEach(x => (tiles[x.index].occupied[0] = color));
       tiles[position.index].players[0] = color;
+      player.position = position.index;
     });
 
     return { size: Number(size[1]), tiles };

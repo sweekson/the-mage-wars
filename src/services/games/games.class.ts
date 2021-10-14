@@ -675,8 +675,22 @@ export class GamesService {
     action.moves = random(1, 6);
     action.moved = true;
 
+    const { tiles } = game.map;
+    const tile = tiles.find(x => x.players.includes(player.color));
+
+    if (!tile) return makeError(500, 'Player position not found');
+
+    const next = tiles[(tile.index + action.moves) % tiles.length];
+
+    // Delay the update of position
+    setTimeout(() => {
+      player.position = next.index;
+      tile.players.splice(tile.players.indexOf(player.color), 1);
+      next.players.push(player.color);
+    }, 0);
+
     return [
-      this.makeResult('move', game),
+      this.makeResult('move', game, { player }),
       this.next(game, GameStatus.Move),
     ];
   }
@@ -842,6 +856,7 @@ export class GamesService {
       ...player,
       team: 0,
       color,
+      position: -1,
       strength,
       defense,
       elems: this.makePlayerElems(),

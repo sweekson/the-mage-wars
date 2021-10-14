@@ -303,6 +303,7 @@ export const useGame = ({ client, auth, room, logger }) => {
   const cards = useGameCards({ client, current, status, action, me });
   const map = useGameMap({ client, current });
   const isReady = ref(false);
+  const isDiceStop = ref(false);
   const find = (query) => GamesAPI.find({ query });
   const onRoomJoined = ({ detail }) => {
     detail.isStarted && find({ room: detail.id });
@@ -336,8 +337,10 @@ export const useGame = ({ client, auth, room, logger }) => {
   };
   const onRotated = ({ game }) => {
     logger.info('game:rotated', game.action.uid);
+    isDiceStop.value = false;
     emitter.emit('rotated');
   };
+  const onDiceStop = () => setTimeout(() => isDiceStop.value = true, 350);
   const onAttacked = ({ attacked }) => {
     emitter.emit('attacked', { attacked });
   };
@@ -373,6 +376,8 @@ export const useGame = ({ client, auth, room, logger }) => {
     map,
     me,
     isReady,
+    isDiceStop,
     on,
+    onDiceStop,
   };
 };
