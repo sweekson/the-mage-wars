@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue';
 
 import { resolveElemsProps } from '@composables/use-game-elems';
+import { useWindowFocus } from '@composables/use-window-focus';
 
 export const TileIconColorMap = {
   1: 'red',
@@ -57,6 +58,7 @@ export const resolveTileShape = (tiles, size) => {
 
 export const useGameMap = ({ client, current }) => {
   const { GamesAPI } = client;
+  const { focused } = useWindowFocus();
   const size = computed(() => current.value.map.size);
   const tiles = computed(() => {
     const shaped = resolveTileShape(current.value.map.tiles, size.value);
@@ -84,6 +86,7 @@ export const useGameMap = ({ client, current }) => {
   const onSelect = (tile) => (selected.value = tile);
 
   GamesAPI.on('move', ({ player }) => {
+    if (!focused.value) return;
     setTimeout(() => move(player, current.value.action.moves), 2100);
   });
 
