@@ -7,7 +7,7 @@ export default {
     Flexbox,
     GameTile,
   },
-  inject: ['map'],
+  inject: ['game'],
   emits: ['selected'],
 };
 </script>
@@ -18,10 +18,10 @@ export default {
       class="tiles"
       gap="5px"
       wrap
-      :style="{ width: map.width }"
+      :style="{ width: game.map.width }"
     >
       <game-tile
-        v-for="(tile, index) in map.tiles"
+        v-for="(tile, index) in game.map.tiles"
         :key="tile.order"
         :data="tile"
         :tabindex="index + 1"

@@ -29,7 +29,7 @@ export default {
     Flexbox,
     Loader,
   },
-  inject: ['auth', 'room', 'game', 'map'],
+  inject: ['auth', 'room', 'game'],
 };
 </script>
 
@@ -65,7 +65,7 @@ export default {
                 align="center"
                 justify="center"
               >
-                <game-tiles @selected="tile => map.onSelect(tile)" />
+                <game-tiles @selected="tile => game.map.onSelect(tile)" />
               </n-space>
             </n-grid-item>
 
@@ -77,7 +77,7 @@ export default {
             </n-grid-item>
           </n-grid>
 
-          <game-tile-detail :data="map.selected" />
+          <game-tile-detail :data="game.map.selected" />
           <game-my-cards />
           <game-dialog />
         </n-layout-content>

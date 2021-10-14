@@ -1,20 +1,6 @@
 import { ref, computed } from 'vue';
 
-import { pipe } from '../utils/common';
-
-export const TileTypeNameMap = {
-  1: 'drop',
-  2: 'electric',
-  3: 'flamer',
-  4: 'three-leaves',
-};
-
-export const TileTypeColorMap = {
-  1: 'cyan',
-  2: 'yellow',
-  3: 'volcano',
-  4: 'green',
-};
+import { resolveElemsProps } from '@composables/use-game-elems';
 
 export const TileIconColorMap = {
   1: 'red',
@@ -29,9 +15,8 @@ export const TileIconColorMap = {
   10: 'magenta',
 };
 
-export const resolveTileShape = (tiles) => {
+export const resolveTileShape = (tiles, size) => {
   const total = tiles.length;
-  const size = Math.sqrt(tiles.length);
   // 1=Up, 2=Right, 3=Down, 4=Left
   // order1=Previous Tile, order2=Current Tile, order3=Next Tile
   const resolve1 = (order1, order2, order3) => {
@@ -70,44 +55,16 @@ export const resolveTileShape = (tiles) => {
   return tiles;
 };
 
-export const resolveTileTypeName = (tiles) => {
-  return tiles.map(tile => {
-    const name = TileTypeNameMap[tile.type];
-    return Object.assign(tile, { name });
+export const useGameMap = ({ current }) => {
+  const size = computed(() => current.value.map.size);
+  const tiles = computed(() => {
+    const shaped = resolveTileShape(current.value.map.tiles, size.value);
+    const colored = resolveElemsProps(shaped);
+    return colored;
   });
-};
-
-export const resolveTileTypeColor = (tiles) => {
-  return tiles.map(tile => {
-    const color = TileTypeColorMap[tile.type];
-    return Object.assign(tile, { color });
-  });
-};
-
-export const useGameMap = () => {
-  const tiles = ref([
-    { type: 1, order: 1, occupied: [1, 4], players: [1] },
-    { type: 2, order: 2, occupied: [0, 0], players: [] },
-    { type: 4, order: 3, occupied: [6, 5], players: [2] },
-    { type: 3, order: 7, occupied: [2, 3], players: [] },
-    { type: 2, order: 6, occupied: [8, 0], players: [4] },
-    { type: 1, order: 5, occupied: [2, 9], players: [10] },
-    { type: 3, order: 9, occupied: [10, 0], players: [3] },
-    { type: 4, order: 13, occupied: [3, 0], players: [] },
-    { type: 3, order: 14, occupied: [7, 10], players: [] },
-    { type: 4, order: 10, occupied: [2, 0], players: [5] },
-    { type: 1, order: 11, occupied: [4, 0], players: [9] },
-    { type: 2, order: 15, occupied: [2, 3], players: [] },
-    { type: 3, order: 16, occupied: [8, 0], players: [6, 7] },
-    { type: 2, order: 12, occupied: [7, 4], players: [] },
-    { type: 1, order: 8, occupied: [2, 0], players: [8] },
-    { type: 4, order: 4, occupied: [3, 3], players: [] },
-  ]);
   const last = computed(() => tiles.value.length - 1);
-  const size = computed(() => Math.sqrt(tiles.value.length));
   const width = computed(() => `${size.value * (72 + 5) - 5}px`);
   const selected = ref(null);
-  const player1 = ref({ uid: 1, position: 0, moves: 6 });
   const update = ({ uid, position }) => {
     const previous = tiles.value[position ? position - 1 : last.value];
     const current = tiles.value[position];
@@ -124,21 +81,13 @@ export const useGameMap = () => {
     }, 300);
   };
   const onSelect = (tile) => (selected.value = tile);
-  const resolveTileProps = pipe(
-    resolveTileShape,
-    resolveTileTypeName,
-    resolveTileTypeColor,
-  );
-
-  tiles.value = resolveTileProps(tiles.value);
-
-  move(player1);
 
   return {
     tiles,
     size,
     width,
     selected,
+    move,
     onSelect,
   };
 };

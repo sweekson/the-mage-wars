@@ -7,7 +7,7 @@ export default {
     Flexbox,
     GameIcon,
   },
-  inject: ['map'],
+  inject: ['game'],
   props: {
     data: {
       type: Object,
@@ -33,7 +33,7 @@ export default {
       'tile-' + size,
       'tile-' + data.shape,
       { standalone: standalone },
-      { selected: !standalone && map.selected?.order === data.order },
+      { selected: !standalone && game.map.selected?.order === data.order },
     ]"
     :style="{ order: data.order }"
     @click="$emit('selected', data)"

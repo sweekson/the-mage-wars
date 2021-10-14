@@ -7,6 +7,7 @@ import {
   resolveCardProps, resolveCardsProps,
   resolveCardsPosition, resolveCardsSorting,
 } from '@composables/use-game-cards';
+import { useGameMap } from '@composables/use-game-map';
 
 const useGameStatus = ({ auth, current }) => {
   const Status = {
@@ -300,6 +301,7 @@ export const useGame = ({ client, auth, room, logger }) => {
   const exchange = useGameElemsExchange({ client, current, status, me });
   const cast = useGameCastSpell({ client, current, status, me });
   const cards = useGameCards({ client, current, status, action, me });
+  const map = useGameMap({ client, current });
   const isReady = ref(false);
   const find = (query) => GamesAPI.find({ query });
   const onRoomJoined = ({ detail }) => {
@@ -368,6 +370,7 @@ export const useGame = ({ client, auth, room, logger }) => {
     exchange,
     cast,
     cards,
+    map,
     me,
     isReady,
     on,
