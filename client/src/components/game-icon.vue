@@ -21,6 +21,9 @@ export default {
       type: String,
       default: 'square',
     },
+    bordered: {
+      type: Boolean,
+    },
   },
 };
 </script>
@@ -31,6 +34,7 @@ export default {
     :class="[
       'game-icon-item',
       'game-icon-' + shape,
+      { 'game-icon-bordered': bordered },
     ]"
   >
     <span
