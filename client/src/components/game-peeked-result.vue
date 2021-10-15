@@ -72,7 +72,7 @@ export default {
 }
 
 .peeked-result {
-  animation: fadein .1s linear, rotate .3s linear 3;
+  animation: fadein .1s linear, rotate .3s linear 2;
 }
 .confirm-button {
   animation: fadein .3s linear;
