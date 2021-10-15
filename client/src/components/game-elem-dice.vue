@@ -28,9 +28,9 @@ export default {
   setup() {
     const elems = ref([
       { type: 1, face: 'front' },
-      { type: 2, face: 'back' },
-      { type: 3, face: 'right' },
-      { type: 4, face: 'left' },
+      { type: 2, face: 'bottom' },
+      { type: 3, face: 'left' },
+      { type: 4, face: 'right' },
     ]);
 
     elems.value = resolveElemsProps(elems.value);
@@ -60,7 +60,7 @@ export default {
       </flexbox>
     </template>
 
-    <template #top>
+    <template #back>
       <flexbox style="height: 100%;">
         <game-icon
           :name="'broken-skull'"
@@ -70,7 +70,7 @@ export default {
       </flexbox>
     </template>
 
-    <template #bottom>
+    <template #top>
       <n-grid
         cols="2"
         style="place-items: center; height: 100%; padding: 12px;"
