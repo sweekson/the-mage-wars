@@ -1,4 +1,5 @@
 import { ref, computed, watch } from 'vue';
+import keyBy from 'lodash/keyBy';
 
 import { Emitter } from '../models/emitter.class';
 import { resolveElemsProps } from '@composables/use-game-elems';
@@ -298,12 +299,20 @@ const useGameCastSpell = ({ client, current, me }) => {
   };
 };
 
+const useGamePlayersMap = ({ current }) => {
+  const uids = computed(() => keyBy(current.value?.players, 'uid'));
+  const colors = computed(() => keyBy(current.value?.players, 'color'));
+  const toPlayers = (l) => l.map(x => colors.value[x]);
+  return { uids, colors, toPlayers };
+};
+
 export const useGame = ({ client, auth, room, logger }) => {
   const emitter = new Emitter();
   const on = emitter.on.bind(emitter);
   const { GamesAPI } = client;
   const current = ref(null);
   const me = ref({});
+  const players = useGamePlayersMap({ current });
   const status = useGameStatus({ auth, current });
   const action = useGameAction({ client, auth, current, status, me });
   const exchange = useGameElemsExchange({ client, current, status, me });
@@ -383,6 +392,7 @@ export const useGame = ({ client, auth, room, logger }) => {
     cards,
     map,
     me,
+    players,
     isReady,
     isDiceStop,
     on,
