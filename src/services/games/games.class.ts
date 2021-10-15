@@ -5,7 +5,10 @@ import range from 'lodash/range';
 import random from 'lodash/random';
 
 import { Application } from '../../declarations';
-import { resolveAttack, useBuffHelper, useSpellHelper, useGameMapHelper } from './games.util';
+import {
+  resolveAttack, useBuffHelper, useSpellHelper,
+  useGameMapHelper, useElemHelper,
+} from './games.util';
 import { RoomJSON } from '../rooms/rooms.class';
 import {
   Player, GamePlayer, GamePlayers,
@@ -145,7 +148,6 @@ export class GamesService {
       'assigned',
       'refreshed',
       'rotated',
-      'collected',
       'accepted',
       'casted',
       'peeked',
@@ -308,17 +310,38 @@ export class GamesService {
       return makeError(400, 'Bad action');
     }
 
+    const player = game.players.get(_id);
+
+    if (!player) return makeError(404, 'Player not found');
+
+    const { map, dice1, dice2 } = game;
+    const elems = useElemHelper({ elems: player.elems });
+
+    map.tiles.forEach(({ type, occupied }) => {
+      if (dice1 !== 5 && type !== dice1 &&
+        dice2 !== 5 && type !== dice2) return;
+      if (!occupied.includes(player.color)) return;
+
+      const count = occupied.filter(x => x === player.color).length;
+
+      elems.add(type, type === dice1 || dice1 === 5 ? count : 0);
+      elems.add(type, type === dice2 || dice2 === 5 ? count : 0);
+    });
+
     collected.add(_id);
 
     const result: Promise<any>[] = [
-      this.makeResult('collected', game, { receiver: _id }),
+      this.makeResult('assigned', game, {
+        receiver: player.uid,
+        player: toMyPlayerJSON(player),
+      }),
     ];
 
     if (sequence.length === collected.size) {
       return result.concat(this.collected(game));
     }
 
-    return result.concat(this.makeResult('refreshed', game));
+    return result.concat(result.concat(this.makeResult('refreshed', game)));
   }
 
   collected(game: Game) {

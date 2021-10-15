@@ -28,6 +28,11 @@ export interface GameMapHelper {
   make(): GameMap;
 }
 
+export interface ElemHelper {
+  add(type: number, amount: number): void;
+  del(type: number, amount: number): void;
+}
+
 export const useBuffHelper = ({ buffs }: Buffs): BuffHelper => {
   const match = (card: RegExp): string => {
     return buffs[buffs.findIndex(x => card.test(x))];
@@ -88,6 +93,13 @@ export const useGameMapHelper = (players: GamePlayers): GameMapHelper => {
     return { size: Number(size[1]), tiles };
   };
   return { make };
+};
+
+export const useElemHelper = ({ elems }: { elems: Elems }): ElemHelper => {
+  const map = keyBy(elems, 'type');
+  const add = (type: number, amount: number) => (map[type].amount += amount);
+  const del = (type: number, amount: number) => (map[type].amount -= amount);
+  return { add, del };
 };
 
 export const resolveAttack = (player: GamePlayer, card: string): number => {
