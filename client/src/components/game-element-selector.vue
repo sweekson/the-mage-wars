@@ -83,6 +83,7 @@ export default {
         <n-button
           class="elem-amount-button"
           @click="increase"
+          @dblclick.stop
         >
           <n-icon><plus-outlined /></n-icon>
         </n-button>
@@ -96,6 +97,7 @@ export default {
         <n-button
           class="elem-amount-button"
           @click="decrease"
+          @dblclick.stop
         >
           <n-icon><minus-outlined /></n-icon>
         </n-button>
