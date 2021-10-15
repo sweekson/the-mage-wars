@@ -42,9 +42,9 @@ export const resolveTileShape = (tiles, size) => {
   };
   const traverse = (tiles, index) => {
     const tile = tiles[index];
-    const order1 = tiles[index - 1]?.order || -1;
+    const order1 = tiles[index - 1]?.order ?? -999;
     const order2 = tile.order;
-    const order3 = tiles[index + 1]?.order || -1;
+    const order3 = tiles[index + 1]?.order ?? -999;
     const resolved1 = resolve1(order1, order2, order3);
     const resolved2 = resolve2(order1, order2, order3);
     const resolved3 = resolve3(order1, order2, order3);
