@@ -19,6 +19,10 @@ export default {
     colored: {
       type: Boolean,
     },
+    depth: {
+      type: Number,
+      default: 1,
+    },
   },
 };
 </script>
@@ -35,6 +39,7 @@ export default {
         :key="player.uid"
         :class="[
           'player',
+          `player-depth-${depth}`,
           colored && `player-${player.color}`,
           { 'player-highlight': highlight === player.uid },
         ]"
@@ -56,7 +61,6 @@ export default {
 }
 
 .player {
-  background-color: $color-dusk-200;
   border: 1px solid $color-dusk-300;
   border-radius: 2px;
   font-size: 14px;
@@ -74,6 +78,14 @@ export default {
     width: 10px;
     height: 10px;
     margin-right: 8px;
+  }
+
+  &-depth-1 {
+    background-color: $color-dusk-200;
+  }
+
+  &-depth-2 {
+    background-color: $color-dusk-100;
   }
 
   &-highlight {
