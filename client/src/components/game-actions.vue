@@ -17,7 +17,7 @@ export default {
       message.info(`Your attack caused ${detail.attacked} damage to the target`);
     });
     game.on('healed', ({ detail }) => {
-      message.info(`The energy of my camp has recovered by ${detail.energy}`);
+      message.info(`The energy of your camp has recovered by ${detail.energy}`);
     });
     game.on('affected', () => {
       message.info('You have got an unknown buff');

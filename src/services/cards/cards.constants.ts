@@ -225,7 +225,7 @@ export const GameCards: CardDefinitions = [
   {
     id: 'H001',
     name: 'Heal I',
-    description: 'Summon healing to recover the energy of my camp by ${energy}',
+    description: 'Summon healing to recover the energy of your by ${energy}',
     icon: 'caduceus',
     level: 3,
     weight: 800,
@@ -236,7 +236,7 @@ export const GameCards: CardDefinitions = [
   {
     id: 'H002',
     name: 'Heal II',
-    description: 'Summon healing to recover the energy of my camp by ${energy}',
+    description: 'Summon healing to recover the energy of your by ${energy}',
     icon: 'caduceus',
     level: 2,
     weight: 350,
@@ -247,7 +247,7 @@ export const GameCards: CardDefinitions = [
   {
     id: 'H003',
     name: 'Heal II',
-    description: 'Summon healing to recover the energy of my camp by ${energy}',
+    description: 'Summon healing to recover the energy of your by ${energy}',
     icon: 'caduceus',
     level: 1,
     weight: 200,
