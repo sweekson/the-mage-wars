@@ -48,7 +48,7 @@ export default {
       :disabled="!game.action.isCastable"
       class="btn btn-lg btn-block btn-skew btn-mist"
       type="button"
-      :data-text="`Cast Spells (${game.me.actions})`"
+      :data-text="`Spells (${game.me.actions})`"
       @click="game.cast.onOpen"
     />
 
