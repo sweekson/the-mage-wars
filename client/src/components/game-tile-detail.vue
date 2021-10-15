@@ -84,12 +84,12 @@ export default {
   left: 0;
   z-index: 400;
 
-  @include media-breakpoint-down(lg) {
+  @include media-breakpoint-down(xl) {
     transform: translate(calc(100vw - 208px), 360px);
   }
 
-  @include media-breakpoint-up(lg) {
-    transform: translate(calc(100vw - 500px), 118px);
+  @include media-breakpoint-up(xl) {
+    transform: translate(calc(100vw - 450px), 118px);
   }
 
   &.expanded {

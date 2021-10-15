@@ -51,8 +51,9 @@ export default {
           <n-grid
             :y-gap="16"
             responsive="self"
+            item-responsive
           >
-            <n-grid-item span="4 m:3 l:2">
+            <n-grid-item span="4 1200:3">
               <players
                 :list="game.current.players"
                 :highlight="game.current.action?.uid"
@@ -60,7 +61,7 @@ export default {
               />
             </n-grid-item>
 
-            <n-grid-item span="15 m:17 l:19">
+            <n-grid-item span="15 1200:17">
               <n-space
                 align="center"
                 justify="center"
@@ -70,8 +71,8 @@ export default {
             </n-grid-item>
 
             <n-grid-item
-              span="4 m:3 l:2"
               offset="1"
+              span="4 1200:3"
             >
               <game-actions />
             </n-grid-item>
