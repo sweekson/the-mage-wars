@@ -255,7 +255,10 @@ export default {
   display: flex;
   width: calc(var(--size) * 0.5 - var(--span) * 2);
   height: calc(var(--size) * 0.5 - var(--span) * 2);
-  transition: .3s linear background-color;
+
+  @at-root .tile:not(.standalone) & {
+    transition: .3s linear background-color;
+  }
 
   &-0 {
     background-color: $color-mist-300;
