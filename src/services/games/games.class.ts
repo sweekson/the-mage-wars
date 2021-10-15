@@ -21,6 +21,7 @@ export type GamesQuery = {
   target?: string;
   spell?: string;
   card?: string;
+  action?: string;
   elems?: ExchangingElems;
   assigned?: boolean;
   rotate?: boolean;
@@ -33,6 +34,7 @@ export type GamesQuery = {
   cast?: boolean;
   enchant?: boolean;
   move?: boolean;
+  occupy?: boolean;
   confirm?: boolean;
   cancel?: boolean;
   leave?: boolean;
@@ -71,6 +73,7 @@ export interface Action {
   step: Steps;
   moves: number;
   moved: boolean;
+  tile: Tile | null;
 }
 
 export interface Exchange {
@@ -122,6 +125,7 @@ export const GameActions = [
   'cast',
   'enchant',
   'move',
+  'occupy',
   'confirm',
   'cancel',
   'leave',
@@ -258,7 +262,7 @@ export class GamesService {
     if (!next) return makeError(404, 'Player not found');
 
     game.status = GameStatus.Wait;
-    game.action = { uid, step: Steps.Pray, moves: 0, moved: false };
+    game.action = { uid, step: Steps.Pray, moves: 0, moved: false, tile: null };
     next.exchanges = 3;
     next.actions = 3;
 
@@ -704,7 +708,59 @@ export class GamesService {
 
     if (!action) return makeError(400, 'Bad action');
 
+    const player = game.players.get(action.uid);
+
+    if (!player) return makeError(404, 'Player not found');
+
+    const tile = game.map.tiles[player.position];
+
+    if (!tile) return makeError(500, 'Incorrect player position');
+
+    const vacant = tile.occupied.some(x => !x);
+    const sufficient = player.elems.every(x => x.amount > 0);
+
     action.moves = 0;
+    vacant && sufficient && (action.tile = tile);
+
+    return this.next(game, GameStatus.Wait);
+  }
+
+  occupy(game: Game, params: GamesParams) {
+    const { action } = game;
+
+    if (!action || !action.tile) return makeError(400, 'Bad action');
+
+    const { connection } = params;
+
+    if (!connection) {
+      return makeError(401, 'Empty connection instance');
+    }
+
+    const { _id } = connection.user;
+
+    if (action.uid !== _id) return makeError(400, 'Bad action');
+
+    const player = game.players.get(_id);
+
+    if (!player) return makeError(404, 'Player not found');
+
+    const tile = game.map.tiles[action.tile.index];
+
+    if (!tile) return makeError(500, 'Tile not found');
+
+    const occupiable = tile.occupied.indexOf(0);
+
+    if (occupiable === -1) return makeError(400, 'Resources all occupied');
+
+    const cost = 2;
+
+    if (!player.elems.every(x => x.amount >= cost)) {
+      return makeError(400, 'Insufficient number of elements');
+    }
+
+    player.elems.forEach(x => x.amount -= cost);
+    tile.occupied[occupiable] = player.color;
+    action.tile = null;
 
     return this.next(game, GameStatus.Wait);
   }
@@ -747,7 +803,11 @@ export class GamesService {
     return this.rotate(game);
   }
 
-  cancel(game: Game) {
+  cancel(game: Game, params: GamesParams) {
+    const { action } = params.query;
+
+    action === 'occupy' && game.action && (game.action.tile = null);
+
     return this.next(game, GameStatus.Wait);
   }
 

@@ -66,6 +66,9 @@ const useGameAction = ({ client, auth, current, status, me }) => {
   const isMoveable = computed(
     () => isMine.value && !isPray.value && !action.value.moved
   );
+  const isOccupiable = computed(
+    () => isMine.value && !!action.value.tile
+  );
   const isPassable = computed(
     () => isMine.value && !isPray.value && action.value.moved
   );
@@ -74,6 +77,8 @@ const useGameAction = ({ client, auth, current, status, me }) => {
   const onPray = () => update({ pray: true });
   const onCollect = () => update({ collect: true });
   const onMove = () => update({ move: true });
+  const onOccupy = () => update({ occupy: true });
+  const onOccupyCancel = () => update({ cancel: true, action: 'occupy' });
   const onPass = () => {
     update({ rotate: true });
     isPassing.value = false;
@@ -97,11 +102,14 @@ const useGameAction = ({ client, auth, current, status, me }) => {
     isExchangeable,
     isCastable,
     isMoveable,
+    isOccupiable,
     isPassable,
     isPassing,
     onPray,
     onCollect,
     onMove,
+    onOccupy,
+    onOccupyCancel,
     onPass,
     onTryPass,
     onConfirm,

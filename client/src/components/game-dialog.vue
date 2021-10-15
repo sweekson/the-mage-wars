@@ -12,6 +12,7 @@ import GameCampStatus from '@components/game-camp-status.vue';
 import GameMyNewCard from '@components/game-my-new-card.vue';
 import GamePeekedResult from '@components/game-peeked-result.vue';
 import GamePlayerSelector from '@components/game-player-selector.vue';
+import GameTileOccupiable from '@components/game-tile-occupiable.vue';
 
 export default {
   components: {
@@ -26,6 +27,7 @@ export default {
     GameMyNewCard,
     GamePeekedResult,
     GamePlayerSelector,
+    GameTileOccupiable,
   },
   inject: ['game'],
   setup() {
@@ -72,14 +74,14 @@ export default {
         isMove,
         isConfirm,
       } = this.game.status;
-      const { isMine } = this.game.action;
+      const { isMine, isOccupiable } = this.game.action;
       const { isDiceStop, exchange, cast, cards } = this.game;
       return (
         isPray || isCollect ||
         (exchange.isOpen && isMine) || isExchange ||
         (cast.isOpen && isMine) || cast.isCasted || cast.isPeeked ||
         cards.isPlayerSelectionOpen ||
-        (isMove && !isDiceStop) || isConfirm
+        (isMove && !isDiceStop) || isOccupiable || isConfirm
       );
     },
   },
@@ -163,6 +165,20 @@ export default {
         :is-self-visible="!game.cards.isAttackCardSelected"
         @select="game.cards.onPlayerSelect"
       />
+    </n-dialog>
+
+    <n-dialog
+      v-if="game.action.isOccupiable"
+      type="success"
+      title="Resource Occupation"
+      positive-text="Yes"
+      negative-text="No"
+      :closable="false"
+      :show-icon="false"
+      @positive-click="game.action.onOccupy"
+      @negative-click="game.action.onOccupyCancel"
+    >
+      <game-tile-occupiable />
     </n-dialog>
 
     <n-dialog
