@@ -762,7 +762,13 @@ export class GamesService {
     tile.occupied[occupiable] = player.color;
     action.tile = null;
 
-    return this.next(game, GameStatus.Wait);
+    return [
+      this.makeResult('assigned', game, {
+        receiver: player.uid,
+        player: toMyPlayerJSON(player),
+      }),
+      this.next(game, GameStatus.Wait),
+    ];
   }
 
   confirming(game: Game) {
