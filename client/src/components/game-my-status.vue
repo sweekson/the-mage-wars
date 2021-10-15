@@ -24,7 +24,7 @@ export default {
 
 <template>
   <n-grid
-    cols="10 960:12 1200:16"
+    cols="8 800:10 960:12 1200:16"
     x-gap="8"
     item-responsive
   >
@@ -55,8 +55,8 @@ export default {
     </n-grid-item>
 
     <n-grid-item
-      offset="3 960:5 1200:9"
-      span="4"
+      offset="2 800:3 960:5 1200:9"
+      span="3 800:4"
     >
       <game-my-elems />
       <game-my-buffs />
