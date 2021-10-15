@@ -123,6 +123,7 @@ export default {
   font-size: 14px;
   text-align: center;
   width: 80px;
+  pointer-events: none;
 }
 .elem-amount-readonly {
   background-color: $color-dusk-100;
