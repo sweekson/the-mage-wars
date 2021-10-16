@@ -8,7 +8,7 @@ import GameDices from '@components/game-dices.vue';
 import GameExchangeRequester from '@components/game-exchange-requester.vue';
 import GameExchangeResponder from '@components/game-exchange-responder.vue';
 import GameCastSpell from '@components/game-cast-spell.vue';
-import GameCampStatus from '@components/game-camp-status.vue';
+import GameCampsStatus from '@components/game-camps-status.vue';
 import GameMyNewCard from '@components/game-my-new-card.vue';
 import GamePeekedResult from '@components/game-peeked-result.vue';
 import GamePlayerSelector from '@components/game-player-selector.vue';
@@ -23,7 +23,7 @@ export default {
     GameExchangeRequester,
     GameExchangeResponder,
     GameCastSpell,
-    GameCampStatus,
+    GameCampsStatus,
     GameMyNewCard,
     GamePeekedResult,
     GamePlayerSelector,
@@ -190,7 +190,7 @@ export default {
       :show-icon="false"
       @positive-click="game.action.onConfirm"
     >
-      <game-camp-status />
+      <game-camps-status />
     </n-dialog>
 
     <div
