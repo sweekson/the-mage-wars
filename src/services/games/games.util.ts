@@ -2,7 +2,7 @@ import keyBy from 'lodash/keyBy';
 import Chance from 'chance';
 
 import { GameMapSet } from './games.constants';
-import { GameMap, Tiles } from './games.class';
+import { GameMap, Team, Tiles } from './games.class';
 import { CardDeck } from '../cards/cards.util';
 import { GamePlayer, GamePlayers, Buffs, Elems, Spells } from '../players/players.class';
 
@@ -126,4 +126,11 @@ export const resolveAttack = (player: GamePlayer, card: string): number => {
   }
 
   return attack;
+};
+
+export const toTeamJSON = (team: Team): Partial<Team> => {
+  const { energy, attacked, healed } = team;
+  const balance = energy - attacked + healed;
+  const percentage = balance > 0 ? Math.floor(balance / (energy + healed) * 100) : 0;
+  return { energy: percentage };
 };

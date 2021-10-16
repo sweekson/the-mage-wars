@@ -184,7 +184,7 @@ export default {
     <n-dialog
       v-if="game.status.isConfirm && !game.status.isConfirmed"
       type="success"
-      title="Current Status"
+      :title="!game.isOver ? 'Current Status' : 'Game Over'"
       positive-text="Confirm"
       :closable="false"
       :show-icon="false"

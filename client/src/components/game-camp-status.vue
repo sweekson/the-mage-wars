@@ -12,6 +12,7 @@ export default {
     GameCampBanner,
     Flexbox,
   },
+  inject: ['game'],
 };
 </script>
 
@@ -25,15 +26,20 @@ export default {
         <h4 class="camp-title">
           Camp 1
         </h4>
-        <game-camp-banner color="red" />
+        <game-camp-banner
+          :color="!game.current.team1.energy ? 'gray' : 'red'"
+        />
         <n-progress
-          :percentage="50"
-          :data-value="50"
+          :percentage="game.current.team1.energy"
+          :data-value="game.current.team1.energy"
           :show-indicator="false"
           type="line"
           color="#fa4"
-          :height="12"
-          class="camp-spirit"
+          :height="8"
+          :class="[
+            'camp-energy',
+            { 'camp-energy-zero': !game.current.team1.energy },
+          ]"
         />
       </n-grid-item>
 
@@ -48,15 +54,20 @@ export default {
         <h4 class="camp-title">
           Camp 2
         </h4>
-        <game-camp-banner color="navy" />
+        <game-camp-banner
+          :color="!game.current.team2.energy ? 'gray' : 'navy'"
+        />
         <n-progress
-          :percentage="60"
-          :data-value="60"
+          :percentage="game.current.team2.energy"
+          :data-value="game.current.team2.energy"
           :show-indicator="false"
           type="line"
           color="#fa4"
-          :height="12"
-          class="camp-spirit"
+          :height="8"
+          :class="[
+            'camp-energy',
+            { 'camp-energy-zero': !game.current.team2.energy },
+          ]"
         />
       </n-grid-item>
     </n-grid>
@@ -73,7 +84,7 @@ export default {
   text-align: center;
   margin-bottom: 12px;
 }
-.camp-spirit {
+.camp-energy {
   margin-top: 24px;
 
   &::before {
@@ -85,6 +96,10 @@ export default {
     color: #fa4;
     display: block;
     width: 100%;
+  }
+
+  &-zero::before {
+    color: #666;
   }
 }
 .versus {

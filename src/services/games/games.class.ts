@@ -7,7 +7,7 @@ import random from 'lodash/random';
 import { Application } from '../../declarations';
 import {
   resolveAttack, useBuffHelper, useSpellHelper,
-  useGameMapHelper, useElemHelper,
+  useGameMapHelper, useElemHelper, toTeamJSON,
 } from './games.util';
 import { RoomJSON } from '../rooms/rooms.class';
 import {
@@ -60,6 +60,8 @@ export enum GameStatus {
 
 export interface Team {
   energy: number;
+  attacked: number;
+  healed: number;
   players: GamePlayers;
 }
 
@@ -614,7 +616,7 @@ export class GamesService {
     const { team1, team2 } = game;
     const team = player.team === 1 ? team1 : team2;
 
-    team.energy += energy;
+    team.healed += energy;
 
     CardDeck.remove(player.cards, card);
 
@@ -647,7 +649,7 @@ export class GamesService {
 
     player.attack += attacked;
     target.attacked += attacked;
-    team.energy -= attacked;
+    team.attacked += attacked;
 
     CardDeck.remove(player.cards, card);
 
@@ -923,10 +925,14 @@ export class GamesService {
     const sorted = players.slice(0).sort(() => Math.random() - .5);
     const team1 = {
       energy: team.energy * half,
+      attacked: 0,
+      healed: 0,
       players: sorted.slice(0, half),
     };
     const team2 = {
       energy: team.energy * (length - half),
+      attacked: 0,
+      healed: 0,
       players: sorted.slice(half),
     };
     team1.players.forEach(x => (x.team = 1));
@@ -980,13 +986,14 @@ export class GamesService {
 
   transform(game: Game | null | undefined) {
     if (!game) return null;
-    const { team1, team2, players, collected, confirmed } = game;
+    const { status, team1, team2, players, collected, confirmed } = game;
+    const isConfirm = status === GameStatus.Confirm;
     return {
       // ...game,
       // players: toArray(players),
       ...omit(game, ['players', 'team1', 'team2']),
-      team1: pick(team1, ['energy']),
-      team2: pick(team2, ['energy']),
+      team1: isConfirm ? toTeamJSON(team1) : {},
+      team2: isConfirm ? toTeamJSON(team2) : {},
       players: toArray(players).map(toPlayerJSON),
       collected: Array.from(collected),
       confirmed: Array.from(confirmed),

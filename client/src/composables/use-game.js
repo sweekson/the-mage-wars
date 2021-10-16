@@ -320,6 +320,9 @@ export const useGame = ({ client, auth, room, logger }) => {
   const cards = useGameCards({ client, current, status, action, me });
   const map = useGameMap({ client, current });
   const isReady = ref(false);
+  const isOver = computed(
+    () => current.value.team1.energy === 0 || current.value.team2.energy === 0
+  );
   const isDiceStop = ref(false);
   const find = (query) => GamesAPI.find({ query });
   const onRoomJoined = ({ detail }) => {
@@ -394,6 +397,7 @@ export const useGame = ({ client, auth, room, logger }) => {
     me,
     players,
     isReady,
+    isOver,
     isDiceStop,
     on,
     onDiceStop,
