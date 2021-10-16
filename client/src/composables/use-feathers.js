@@ -41,6 +41,8 @@ export const useFeathers = ({ host }) => {
   client.configure(socketio(socket));
   client.configure(authentication());
 
+  socket.on('disconnect', () => location.reload());
+
   const UsersAPI = client.service('/users');
   const RoomsAPI = client.service('/rooms');
   const PlayersAPI = client.service('/players');
