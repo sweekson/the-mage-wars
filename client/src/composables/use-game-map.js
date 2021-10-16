@@ -16,6 +16,9 @@ export const TileIconColorMap = {
   10: 'magenta',
 };
 
+export const TileExtentMap = { 1: 70, 2: 80, 3: 90 };
+export const TileSizeMap = { 1: 'sm', 2: 'md', 3: 'lg' };
+
 export const resolveTileShape = (tiles, size) => {
   const total = tiles.length;
   // 1=Up, 2=Right, 3=Down, 4=Left
@@ -60,13 +63,16 @@ export const useGameMap = ({ client, current }) => {
   const { GamesAPI } = client;
   const { focused } = useWindowFocus();
   const size = computed(() => current.value.map.size);
+  const extent = ref(2);
   const tiles = computed(() => {
     const shaped = resolveTileShape(current.value.map.tiles, size.value);
     const colored = resolveElemsProps(shaped);
     return colored;
   });
   const last = computed(() => tiles.value.length - 1);
-  const width = computed(() => `${size.value * (72 + 5) - 5}px`);
+  const width = computed(
+    () => `${size.value * (TileExtentMap[extent.value] + 5) - 5}px`,
+  );
   const selected = ref(null);
   const update = ({ color, position }) => {
     const previous = tiles.value[position ? position - 1 : last.value];
@@ -93,6 +99,7 @@ export const useGameMap = ({ client, current }) => {
   return {
     tiles,
     size,
+    extent,
     width,
     selected,
     move,

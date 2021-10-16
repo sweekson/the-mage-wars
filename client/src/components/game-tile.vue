@@ -49,7 +49,7 @@ export default {
         <game-icon
           :name="data.name"
           :color="color ? 'white' : data.color"
-          :size="size ==='md' ? 'sm' : (size ==='lg' ? 'md' : 'lg')"
+          :size="size ==='xl' ? 'md' : 'sm'"
           shape="circle"
         />
       </flexbox>
@@ -96,18 +96,23 @@ export default {
     outline: none;
   }
 
+  &-sm {
+    --size: 70px;
+    --gap: 4px;
+  }
+
   &-md {
-    --size: 72px;
+    --size: 80px;
     --gap: 4px;
   }
 
   &-lg {
-    --size: 108px;
+    --size: 90px;
     --gap: 6px;
   }
 
   &-xl {
-    --size: 144px;
+    --size: 120px;
     --gap: 8px;
   }
 
