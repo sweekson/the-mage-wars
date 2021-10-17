@@ -46,8 +46,8 @@
       "defense": 5
     },
     "elems": {
-      "initial": 10,
-      "range": [2, 3]
+      "initial": 22,
+      "range": [5, 6]
     },
     "spells": [
       {
