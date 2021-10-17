@@ -1,5 +1,5 @@
 <script>
-import { inject } from 'vue';
+import { inject, onMounted, onUnmounted } from 'vue';
 import { NModal, NDialog, useMessage } from 'naive-ui';
 
 export default {
@@ -11,16 +11,27 @@ export default {
   setup() {
     const game = inject('game');
     const message = useMessage();
-
-    game.on('rotated', () => message.info('Your turn'));
-    game.on('attacked', ({ detail }) => {
+    const onRotated = () => message.info('Your turn');
+    const onAttacked = ({ detail }) => {
       message.info(`Your attack caused ${detail.attacked} damage to the target`);
-    });
-    game.on('healed', ({ detail }) => {
+    };
+    const onHealed = ({ detail }) => {
       message.info(`The energy of your camp has recovered by ${detail.energy}`);
+    };
+    const onAffected = () => message.info('You have got an unknown buff');
+
+    onMounted(() => {
+      game.on('rotated', onRotated);
+      game.on('attacked', onAttacked);
+      game.on('healed', onHealed);
+      game.on('affected', onAffected);
     });
-    game.on('affected', () => {
-      message.info('You have got an unknown buff');
+
+    onUnmounted(() => {
+      game.off('rotated', onRotated);
+      game.off('attacked', onAttacked);
+      game.off('healed', onHealed);
+      game.off('affected', onAffected);
     });
   },
 };

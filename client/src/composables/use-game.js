@@ -309,6 +309,7 @@ const useGamePlayersMap = ({ current }) => {
 export const useGame = ({ client, auth, room, logger }) => {
   const emitter = new Emitter();
   const on = emitter.on.bind(emitter);
+  const off = emitter.off.bind(emitter);
   const { GamesAPI } = client;
   const current = ref(null);
   const me = ref({});
@@ -409,6 +410,7 @@ export const useGame = ({ client, auth, room, logger }) => {
     isOver,
     isDiceStop,
     on,
+    off,
     onDiceStop,
   };
 };
