@@ -9,7 +9,7 @@ export const useAuth = ({ client, logger }) => {
   const { UsersAPI } = client;
   const uid = ref(null);
   const current = ref(null);
-  const email = ref('wilson@amnesia.net');
+  const email = ref('wilson@the-mage-wars.io');
   const name = ref('');
   const password = ref('123456789');
   const isLoggedIn = ref(false);
