@@ -1,5 +1,5 @@
 <script>
-import { NGrid, NGridItem, NProgress } from 'naive-ui';
+import { NGrid, NGridItem } from 'naive-ui';
 
 import GameCampStatus from '@components/game-camp-status.vue';
 import Flexbox from '@components/flexbox.vue';
@@ -8,7 +8,6 @@ export default {
   components: {
     NGrid,
     NGridItem,
-    NProgress,
     GameCampStatus,
     Flexbox,
   },
