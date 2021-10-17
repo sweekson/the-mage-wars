@@ -703,7 +703,6 @@ export class GamesService {
     if (!player) return makeError(404, 'Player not found');
 
     action.moves = random(1, 6);
-    action.moved = true;
 
     const { tiles } = game.map;
     const tile = tiles.find(x => x.players.includes(player.color));
@@ -746,6 +745,7 @@ export class GamesService {
     const sufficient = player.elems.every(x => x.amount > 0);
 
     action.moves = 0;
+    action.moved = true;
     vacant && sufficient && (action.tile = tile);
 
     return this.next(game, GameStatus.Wait);
