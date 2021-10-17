@@ -194,6 +194,22 @@ export class RoomsService {
     ];
   }
 
+  restart(id: string) {
+    const room = this.map.get(id);
+
+    if (!room) return makeError(404, 'Room not found');
+
+    if (room.status !== RoomStatus.Started) {
+      return makeError(400, 'Bad action');
+    }
+
+    const isReady = room.players.size >= this.config.minimum;
+
+    room.status = isReady ? RoomStatus.Ready : RoomStatus.Open;
+
+    return this.makeResult('refreshed', room);
+  }
+
   joinChannel(id: string, connection: any) {
     this.app.channel(`rooms/${id}`).join(connection);
   }

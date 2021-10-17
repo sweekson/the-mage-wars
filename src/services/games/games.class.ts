@@ -158,6 +158,7 @@ export class GamesService {
       'affected',
       'move',
       'confirmed',
+      'over',
       'removed',
       'destroyed',
     ];
@@ -829,9 +830,20 @@ export class GamesService {
   }
 
   confirmed(game: Game) {
+    const { team1, team2 } = game;
+
+    if (toTeamJSON(team1).energy === 0 || toTeamJSON(team2).energy === 0) {
+      return this.over(game);
+    }
+
     game.round += 1;
     game.confirmed.clear();
     return this.rotate(game);
+  }
+
+  over(game: Game) {
+    this.map.delete(game.id);
+    return this.makeResult('over', game);
   }
 
   cancel(game: Game, params: GamesParams) {

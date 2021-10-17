@@ -324,14 +324,18 @@ export const useGame = ({ client, auth, room, logger }) => {
     () => current.value.team1.energy === 0 || current.value.team2.energy === 0
   );
   const isDiceStop = ref(false);
+  const reset = () => {
+    current.value = null;
+    me.value = {};
+    isReady.value = false;
+  };
   const find = (query) => GamesAPI.find({ query });
   const onRoomJoined = ({ detail }) => {
     detail.isStarted && find({ room: detail.id });
   };
   const onRoomLeft = () => {
     logger.info('game:reset');
-    current.value = null;
-    isReady.value = false;
+    reset();
   };
   const onLoaded = ({ game }) => {
     logger.info('game:loaded', game?.status, game?.action?.step);
@@ -372,6 +376,10 @@ export const useGame = ({ client, auth, room, logger }) => {
     me.value.buffs.push(1);
     emitter.emit('affected', { spellcaster });
   };
+  const onOver = () => {
+    reset();
+    emitter.emit('over');
+  };
 
   room.on('joined', onRoomJoined);
   room.on('left', onRoomLeft);
@@ -384,6 +392,7 @@ export const useGame = ({ client, auth, room, logger }) => {
   GamesAPI.on('attacked', onAttacked);
   GamesAPI.on('healed', onHealed);
   GamesAPI.on('affected', onAffected);
+  GamesAPI.on('over', onOver);
   GamesAPI.on('error', console.warn);
 
   return {

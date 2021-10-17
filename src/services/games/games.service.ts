@@ -39,6 +39,11 @@ export default function (app: Application) {
       transmit(context);
     }, wait.move + 300 * game.action.moves);
   };
+  const onOver = ({ game, context }: any) => {
+    context.service = rooms;
+    context.result = rooms.restart(game.room);
+    transmit(context);
+  };
 
   games.hooks(hooks);
 
@@ -50,4 +55,5 @@ export default function (app: Application) {
 
   games.on('pray', onPray);
   games.on('move', onMove);
+  games.on('over', onOver);
 }

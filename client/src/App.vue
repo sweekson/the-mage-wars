@@ -48,6 +48,7 @@ export default {
     room.on('started', () => router.push('/game'));
     room.on('left', () => router.push('/lobby'));
     game.on('ready', () => router.push('/game'));
+    game.on('over', () => router.push('/room'));
 
     watch(route, () => page.value = route.path.slice(1));
 
