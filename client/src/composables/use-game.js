@@ -65,7 +65,7 @@ const useGameAction = ({ client, auth, current, status, me }) => {
     () => isMine.value && !isPray.value && me.value.actions > 0,
   );
   const isMoveable = computed(
-    () => isMine.value && !isPray.value && !action.value.moved
+    () => isMine.value && !isPray.value && !status.isMove.value && !action.value.moved
   );
   const isOccupiable = computed(
     () => isMine.value && !!action.value.tile
