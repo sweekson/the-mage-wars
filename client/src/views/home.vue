@@ -22,15 +22,16 @@ export default {
       class="home"
     >
       <h1 class="home-title">
-        Welcome
+        The Mage Wars
       </h1>
       <small class="home-subtitle">
         Let's play the board game online together!
       </small>
 
-      <n-space>
+      <n-space class="home-actions">
         <n-button
           type="info"
+          ghost
           @click="$router.push('/signup')"
         >
           {{ $t('common.signup') }}
@@ -38,6 +39,7 @@ export default {
 
         <n-button
           type="primary"
+          ghost
           @click="$router.push('/login')"
         >
           {{ $t('common.login') }}
@@ -52,11 +54,27 @@ export default {
   margin-top: 140px;
 }
 .home-title {
-  font-size: 4em;
+  font-size: 72px;
+  font-weight: 100;
+  line-height: 1;
+  color: #f80;
+  text-transform: uppercase;
+  word-spacing: 8px;
+}
+// Gradient Text
+@supports (-webkit-background-clip: text) {
+  .home-title {
+    background: -webkit-linear-gradient(#f93, #f33);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 .home-subtitle {
-  font-size: 1.5em;
+  font-size: 24px;
   font-weight: 200;
   color: #999;
+}
+.home-actions {
+  padding: 24px 0;
 }
 </style>
